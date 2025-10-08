@@ -19,12 +19,6 @@ int main() {
 		funcionamiento de una funcionalidad impide probar otra, se perderán los puntos de
 		los rubros asociados a ambas funcionalidades.
 
-	Datos Generales.
-
-	Ingreso, eliminación y visualización de :
-Sucursales(2 pts).
-Clientes por sucursal(2 pts).
-Colaborares por sucursal(2 pts).
 
 	Planteles, Parqueos y Vehículos :
 Creación de planteles de sucursal.Al crear un plantel de una sucursal

@@ -4,6 +4,45 @@ using namespace std;
 int main() {
 
 	/*
+	
+	Proyecto 2
+Cadena de Rent A Car “D-R-T Car Rental”
+Fecha de entrega: Domingo 02 de noviembre 2025.
+Porcentaje de la Calificación del Curso: 15%
+Modalidad: Individual o en parejas
+Objetivo general:
+Aplicar la definición y el uso de las estructuras de datos listas enlazadas y arreglos
+bidimensionales (matrices), implementadas como clases de tipo colección, punteros,
+memoria dinámica, herencia y relaciones entre clases, al diseñar e implementar un
+programa para la gestión operativa de una empresa de renta de vehículos.
+Objetivos específicos:
+? Resolver el problema en forma eficiente y aplicando los principios del Paradigma
+de Programación Orientada a Objetos (POO).
+? Realizar un adecuado diseño de clases para que el sistema sea flexible y
+escalable.
+? Implementar adecuadamente la herencia de clases.
+? Definir e implementar correctamente las relaciones entre clases.
+? Definir y utilizar adecuada y eficientemente arreglos bidimensionales dinámicos
+y listas enlazadas, exclusivamente. No se permiten otras estructuras de datos.
+? Administrar eficientemente el uso de memoria dinámica.
+? Implementar correctamente el código requerido en el lenguaje C++.
+? Crear una interfaz de usuario en consola que permita interactuar con la
+aplicación de forma amigable e intuitiva.
+? Implementar todas las funcionalidades de la aplicación que se especifican.
+Cadena de Renta A Car “D-R-T Car Rental”:
+La empresa de renta de automóviles “D-R-T Car Rental” le ha contratado para que
+desarrolle un sistema de información para el control operativo y logístico de la
+empresa, así como para el apoyo a la toma de decisiones. Para esto, la empresa le
+ha compartido información sobre su organización y operaciones.
+
+Actualmente D-R-T Car Rental tiene 10 sucursales ubicadas en distintas partes del
+país, las cuales son identificadas con un número único de sucursal 
+
+La empresa se encuentra en proceso de expansión, tanto regional como local, lo que implica que está
+en proceso de apertura de nuevas sucursales en distintos puntos del país, por lo que
+el sistema debe permitir registrar nuevas sucursales.
+
+
 	Tabla de evaluación y calificación del proyecto :
 
 	Para cada rubro especificado a continuación se verificará el cumplimiento de todo lo

@@ -123,27 +123,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitacoraEstado.cpp" />
     <ClCompile Include="Cliente.cpp" />
     <ClCompile Include="Colaborador.cpp" />
+    <ClCompile Include="ContratoAlquiler.cpp" />
     <ClCompile Include="Control.cpp" />
+    <ClCompile Include="EspacioEstacionamiento.cpp" />
+    <ClCompile Include="Fecha.cpp" />
     <ClCompile Include="Lista.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nodo.cpp" />
     <ClCompile Include="Persona.cpp" />
     <ClCompile Include="Plantel.cpp" />
     <ClCompile Include="Quemados.cpp" />
+    <ClCompile Include="SolicitudAlquiler.cpp" />
     <ClCompile Include="Sucursal.cpp" />
     <ClCompile Include="Vehiculo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitacoraEstado.h" />
     <ClInclude Include="Cliente.h" />
     <ClInclude Include="Colaborador.h" />
+    <ClInclude Include="ContratoAlquiler.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="EspacioEstacionamiento.h" />
+    <ClInclude Include="Fecha.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="Nodo.h" />
     <ClInclude Include="Persona.h" />
     <ClInclude Include="Plantel.h" />
     <ClInclude Include="Quemados.h" />
+    <ClInclude Include="SolicitudAlquiler.h" />
     <ClInclude Include="Sucursal.h" />
     <ClInclude Include="Vehiculo.h" />
   </ItemGroup>

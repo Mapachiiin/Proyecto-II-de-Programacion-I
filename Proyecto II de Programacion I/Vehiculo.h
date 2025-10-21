@@ -1,6 +1,9 @@
 #pragma once
-class Vehiculo
+#include <string>
+#include "BitacoraEstado.h"
+using namespace std;
 
+class Vehiculo
 	/*
 	
 	Cada vehículo tiene una placa, modelo, marca, ubicación dentro del plantel y una de
@@ -27,16 +30,30 @@ La siguiente tabla muestra cómo pueden cambiar los estados de un vehículo, por
 ejemplo, si analizamos la primera fila, podemos observar como un vehículo puede pasar
 de Disponible a Alquilado, Revisión o a Lavado, pero no puede pasar a Devuelto, pues
 no tendría sentido por estar disponible.
+
 Próximo Estado
-Estado Actual Disponible Alquilado Devuelto Revisión Lavado
-Disponible Actual SI NO SI SI
-Alquilado SI Actual SI NO NO
-Devuelto NO NO Actual SI SI
-Revisión NO NO NO Actual SI
-Lavado SI NO NO SI Actual
+Estado Actual Disponible Alquilado Devuelto    Revisión    Lavado
+Disponible     Actual       SI        NO         SI          SI
+Alquilado         SI      Actual      SI         NO          NO
+Devuelto          NO        NO      Actual       SI          SI
+Revisión          NO        NO        NO       Actual        SI
+Lavado            SI        NO        NO         SI        Actual
 
 	*/
 
 {
+private:
+	string placa;
+	string model;
+	string marca;
+	string cate;
+	char licencia;
+	double precio;
+	string estado;
+	BitacoraEstado** bitaVehi;
+public:
+	Vehiculo(string plac, string mode, string marc, char cate, char lice);
+	string getEstado();
+	string toString();
 };
 

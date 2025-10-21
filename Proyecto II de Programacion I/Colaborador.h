@@ -1,5 +1,7 @@
 #pragma once
-class Colaborador
+#include "Persona.h"
+#include "Fecha.h"
+class Colaborador:public Persona
 
 	/*
 	
@@ -8,5 +10,11 @@ y fecha de ingreso como empleado de la empresa.
 
 	*/
 {
+private:
+	Fecha* fechaIngre;
+public:
+	Colaborador(string ced, string nom, int dia, int mes, int annio);
+	~Colaborador();
+	string toString();
 };
 

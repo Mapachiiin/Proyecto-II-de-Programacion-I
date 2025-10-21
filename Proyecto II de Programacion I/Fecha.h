@@ -12,9 +12,6 @@ class Fecha
 		int getDia();
 		int getMes();
 		int getAnio();
-		void setDia(int d);
-		void setMes(int m);
-		void setAnio(int a);
-		void mostrarFecha();
+		string mostrarFecha();
 };
 

@@ -1,5 +1,6 @@
 #pragma once
-class Cliente
+#include "Persona.h"
+class Cliente : public Persona 
 
 	/*
 	
@@ -11,5 +12,16 @@ actividad económica (texto) y el porcentaje de descuento que se le aplica a la e
 
 	*/
 {
+private:
+	string paisResi;
+	string actiEco;
+	double desc;
+
+public:
+	Cliente(string ced, string nom, string pais);
+	Cliente(string ced, string nom, string pais, string actiEco, double desc);
+	~Cliente();
+	string toString();
+
 };
 

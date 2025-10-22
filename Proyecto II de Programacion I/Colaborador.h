@@ -3,12 +3,7 @@
 #include "Fecha.h"
 class Colaborador:public Persona
 
-	/*
-	
-	 De los colaboradores se requiere saber su identificación, el nombre
-y fecha de ingreso como empleado de la empresa.
 
-	*/
 {
 private:
 	Fecha* fechaIngre;
@@ -17,4 +12,7 @@ public:
 	~Colaborador();
 	string toString();
 };
-
+	/*
+	 De los colaboradores se requiere saber su identificación, el nombre
+y fecha de ingreso como empleado de la empresa.
+	*/

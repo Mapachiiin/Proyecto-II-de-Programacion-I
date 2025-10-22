@@ -4,7 +4,7 @@
 using namespace std;
 
 Colaborador::Colaborador(string ced, string nom, int dia, int mes, int annio){
-	Fecha* fechaIngre= new Fecha(dia, mes, annio);
+	this->fechaIngre= new Fecha(dia, mes, annio);
 	setCedula(ced);
 	setNombre(nom);
 }

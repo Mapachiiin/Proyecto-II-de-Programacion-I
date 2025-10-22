@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "BitacoraEstado.h"
+#include "ListaBitacorasEstado.h"
 using namespace std;
 
 class Vehiculo
@@ -50,7 +50,7 @@ private:
 	char licencia;
 	double precio;
 	string estado;
-	BitacoraEstado** bitaVehi;
+	ListaBitacorasEstado* listaBE;
 public:
 	Vehiculo(string plac, string mode, string marc, char cate, char lice);
 	string getEstado();

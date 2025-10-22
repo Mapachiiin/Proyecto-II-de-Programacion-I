@@ -3,7 +3,7 @@
 #include <sstream>
 using namespace std;
 
-	BitacoraEstado::BitacoraEstado(){}
+	BitacoraEstado::BitacoraEstado(): bitaco(""){}
 	BitacoraEstado::~BitacoraEstado(){}
 	void BitacoraEstado::setBita(string esta) {
 		bitaco = esta;

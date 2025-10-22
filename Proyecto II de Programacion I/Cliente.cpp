@@ -3,6 +3,7 @@
 #include <sstream>
 using namespace std;
 
+Cliente::Cliente(){}
 Cliente::Cliente(string ced, string nom, string pais) : paisResi(pais), desc(0.0), actiEco(" ") {
 	setCedula(ced);
 	setNombre(nom);

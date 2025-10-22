@@ -32,10 +32,5 @@ Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) :
 		precio = 0;
 		cate = "No determinado";
 	}
-	BitacoraEstado** bitaVehi = new BitacoraEstado*[10];
-	for (int i = 0; i < 10;i++) {
-		bitaVehi[i] = nullptr;
-	}
-	bitaVehi[0]->setBita(estado);
 }
 string Vehiculo::getEstado() { return estado; }

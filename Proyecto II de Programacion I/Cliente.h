@@ -18,6 +18,7 @@ private:
 	double desc;
 
 public:
+	Cliente();
 	Cliente(string ced, string nom, string pais);
 	Cliente(string ced, string nom, string pais, string actiEco, double desc);
 	~Cliente();

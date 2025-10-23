@@ -25,5 +25,6 @@ public:
 	int contarEspaciosVacios();
 	void eliminarVehiAlquilado(Vehiculo* elimi);
 	bool esPrimo(int num);
+	void agregarVehiculoEnEspacio(Vehiculo* v, int nF, int nC);
 };
 

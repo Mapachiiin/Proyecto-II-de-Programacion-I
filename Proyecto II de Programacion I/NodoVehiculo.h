@@ -2,9 +2,15 @@
 #include "Vehiculo.h"
 class NodoVehiculo
 {
-public:
+private:
 	Vehiculo* dato;
 	NodoVehiculo* sig;
+public:
 	NodoVehiculo(Vehiculo* c);
+	~NodoVehiculo();
+	void setDato();
+	Vehiculo* getDato();
+	void setNodoSig();
+	NodoVehiculo* getNodoSig();
 };
 

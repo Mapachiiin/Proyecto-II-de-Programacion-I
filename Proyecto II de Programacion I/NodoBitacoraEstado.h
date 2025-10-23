@@ -2,9 +2,15 @@
 #include "BitacoraEstado.h"
 class NodoBitacoraEstado
 {
-public:
+private:
 	BitacoraEstado* dato;
 	NodoBitacoraEstado* sig;
+public:
 	NodoBitacoraEstado(BitacoraEstado* c);
+	~NodoBitacoraEstado();
+	void setDato();
+	BitacoraEstado* getDato();
+	void setNodoSig();
+	NodoBitacoraEstado* getNodoSig();
 };
 

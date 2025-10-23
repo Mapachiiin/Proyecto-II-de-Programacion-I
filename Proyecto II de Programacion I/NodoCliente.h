@@ -3,8 +3,14 @@
 
 class NodoCliente
 {
-public:
+private:
 	Cliente* dato;
 	NodoCliente* sig;
+public:
 	NodoCliente(Cliente* c);
+	~NodoCliente();
+	void setDato();
+	Cliente* getDato();
+	void setNodoSig();
+	NodoCliente* getNodoSig();
 };

@@ -8,4 +8,6 @@ using namespace std;
 	void BitacoraEstado::setBita(string esta) {
 		bitaco = esta;
 	}
-	string BitacoraEstado::bitacora(){}
+	string BitacoraEstado::bitacora(){
+		return bitaco;
+	}

@@ -9,5 +9,6 @@ private:
 public:
 	ListaBitacorasEstado();
 	~ListaBitacorasEstado();
+	void agregarBitacora(BitacoraEstado* b);
 };
 

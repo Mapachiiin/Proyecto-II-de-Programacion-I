@@ -10,7 +10,7 @@ public:
 	NodoPlantel(Plantel* dato);
 	~NodoPlantel();
 	void setDato();
-	Plantel getDato();
+	Plantel* getDato();
 	void setNodoSig();
 	NodoPlantel* getNodoSig();
 };

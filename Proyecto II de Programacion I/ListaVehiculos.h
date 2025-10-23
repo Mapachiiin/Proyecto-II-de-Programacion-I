@@ -8,5 +8,7 @@ private:
 public:
 	ListaVehiculos();
 	~ListaVehiculos();
+	void agregarVehiculo(Vehiculo* v);
+	void eliminarVehiculo(string placa);
 };
 

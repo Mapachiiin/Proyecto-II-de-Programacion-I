@@ -107,3 +107,11 @@ bool EspacioEstacionamiento::esPrimo(int num) {
     }
     return true;
 }
+void EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C) {
+    if (F >= 0 && F < nF && C >= 0 && C < nC && !espacios[F][C]) {
+        espacios[F][C] = v;
+        return;
+    }
+	cout << "Espacio no disponible o fuera de rango" << endl;
+    return;
+}

@@ -45,10 +45,7 @@
     <ClCompile Include="EspacioEstacionamiento.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="SolicitudAlquiler.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ContratoAlquiler.cpp">
+    <ClCompile Include="SoliAlquiyContra.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="BitacoraEstado.cpp">
@@ -66,10 +63,7 @@
     <ClCompile Include="ListaColaboradores.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ListaSolicitudes.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ListaContratos.cpp">
+    <ClCompile Include="ListaSolisyContras.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="ListaBitacorasEstado.cpp">
@@ -87,10 +81,7 @@
     <ClCompile Include="NodoBitacoraEstado.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="NodoContrato.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="NodoSolicitud.cpp">
+    <ClCompile Include="NodoSoliyContra.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="ListaPlanteles.cpp">
@@ -128,10 +119,7 @@
     <ClInclude Include="EspacioEstacionamiento.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="SolicitudAlquiler.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ContratoAlquiler.h">
+    <ClInclude Include="SoliAlquiyContra.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="BitacoraEstado.h">
@@ -152,9 +140,6 @@
     <ClInclude Include="ListaSolicitudes.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ListaContratos.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="ListaBitacorasEstado.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -170,10 +155,7 @@
     <ClInclude Include="NodoBitacoraEstado.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="NodoContrato.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="NodoSolicitud.h">
+    <ClInclude Include="NodoSoliyContra.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ListaPlanteles.h">

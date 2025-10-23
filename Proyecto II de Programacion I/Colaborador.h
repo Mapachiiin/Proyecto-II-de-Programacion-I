@@ -1,10 +1,7 @@
 #pragma once
 #include "Persona.h"
 #include "Fecha.h"
-class Colaborador:public Persona
-
-
-{
+class Colaborador:public Persona {
 private:
 	Fecha* fechaIngre;
 public:

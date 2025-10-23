@@ -54,6 +54,7 @@ private:
 public:
 	Vehiculo(string plac, string mode, string marc, char cate, char lice);
 	string getEstado();
+	void cambiarEstado(string estado);
 	string toString();
 };
 

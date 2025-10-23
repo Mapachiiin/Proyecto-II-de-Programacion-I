@@ -22,7 +22,8 @@ public:
 	EspacioEstacionamiento(int capMax);
 	~EspacioEstacionamiento();
 	string espacioRecomendado();
-	void eliminarVehiAlquilado();
+	int contarEspaciosVacios();
+	void eliminarVehiAlquilado(Vehiculo* elimi);
 	bool esPrimo(int num);
 };
 

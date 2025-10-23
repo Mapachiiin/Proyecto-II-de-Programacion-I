@@ -34,3 +34,7 @@ Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) :
 	}
 }
 string Vehiculo::getEstado() { return estado; }
+void Vehiculo::cambiarEstado(string estado) {
+	this->estado = estado;
+	listaBE->agregarBitacora(estado);
+}

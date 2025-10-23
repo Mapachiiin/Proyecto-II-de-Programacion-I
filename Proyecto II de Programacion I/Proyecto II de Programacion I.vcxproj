@@ -134,6 +134,7 @@
     <ClCompile Include="ListaClientes.cpp" />
     <ClCompile Include="ListaColaboradores.cpp" />
     <ClCompile Include="ListaContratos.cpp" />
+    <ClCompile Include="ListaPlanteles.cpp" />
     <ClCompile Include="ListaSolicitudes.cpp" />
     <ClCompile Include="ListaVehiculos.cpp" />
     <ClCompile Include="main.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="NodoCliente.cpp" />
     <ClCompile Include="NodoColaborador.cpp" />
     <ClCompile Include="NodoContrato.cpp" />
+    <ClCompile Include="NodoPlantel.cpp" />
     <ClCompile Include="NodoSolicitud.cpp" />
     <ClCompile Include="NodoVehiculo.cpp" />
     <ClCompile Include="Persona.cpp" />
@@ -162,12 +164,14 @@
     <ClInclude Include="ListaClientes.h" />
     <ClInclude Include="ListaColaboradores.h" />
     <ClInclude Include="ListaContratos.h" />
+    <ClInclude Include="ListaPlanteles.h" />
     <ClInclude Include="ListaSolicitudes.h" />
     <ClInclude Include="ListaVehiculos.h" />
     <ClInclude Include="NodoBitacoraEstado.h" />
     <ClInclude Include="NodoCliente.h" />
     <ClInclude Include="NodoColaborador.h" />
     <ClInclude Include="NodoContrato.h" />
+    <ClInclude Include="NodoPlantel.h" />
     <ClInclude Include="NodoSolicitud.h" />
     <ClInclude Include="NodoVehiculo.h" />
     <ClInclude Include="Persona.h" />

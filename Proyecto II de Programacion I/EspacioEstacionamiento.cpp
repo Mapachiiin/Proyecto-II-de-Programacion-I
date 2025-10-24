@@ -1,6 +1,7 @@
 #include "EspacioEstacionamiento.h"
 #include <string>
 
+
 EspacioEstacionamiento::EspacioEstacionamiento(int capMax) {
     if (capMax <= 0) {
         nF = 0;
@@ -39,8 +40,7 @@ EspacioEstacionamiento::EspacioEstacionamiento(int capMax) {
 			espacios[i][j] = nullptr;
 		}
 	}
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 EspacioEstacionamiento::~EspacioEstacionamiento() {
     if(espacios){
 	for (int i = 0;i < nF;i++) {
@@ -49,7 +49,6 @@ EspacioEstacionamiento::~EspacioEstacionamiento() {
 	delete[] espacios;
     }
 }
-
 string EspacioEstacionamiento::espacioRecomendado() {
 	if (!espacios) return "No hay espacios disponibles";
     int maxVecinos=-1, mejorF=-1, mejorC=-1; //Los -1 es para que no entre al ultimo if si no hay ningun espacio disponible
@@ -82,7 +81,6 @@ string EspacioEstacionamiento::espacioRecomendado() {
 
     return "No hay espacios disponibles";
 }
-
 int EspacioEstacionamiento::cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, int posNueva) {
     if (!v || !espacios) return -1; // Espacios nulos o vehiculo nulo
     int filaVieja = posVieja / nC;
@@ -103,7 +101,6 @@ int EspacioEstacionamiento::cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, 
     espacios[filaVieja][colVieja] = nullptr;
     return 0; // Éxito
 }
-
 int EspacioEstacionamiento::contarEspaciosVacios() {
     int eT = 0;
     if(espacios){
@@ -115,7 +112,6 @@ int EspacioEstacionamiento::contarEspaciosVacios() {
     }
     return eT;
 }
-
 void EspacioEstacionamiento::eliminarVehiAlquilado(Vehiculo* elimi) {
     if (espacios) {
         for (int i = 0;i < nF;i++) {
@@ -125,7 +121,6 @@ void EspacioEstacionamiento::eliminarVehiAlquilado(Vehiculo* elimi) {
         }
     }
 }
-
 bool EspacioEstacionamiento::esPrimo(int num) {
     if (num <= 1) return false;
     for (int i = 2; i*i < num;i++) {
@@ -133,7 +128,6 @@ bool EspacioEstacionamiento::esPrimo(int num) {
     }
     return true;
 }
-
 void EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C) {
     if (F >= 0 && F < nF && C >= 0 && C < nC && !espacios[F][C]) {
         espacios[F][C] = v;

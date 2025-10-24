@@ -8,9 +8,9 @@ private:
 public:
 	NodoSoliyContra(SoliAlquiyContra* c);
 	~NodoSoliyContra();
-	void setDato();
+	void setDato(SoliAlquiyContra* c);
 	SoliAlquiyContra* getDato();
-	void setNodoSig();
+	void setNodoSig(NodoSoliyContra* sig);
 	NodoSoliyContra* getNodoSig();
 };
 

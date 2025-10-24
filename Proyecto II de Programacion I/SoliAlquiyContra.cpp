@@ -11,6 +11,11 @@ void SoliAlquiyContra::cambiarEstadoSoli(string est){
 	if(est!="Aprobada" && est!="Pendiente" && est!="Rechazada" && est!="Anulada") return;
 	estadoSoli = est; 
 }
+
+string SoliAlquiyContra::getEstadoContrato() { return estadoContrato; }
+string SoliAlquiyContra::getPlaVehi() { return plaVehi; }
+string SoliAlquiyContra::getCodigo() { return codig; }
+bool SoliAlquiyContra::getEsContrato() { return esContrato; }
 string SoliAlquiyContra::getEstadoSoli(){ return estadoSoli; }
 
 void SoliAlquiyContra::convertirAContrato(){

@@ -1,5 +1,7 @@
 #pragma once
 #include "NodoBitacoraEstado.h"
+#include "Colaborador.h"
+#include "Fecha.h"
 
 class ListaBitacorasEstado
 {

@@ -44,6 +44,10 @@ private:
 public:
 	SoliAlquiyContra(string cod, string cCli, string cCola, string codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
 	~SoliAlquiyContra();
+	string getEstadoContrato();
+	string getPlaVehi();
+	string getCodigo();
+	bool getEsContrato();
 	void cambiarEstadoSoli(string est);
 	string getEstadoSoli();
 	void convertirAContrato();

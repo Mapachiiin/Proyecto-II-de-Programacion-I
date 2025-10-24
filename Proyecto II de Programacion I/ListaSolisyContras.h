@@ -1,19 +1,20 @@
 #pragma once
 #include "NodoSoliyContra.h"
-class ListaSolicitudes
+
+class ListaSolisyContras
 {
 private:
 	NodoSoliyContra* inicio;
 	int tam;
 
 public:
-	ListaSolicitudes();
-	~ListaSolicitudes();
+	ListaSolisyContras();
+	~ListaSolisyContras();
 	void agregarSolicitud(SoliAlquiyContra* s);
-	void mostrarSolicitudesSucursal();
-	void mostrarSolictudEspecifica(string codigo);
+	void mostrarSolicitudOContraSucursal(bool sOC);
+	void mostrarSolicitudEspecifica(string codigo);
 	void aprobaRechaSolicitud(string codigo);
 	void recepcionVehiculoDevuelto(string placa, int diasUsados);
-	void reportesSolicitudesPorVehiculo(Vehiculo* v);
+	void reportesSolicitudesPorVehiculo(string placa);
 };
 

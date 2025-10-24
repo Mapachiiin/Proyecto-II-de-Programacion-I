@@ -162,7 +162,7 @@
     <ClInclude Include="ListaClientes.h" />
     <ClInclude Include="ListaColaboradores.h" />
     <ClInclude Include="ListaPlanteles.h" />
-    <ClInclude Include="ListaSolicitudes.h" />
+    <ClInclude Include="ListaSolisyContras.h" />
     <ClInclude Include="ListaSucursales.h" />
     <ClInclude Include="ListaVehiculos.h" />
     <ClInclude Include="NodoBitacoraEstado.h" />

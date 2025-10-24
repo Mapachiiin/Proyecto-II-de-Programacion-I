@@ -15,7 +15,7 @@ actividad económica (texto) y el porcentaje de descuento que se le aplica a la e
 private:
 	string paisResi;
 	string actiEco;
-	double desc;
+	double descuento;
 
 public:
 	Cliente();

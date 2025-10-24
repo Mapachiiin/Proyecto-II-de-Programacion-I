@@ -1,4 +1,7 @@
 #include <iostream>
+#include "Control.h"
+#include "Quemados.h"
+
 using namespace std;
 
 int main() {

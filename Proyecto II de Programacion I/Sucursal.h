@@ -1,11 +1,8 @@
 #pragma once
-#include "Plantel.h"
-#include "ListaPlanteles.h"
-#include "Colaborador.h"
-#include "ListaContratos.h"
-#include "Cliente.h"
-#include "ListaClientes.h"
 
+#include "ListaPlanteles.h"
+#include "ListaSolicitudes.h"
+#include "ListaClientes.h"
 
 class Sucursal
 {

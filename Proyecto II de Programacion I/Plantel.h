@@ -1,5 +1,6 @@
 #pragma once
 #include "EspacioEstacionamiento.h"
+#include "ListaVehiculos.h"
 class Plantel
 	/*
 	Cada una de las sucursales tiene n de planteles

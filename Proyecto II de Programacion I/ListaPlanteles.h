@@ -10,6 +10,8 @@ public:
 	ListaPlanteles();
 	~ListaPlanteles();
 	void agregarPlantel(Plantel* p);
+	void mostrarPlanteles();
+	void visualizacionGraficaDePlanteles();
 	void eliminarPlantel(string letra);
 };
 

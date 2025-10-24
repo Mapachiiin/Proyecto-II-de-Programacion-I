@@ -11,5 +11,7 @@ public:
 	~ListaColaboradores();
 	void agregarColaborador(Colaborador* c);
 	void eliminarColaborador(string cedula);
+	void mostrarColaboradores();
+	void reportesAlquilerPorColaboradores();
 };
 

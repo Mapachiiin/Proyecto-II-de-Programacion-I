@@ -22,6 +22,8 @@ public:
 	EspacioEstacionamiento(int capMax);
 	~EspacioEstacionamiento();
 	string espacioRecomendado();
+	int cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, int posNueva);
+	int getCapMax() { return nF * nC; }
 	int contarEspaciosVacios();
 	void eliminarVehiAlquilado(Vehiculo* elimi);
 	bool esPrimo(int num);

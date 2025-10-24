@@ -9,6 +9,6 @@ private:
 public:
 	ListaBitacorasEstado();
 	~ListaBitacorasEstado();
-	void agregarBitacora(BitacoraEstado* b);
+	void agregarBitacora(int estado, Colaborador* c, Fecha* fAtc);
 };
 

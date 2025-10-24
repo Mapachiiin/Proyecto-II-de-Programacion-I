@@ -5,7 +5,7 @@ class BitacoraEstado
 private:
 	string bitaco;
 public:
-	BitacoraEstado();
+	BitacoraEstado(int estado, Colaborador* c, Fecha* fAtc);
 	~BitacoraEstado();
 	void setBita(string esta);
 	string bitacora();

@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
 #include "ListaBitacorasEstado.h"
+#include "Colaborador.h"
+#include "Fecha.h"
 using namespace std;
 
 class Vehiculo
 	/*
-	
+
 	Cada vehículo tiene una placa, modelo, marca, ubicación dentro del plantel y una de
 las siguientes categorías:
 - A: económico
@@ -31,10 +33,10 @@ ejemplo, si analizamos la primera fila, podemos observar como un vehículo puede 
 de Disponible a Alquilado, Revisión o a Lavado, pero no puede pasar a Devuelto, pues
 no tendría sentido por estar disponible.
 
-Próximo Estado
+							Próximo Estado
 Estado Actual Disponible Alquilado Devuelto    Revisión    Lavado
 Disponible     Actual       SI        NO         SI          SI
-Alquilado         SI      Actual      SI         NO          NO
+Alquilado         NO      Actual      SI         NO          NO
 Devuelto          NO        NO      Actual       SI          SI
 Revisión          NO        NO        NO       Actual        SI
 Lavado            SI        NO        NO         SI        Actual
@@ -49,12 +51,27 @@ private:
 	string cate;
 	char licencia;
 	double precio;
-	string estado;
+	const int estadoDisponible = 0;
+	const int estadoAlquilado = 1;
+	const int estadoDevuelto = 2;
+	const int estadoRevision = 3;
+	const int estadoLavado = 4;
+	int estadoActual;
 	ListaBitacorasEstado* listaBE;
 public:
+	string estado[5] = { "Disponible", "Alquilado", "Devuelto", "Revision", "Lavado" };
+	bool transPermitida[5][5] = {
+{ false, true, false, true, true },  // Desde Disponible
+{ false, false, true, false, false},  // Desde Alquilado
+{ false, false, false, true, true },  // Desde Devuelto
+{ false, false, false, false, true },  // Desde Revision
+{ true, false, false, true, false }   // Desde Lavado
+	};
 	Vehiculo(string plac, string mode, string marc, char cate, char lice);
-	string getEstado();
-	void cambiarEstado(string estado);
+	bool puedeCambiarEstado(int estadoActual, int estadoNuevo);
+	string getPlaca();
+	int getEstado();
+	void cambiarEstado(int estado, Colaborador* c, Fecha* fAtc);
 	string toString();
 };
 

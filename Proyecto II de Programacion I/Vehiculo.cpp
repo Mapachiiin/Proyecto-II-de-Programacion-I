@@ -1,6 +1,9 @@
 #include "Vehiculo.h"
+#include <sstream>
 
-Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estado("Revision") {
+using namespace std;
+
+Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estadoActual(estadoRevision){
 	if (cat == 'A' || cat == 'B' || cat == 'C' || cat == 'D') {
 		switch (cat) {
 		case 'A':
@@ -33,8 +36,33 @@ Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) :
 		cate = "No determinado";
 	}
 }
-string Vehiculo::getEstado() { return estado; }
-void Vehiculo::cambiarEstado(string estado) {
-	this->estado = estado;
-	listaBE->agregarBitacora(estado);
+
+string Vehiculo::getPlaca() { return placa; }
+int Vehiculo::getEstado() { return estadoActual; }
+bool Vehiculo::puedeCambiarEstado(int estadoActual, int estadoNuevo) {
+	if (estadoActual < 0 || estadoActual>4 || estadoNuevo < 0 || estadoNuevo>4) return false;
+	return transPermitida[estadoActual][estadoNuevo];
+}
+
+void Vehiculo::cambiarEstado(int estado, Colaborador* cola, Fecha* fAct) {
+	if (puedeCambiarEstado(estadoActual, estado)) {
+		this->estadoActual = estado;
+		listaBE->agregarBitacora(estado, cola, fAct); // CAMBIAR ESTA VERGA, LA BITACORA NECESITA UN PICHAZO DE COSAS MAAAAAAAAAAAAAAAAS
+	}
+	else {
+		return;
+	}
+	
+	
+}
+string Vehiculo::toString() {
+	stringstream ss;
+	ss << "Placa: " << placa << "\n";
+	ss << "Modelo: " << model << "\n";
+	ss << "Marca: " << marca << "\n";
+	ss << "Categoria: " << cate << "\n";
+	ss << "Licencia requerida: " << licencia << "\n";
+	ss << "Precio diario: " << precio << "\n";
+	ss << "Estado actual: " << estado[estadoActual] << "\n";
+	return ss.str();
 }

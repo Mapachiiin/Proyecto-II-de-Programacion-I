@@ -8,9 +8,9 @@ private:
 public:
 	NodoVehiculo(Vehiculo* c);
 	~NodoVehiculo();
-	void setDato();
+	void setDato(Vehiculo* v);
 	Vehiculo* getDato();
-	void setNodoSig();
+	void setNodoSig(NodoVehiculo* n);
 	NodoVehiculo* getNodoSig();
 };
 

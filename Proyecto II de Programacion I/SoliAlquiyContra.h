@@ -36,12 +36,20 @@ private:
 	Fecha* fechaEntrega;
 	bool esContrato;
 	string estadoContrato;
+	int diasNoUsados;
+	double reIntegro;
+	int diasAtraso;
+	double multa;
 
 public:
 	SoliAlquiyContra(string cod, string cCli, string cCola, string codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
 	~SoliAlquiyContra();
-	void setEstadoSoli(string est);
+	void cambiarEstadoSoli(string est);
 	string getEstadoSoli();
-	void setEstadoContrato(string est);
+	void convertirAContrato();
+	void finalizarContrato(int diasUsados);
+	void calcularPrecioTotal();
+	string mostrarInfo();
+	void setEstadoAlquilado(string est);
 };
 

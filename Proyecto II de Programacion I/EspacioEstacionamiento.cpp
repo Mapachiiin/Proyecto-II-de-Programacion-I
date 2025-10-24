@@ -44,14 +44,15 @@ EspacioEstacionamiento::EspacioEstacionamiento(int capMax) {
 EspacioEstacionamiento::~EspacioEstacionamiento() {
     if(espacios){
 	for (int i = 0;i < nF;i++) {
-		delete[] espacios[i];
+		if(espacios[i]) delete[] espacios[i];
 }
 	delete[] espacios;
     }
 }
 
 string EspacioEstacionamiento::espacioRecomendado() {
-    int maxVecinos=0, mejorF=-1, mejorC=-1; //Los -1 es para que no entre al ultimo if si no hay ningun espacio disponible
+	if (!espacios) return "No hay espacios disponibles";
+    int maxVecinos=-1, mejorF=-1, mejorC=-1; //Los -1 es para que no entre al ultimo if si no hay ningun espacio disponible
     string mejorEspa = "";
     for (int i = 0; i < nF; i++) {
         for (int j = 0; j < nC; j++) {
@@ -59,7 +60,7 @@ string EspacioEstacionamiento::espacioRecomendado() {
                 int vecinosLibres = 0;
                 for (int k = -1; k <= 1; k++) {
                     for (int p = -1; p <= 1; p++) {
-                        if (k == 0 && p == 0) continue; //Este if es para no evaluar la celda que se esta probando como un "vecino" aunque realmente no habria problema si no esta jajaj
+                        if (k == 0 && p == 0) continue; //Este if es para no evaluar la celda central como un "vecino" aunque realmente no habria problema si no esta jajaj
                         int nf = i + k;
                         int nc = j + p;
                         if (nf >= 0 && nf < nF && nc >= 0 && nc < nC) {
@@ -82,20 +83,45 @@ string EspacioEstacionamiento::espacioRecomendado() {
     return "No hay espacios disponibles";
 }
 
+int EspacioEstacionamiento::cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, int posNueva) {
+    if (!v || !espacios) return -1; // Espacios nulos o vehiculo nulo
+    int filaVieja = posVieja / nC;
+    int colVieja = posVieja % nC;
+    int filaNueva = posNueva / nC;
+    int colNueva = posNueva % nC;
+    if (filaVieja < 0 || filaVieja >= nF || colVieja < 0 || colVieja >= nC ||
+        filaNueva < 0 || filaNueva >= nF || colNueva < 0 || colNueva >= nC) {
+        return -2; // Alguna de las posiciones fuera de rango
+    }
+    if (espacios[filaVieja][colVieja] != v) {
+        return -3; // El vehículo no esta en la posicion vieja
+    }
+    if (espacios[filaNueva][colNueva] != nullptr) {
+        return -4; // La posicion nueva ya esta ocupada
+    }
+    espacios[filaNueva][colNueva] = v;
+    espacios[filaVieja][colVieja] = nullptr;
+    return 0; // Éxito
+}
+
 int EspacioEstacionamiento::contarEspaciosVacios() {
     int eT = 0;
+    if(espacios){
     for (int i = 0;i < nF;i++) {
         for (int j = 0;j < nC;j++) {
             if (!espacios[i][j]) eT++;
         }
     }
+    }
     return eT;
 }
 
 void EspacioEstacionamiento::eliminarVehiAlquilado(Vehiculo* elimi) {
-    for (int i = 0;i < nF;i++) {
-        for (int j = 0;j < nC;j++) {
-            if (espacios[i][j] == elimi) { espacios[i][j] = nullptr; return; }
+    if (espacios) {
+        for (int i = 0;i < nF;i++) {
+            for (int j = 0;j < nC;j++) {
+                if (espacios[i][j] == elimi) { espacios[i][j] = nullptr; return; }
+            }
         }
     }
 }
@@ -107,6 +133,7 @@ bool EspacioEstacionamiento::esPrimo(int num) {
     }
     return true;
 }
+
 void EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C) {
     if (F >= 0 && F < nF && C >= 0 && C < nC && !espacios[F][C]) {
         espacios[F][C] = v;

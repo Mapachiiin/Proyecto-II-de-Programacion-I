@@ -1,5 +1,6 @@
 #pragma once
 #include "SoliAlquiyContra.h"
+
 class NodoSoliyContra
 {
 private:

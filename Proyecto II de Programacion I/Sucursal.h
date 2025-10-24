@@ -2,7 +2,7 @@
 #include <string>
 #include "ListaColaboradores.h"
 #include "ListaPlanteles.h"
-#include "ListaSolicitudes.h"
+#include "ListaSolisyContras.h"
 #include "ListaClientes.h"
 using namespace std;
 
@@ -10,7 +10,7 @@ class Sucursal
 {
 private:
 	ListaPlanteles* planteles;
-	ListaSolicitudes* solicitudes;
+	ListaSolisyContras* solicitudes;
 	ListaClientes* clientes;
 	ListaColaboradores* colaboradores;
 public:

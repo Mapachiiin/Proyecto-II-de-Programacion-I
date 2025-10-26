@@ -16,5 +16,8 @@ public:
 	void aprobaRechaSolicitud(string codigo);
 	void recepcionVehiculoDevuelto(string placa, int diasUsados);
 	void reportesSolicitudesPorVehiculo(string placa);
+	void historialPorCliente(string cedula);
+	void reporteClientesPorCantidadDeContratos();
+	void reportesAlquilerPorColaborador(string cedula);
 };
 

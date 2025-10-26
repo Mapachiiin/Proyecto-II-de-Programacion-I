@@ -13,9 +13,9 @@ public:
 	~ListaVehiculos();
 	void agregarVehiculo(Vehiculo* v);
 	void mostrarVehiculo(Vehiculo* v);
-	void cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c);
+	void cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c, Fecha* fA);
 	double reporteDePorcentajeDeOcupacionDelPlantel(EspacioEstacionamiento* espacios);
 	void trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino);
-	void eliminarVehiculo(string placa);
+	bool eliminarVehiculo(string placa);
 };
 

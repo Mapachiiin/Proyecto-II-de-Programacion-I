@@ -25,9 +25,11 @@ Capacidad o estacionamientos: para 30 vehículos
 	*/
 {
 private:
+char letra;
 string tipo;
 int capMax;
 EspacioEstacionamiento* estacionamiento;
+
 public:
 Plantel();
 Plantel();

@@ -8,9 +8,9 @@ private:
 public:
 	NodoColaborador(Colaborador* c);
 	~NodoColaborador();
-	void setDato();
+	void setDato(Colaborador* c);
 	Colaborador* getDato();
-	void setNodoSig();
+	void setNodoSig(NodoColaborador* n);
 	NodoColaborador* getNodoSig();
 };
 

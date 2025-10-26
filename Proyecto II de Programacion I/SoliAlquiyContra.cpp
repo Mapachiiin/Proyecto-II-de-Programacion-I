@@ -2,7 +2,7 @@
 #include <sstream>
 using namespace std;
 
-SoliAlquiyContra::SoliAlquiyContra(string cod, string cCli, string cCola, string codSucur, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD): codig(cod), cedClie(cCli), cedCola(cCola), codSucu(codSucur), plaVehi(pVehi), diasAlqui(dA), fechaIni(fIni), fechaEntrega(fEnt), preXDia(pXD), preTotal(pXD*dA), estadoSoli("Pendiente"), esContrato(false), estadoContrato(""), diasNoUsados(0), reIntegro(0), diasAtraso(0), multa(0) {}
+SoliAlquiyContra::SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, string codSucur, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD): codig(cod), cliente(Cli), colaborador(Cola), codSucu(codSucur), plaVehi(pVehi), diasAlqui(dA), fechaIni(fIni), fechaEntrega(fEnt), preXDia(pXD), preTotal(pXD*dA), estadoSoli("Pendiente"), esContrato(false), estadoContrato(""), diasNoUsados(0), reIntegro(0), diasAtraso(0), multa(0) {}
 SoliAlquiyContra::~SoliAlquiyContra(){
 	delete fechaIni;
 	delete fechaEntrega;
@@ -17,6 +17,8 @@ string SoliAlquiyContra::getPlaVehi() { return plaVehi; }
 string SoliAlquiyContra::getCodigo() { return codig; }
 bool SoliAlquiyContra::getEsContrato() { return esContrato; }
 string SoliAlquiyContra::getEstadoSoli(){ return estadoSoli; }
+Cliente* SoliAlquiyContra::getCli() { return cliente; }
+Colaborador* SoliAlquiyContra::getCola() { return colaborador; }
 
 void SoliAlquiyContra::convertirAContrato(){
 	if (estadoSoli != "Aprobada") return;
@@ -61,8 +63,8 @@ string SoliAlquiyContra::mostrarInfo() {
 	}
 
 	info << "Codigo: " << codig << endl;
-	info << "Cliente: " << cedClie << endl;
-	info << "Colaborador: " << cedCola << endl;
+	info << "Cliente: " << cliente->getNombre() << endl;
+	info << "Colaborador: " << colaborador->getNombre() << endl;
 	info << "Sucursal: " << codSucu << endl;
 	info << "Placa: " << plaVehi << endl;
 	info << "Dias de alquiler: " << diasAlqui << endl;

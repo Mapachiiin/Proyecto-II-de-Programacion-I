@@ -1,4 +1,6 @@
 #include "ListaSolisyContras.h"
+#include "ListaClientes.h"
+#include "ListaColaboradores.h"
 #include <iostream>
 using namespace std;
 
@@ -140,5 +142,110 @@ void ListaSolisyContras::reportesSolicitudesPorVehiculo(string placa){
 	}
 	if(cont==0) {
 		cout << "No se encontraron solicitudes o contratos asociados a la placa: " << placa << endl;
+	}
+}
+void ListaSolisyContras::historialPorCliente(string cedula) {
+	NodoSoliyContra* actual = inicio;
+	int cont = 0;
+	while (actual) {
+		if (actual->getDato()->getCli()->getCedula() == cedula) {
+			if (actual->getDato()->getEsContrato()) {
+				cout << cont + 1 << ". Contrato asociado al cliente "<< actual->getDato()->getCli()->getNombre()<<" con cedula: " << cedula << ", Codigo: \n" << actual->getDato()->getCodigo() << endl;
+				cont++;
+			}
+			else {
+				cout << cont + 1 << ". Solicitud asociada al cliente "<< actual->getDato()->getCli()->getNombre()<<" con cedula: " << cedula << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
+				cont++;
+			}
+		}
+		actual = actual->getNodoSig();
+	}
+	if (cont == 0) {
+		cout << "No se encontraron solicitudes o contratos asociados al cliente con cedula: " << cedula << endl;
+	}
+}
+void ListaSolisyContras::reporteClientesPorCantidadDeContratos() {
+	if (!inicio) {
+		cout << "No hay solicitudes/contratos." << endl;
+		return;
+	}
+
+	ListaClientes* lista = new ListaClientes();
+	NodoSoliyContra* actual = inicio;
+	while (actual) {
+		SoliAlquiyContra* soli = actual->getDato();
+		if (soli) {
+			Cliente* clie = soli->getCli();
+			if (clie) {
+				if (!lista->buscarClientePorCedula(clie->getCedula())) {
+					lista->agregarCliente(clie);
+				}
+			}
+		}
+		actual = actual->getNodoSig();
+	}
+
+	cout << " Clientes ordenados por cantidad de contratos:" << endl << endl;
+	while (lista->getInicio()) {
+		NodoCliente* nAct = lista->getInicio();
+		NodoCliente* nMax = lista->getInicio();
+		int maxCount = -1;
+
+		while (nAct) {
+			Cliente* cliente = nAct->getDato();
+			string ced = cliente->getCedula();
+			int count = 0;
+			string codigos = "";
+
+			NodoSoliyContra* Actual2 = inicio;
+			while (Actual2) {
+				SoliAlquiyContra* soli = Actual2->getDato();
+				if (soli && soli->getCli() && soli->getCli()->getCedula() == ced) {
+					if (soli->getEsContrato()) count++;
+				}
+				Actual2 = Actual2->getNodoSig();
+			}
+
+
+
+			if (count > maxCount) {
+				maxCount = count;
+				nMax = nAct;
+			}
+
+			nAct = nAct->getNodoSig();
+		}
+		if (maxCount == 0) break;
+		if (!nMax || !nMax->getDato()) break;
+		Cliente* cMax = nMax->getDato();
+		cout << "Cedula: " << cMax->getCedula() << " | Nombre: " << cMax->getNombre() << " | Numero de contratos: " << maxCount;
+		cout << "\n";
+
+		lista->eliminarCliente(cMax->getCedula());
+	}
+
+	delete lista;
+}
+void ListaSolisyContras::reportesAlquilerPorColaborador(string cedula) {
+	if (!inicio) {
+		cout << "No hay solicitudes/contratos." << endl;
+		return;
+	}
+	NodoSoliyContra* actual = inicio;
+	int cont = 0;
+	while (actual) {
+		if(actual->getDato()->getCola()->getCedula() == cedula){
+			if(cont==0){
+				cout << "Colaborador: " << actual->getDato()->getCola()->getNombre() << " ha realizado los siguientes alquileres: " << endl;
+				cont++;
+			}
+			if (actual->getDato()->getEsContrato()){
+				cout << "Contrato de alquiler asociado al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
+			}
+			if(!actual->getDato()->getEsContrato()){
+				cout << "Solicitud de alquiler asociada al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
+			}
+		}
+		actual = actual->getNodoSig();
 	}
 }

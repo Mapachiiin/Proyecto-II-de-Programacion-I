@@ -40,12 +40,12 @@
 		return;
 	}
 
-	void ListaVehiculos::cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c){
+	void ListaVehiculos::cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c, Fecha* fA){
 		if (!c) return;
 		NodoVehiculo* actual = inicio;
 		while (actual) {
 			if(actual->getDato()->getPlaca()==placa){
-				actual->getDato()->cambiarEstado(nuevoEstado);
+				actual->getDato()->cambiarEstado(nuevoEstado, c, fA);
 				return;
 			}
 			actual = actual->getNodoSig();
@@ -84,10 +84,11 @@
 		return;
 	}
 
-	void ListaVehiculos::eliminarVehiculo(string placa){
+	bool ListaVehiculos::eliminarVehiculo(string placa){
+		if (!inicio) return false;
 		NodoVehiculo* actual = inicio;
 		NodoVehiculo* anterior = nullptr;
-		while (actual->getNodoSig()) {
+		while (actual) {
 			if (actual->getDato()->getPlaca() == placa) {
 				if (anterior) {
 					anterior->setNodoSig(actual->getNodoSig());
@@ -97,9 +98,10 @@
 				}
 				tam--;
 				delete actual;
-				return;
+				return true;
 			}
 			anterior = actual;
 			actual = actual->getNodoSig();
 		}
+		return false;
 	}

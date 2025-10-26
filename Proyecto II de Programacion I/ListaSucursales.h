@@ -9,6 +9,7 @@ public:
 	ListaSucursales();
 	~ListaSucursales();
 	void agregarSucursal(Sucursal* s);
-	void eliminarSucursal(int numSucur);
+	bool eliminarSucursal(int numSucur);
+	void mostrarSucursales();
 };
 

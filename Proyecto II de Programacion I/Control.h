@@ -1,5 +1,17 @@
 #pragma once
 #include "ListaSucursales.h"
+#include "Control.h"
+#include "Sucursal.h"
+#include "Colaborador.h"
+#include "Cliente.h"
+#include "Vehiculo.h"
+#include "Plantel.h"
+#include "SoliAlquiyContra.h"
+#include <string>
+#include <iostream>
+#include <sstream>
+using namespace std;
+
 class Control
 {
 private:
@@ -7,8 +19,8 @@ private:
 public:
     Control();
     ~Control();
-    void agregarSucursal(const Sucursal& sucursal);
-    void eliminarSucursal(int id);
+    void agregarSucursal();
+    void eliminarSucursal();
     void mostrarSucursales();
     //menus y sub menus
     void menuPrincipal();

@@ -8,10 +8,10 @@ private:
 public:
 	ListaClientes();
 	~ListaClientes();
+	NodoCliente* getInicio();
 	void agregarCliente(Cliente* c);
 	void mostrarClientes();
-	void eliminarCliente(string cedula);
-	void historialCliente(string cedula);
-	void reporteClientesPorCantidadDeContratos();
+	bool eliminarCliente(string cedula);
+	Cliente* buscarClientePorCedula(string cedula)
 };
 

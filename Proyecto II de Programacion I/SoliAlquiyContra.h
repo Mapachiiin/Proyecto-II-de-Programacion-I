@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Fecha.h"
+#include "Cliente.h"
+#include "Colaborador.h"
 #include <string>
 using namespace std;
 
@@ -30,7 +32,9 @@ atraso.
 	*/
 {
 private:
-	string codig, cedClie, cedCola, codSucu, plaVehi, estadoSoli;
+	Cliente* cliente;
+	Colaborador* colaborador;
+	string codig, codSucu, plaVehi, estadoSoli;
 	int diasAlqui, preXDia, preTotal;
 	Fecha* fechaIni;
 	Fecha* fechaEntrega;
@@ -42,11 +46,13 @@ private:
 	double multa;
 
 public:
-	SoliAlquiyContra(string cod, string cCli, string cCola, string codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
+	SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, string codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
 	~SoliAlquiyContra();
 	string getEstadoContrato();
 	string getPlaVehi();
 	string getCodigo();
+	Cliente* getCli();
+	Colaborador* getCola();
 	bool getEsContrato();
 	void cambiarEstadoSoli(string est);
 	string getEstadoSoli();

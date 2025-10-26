@@ -9,6 +9,7 @@ using namespace std;
 class Sucursal
 {
 private:
+	int numSucursal;
 	ListaPlanteles* planteles;
 	ListaSolisyContras* solicitudes;
 	ListaClientes* clientes;
@@ -16,10 +17,10 @@ private:
 public:
 	Sucursal();
 	~Sucursal();
+	int getNumSucursal();
 	void agregarPlantel(Plantel* p);
 	void eliminarPlantel(string letra);
 	void agregarSolicitud(SoliAlquiyContra* s);
-	void eliminarSolicitud(string codigo);
 	void agregarCliente(Cliente* c);
 	void eliminarCliente(string cedula);
 	void agregarColaborador(Colaborador* c);

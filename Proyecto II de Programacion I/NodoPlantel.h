@@ -9,9 +9,9 @@ private:
 public:
 	NodoPlantel(Plantel* dato);
 	~NodoPlantel();
-	void setDato();
+	void setDato(Plantel* dato);
 	Plantel* getDato();
-	void setNodoSig();
+	void setNodoSig(NodoPlantel* sig);
 	NodoPlantel* getNodoSig();
 };
 

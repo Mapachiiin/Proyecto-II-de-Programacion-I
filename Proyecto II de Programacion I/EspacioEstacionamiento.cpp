@@ -136,3 +136,9 @@ void EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C)
 	cout << "Espacio no disponible o fuera de rango" << endl;
     return;
 }
+bool EspacioEstacionamiento::estaOcupado(int f, int c) {
+    if (f >= 0 && f < nF && c >= 0 && c < nC) {
+        return espacios[f][c] != nullptr;
+    }
+    return false;
+}

@@ -32,8 +32,11 @@ EspacioEstacionamiento* estacionamiento;
 
 public:
 Plantel();
-Plantel();
+Plantel(char letra, string tipo, int capMax);
 ~Plantel();
-
+char getLetra();
+string getTipo();
+int getCapMax();
+EspacioEstacionamiento* getEstacionamiento();
 };
 

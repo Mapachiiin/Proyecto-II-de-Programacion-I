@@ -21,4 +21,3 @@ void Sucursal::agregarCliente(Cliente* c) { clientes->agregarCliente(c); }
 void Sucursal::eliminarCliente(string cedula) { clientes->eliminarCliente(cedula); }
 void Sucursal::agregarColaborador(Colaborador* c) { colaboradores->agregarColaborador(c); }
 void Sucursal::eliminarColaborador(string cedula) { colaboradores->eliminarColaborador(cedula); }
-}

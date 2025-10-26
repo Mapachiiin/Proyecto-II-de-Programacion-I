@@ -11,7 +11,7 @@ public:
 	~ListaPlanteles();
 	void agregarPlantel(Plantel* p);
 	void mostrarPlanteles();
-	void visualizacionGraficaDePlanteles();
-	void eliminarPlantel(string letra);
+	void visualizacionGraficaDePlanteles(char letra);
+	bool eliminarPlantel(char letra);
 };
 

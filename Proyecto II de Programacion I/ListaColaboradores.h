@@ -12,6 +12,6 @@ public:
 	void agregarColaborador(Colaborador* c);
 	bool eliminarColaborador(string cedula);
 	void mostrarColaboradores();
-	void reportesAlquilerPorColaboradores();
+
 };
 

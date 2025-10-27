@@ -5,7 +5,7 @@ class Colaborador:public Persona {
 private:
 	Fecha* fechaIngre;
 public:
-	Colaborador(string ced, string nom, int dia, int mes, int annio);
+	Colaborador(string ced, string nom, Fecha* fecha);
 	~Colaborador();
 	string toString();
 };

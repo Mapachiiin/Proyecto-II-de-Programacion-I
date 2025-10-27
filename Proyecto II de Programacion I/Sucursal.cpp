@@ -21,6 +21,10 @@ Sucursal::~Sucursal() {
 	delete colaboradores;
 }
 int Sucursal::getNumSucursal() { return numSucursal; }
+ListaPlanteles* Sucursal::getPlanteles() { return planteles; }
+ListaSolisyContras* Sucursal::getSolicitudes() { return solicitudes; }
+ListaClientes* Sucursal::getClientes() { return clientes; }
+ListaColaboradores* Sucursal::getColaboradores() { return colaboradores; }
 void Sucursal::agregarPlantel(Plantel* p) { planteles->agregarPlantel(p); }
 void Sucursal::eliminarPlantel(string letra) { planteles->eliminarPlantel(letra); }
 void Sucursal::agregarSolicitud(SoliAlquiyContra* s) { solicitudes->agregarSolicitud(s); }

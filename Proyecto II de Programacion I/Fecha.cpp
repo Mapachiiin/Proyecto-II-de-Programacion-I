@@ -1,7 +1,10 @@
 #include "Fecha.h"
 #include <ctime>
+#include <string>
+using namespace std;
 
-Fecha::Fecha(int d, int m, int an) : dia(d), mes(m), anio(an) {}
+Fecha::Fecha() : dia(0), mes(0), anio(0) {}
+Fecha::Fecha(int dia, int mes, int anio) : dia(dia), mes(mes), anio(anio) {}
 Fecha::~Fecha() {}
 Fecha* Fecha::obtenerFechaActual() {
     time_t t = time(nullptr);
@@ -15,3 +18,6 @@ Fecha* Fecha::obtenerFechaActual() {
 int Fecha::getDia() {return dia;}
 int Fecha::getMes() {return mes;}
 int Fecha::getAnio() {return anio;}
+string Fecha::toString() {
+    return to_string(dia) + "/" + to_string(mes) + "/" + to_string(anio);
+}

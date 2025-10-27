@@ -1,6 +1,7 @@
 #pragma once
 #include "NodoSoliyContra.h"
 
+
 class ListaSolisyContras
 {
 private:

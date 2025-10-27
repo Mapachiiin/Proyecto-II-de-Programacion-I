@@ -68,8 +68,8 @@ string SoliAlquiyContra::mostrarInfo() {
 	info << "Sucursal: " << codSucu << endl;
 	info << "Placa: " << plaVehi << endl;
 	info << "Dias de alquiler: " << diasAlqui << endl;
-	info << "Fecha de inicio: " << fechaIni->mostrarFecha() << endl;
-	info << "Fecha de entrega: " << fechaEntrega->mostrarFecha() << endl;
+	info << "Fecha de inicio: " << fechaIni->toString() << endl;
+	info << "Fecha de entrega: " << fechaEntrega->toString() << endl;
 	info << "Precio por dia: " << preXDia << endl;
 	info << "Precio total: " << preTotal << endl;
 	if(reIntegro>0){

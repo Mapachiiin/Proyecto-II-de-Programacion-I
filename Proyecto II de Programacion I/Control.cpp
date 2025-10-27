@@ -4,6 +4,7 @@
 static int numeroSucursales = 1;
 static Fecha* fechaActual = new Fecha();
 
+
 Control::Control() {
 	listaSucursales = new ListaSucursales();
 }
@@ -27,6 +28,7 @@ void Control::mostrarSucursales() {
 }
 //menus y sub menus
 void Control::menuPrincipal() {
+	fechaActual = fechaActual->obtenerFechaActual();
 	int respuesta = 0;
 	do {
 		system("cls");
@@ -149,26 +151,121 @@ void Control::subMenuColaboradores(Sucursal* s) {
 		switch (respuesta)
 		{
 		case 1: {
-			cout << "Agregar Colaborador a la sucursal" << endl<<endl;
-			cout<<""
-			s->agregarColaborador(new Colaborador());
-			//Agregar colaborador
+			string cedula, nombre;
+			cout << "Agregar Colaborador a la sucursal" << endl << endl;
+			do {
+				cout << "Ingrese el numero de cedula del nuevo colaborador :";cin >> cedula;
+				if (cedula.empty()) {
+					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (s->getColaboradores()->buscarColaboradorPorCed() && cedula == s->getColaboradores()->buscarColaboradorPorCed(cedula)->getCedula()) {
+					cout << "El colaborador ya existe. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			do {
+				cout <<endl<< "Ingrese el nombre del nuevo colaborador: ";
+				cin >> nombre;
+				if (nombre.empty()) {
+					cout << "El nombre no puede estar vacio. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual));
 			break;
 		}
+
 		case 2: {
-			//Eliminar colaborador
+			string cedula;
+			s->getColaboradores()->mostrarColaboradores();
+			do{
+				cout << endl << "Ingrese la cedula del colaborador a eliminar: ";
+				cin >> cedula;
+				if (cedula.empty()) {
+					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!s->getColaboradores()->buscarColaboradorPorCed(cedula)) {
+					cout << "El colaborador no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			s->eliminarColaborador(cedula);
+			cout << "Colaborador eliminado exitosamente." << endl;
+			cin.clear();
+			cin.get();
 			break;
 		}
 		case 3: {
-			//Mostrar colaboradores
+			cout << " Colaboradores de la sucursal " << s->getNumSucursal() <<endl<< endl;
+			s->getColaboradores()->mostrarColaboradores();
+			cin.get();
 			break;
 		}
 		case 4: {
-			//Reporte de alquileres y contratos realizados por colaborador
+			do{
+			string cedula;
+			s->getColaboradores()->mostrarColaboradores();
+			
+			cout << endl << "Ingrese la cedula del colaborador para ver su historial: ";
+			cin >> cedula;
+			if (cedula.empty()) {
+				cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (s->getColaboradores()->buscarColaboradorPorCed(cedula) &&!s->getColaboradores()->buscarColaboradorPorCed(cedula)) {
+				cout << "El colaborador no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			s->getSolicitudes()->reportesAlquilerPorColaborador(cedula);
+			char opcion;
+			do {
+				cout << endl << "Desea ver detalladamente alguna solicitud o contrato realizado por este colaborador? (s/n): ";
+				cin >> opcion;
+				if (opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					continue;
+				}
+
+				if (opcion == 's' || opcion == 'S') {
+					string codigo;
+					do {
+						cout << "Ingrese el codigo de la solicitud o contrato: ";
+						cin >> codigo;
+						if (codigo.empty()) {
+							cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+							continue;
+						}
+						system("cls");
+						s->getSolicitudes()->mostrarSolicitudEspecifica(codigo);
+						break;
+					} while (true);
+				} 
+
+			}while (true);
+
+			do{
+			cout << endl << "Desea ver los contratos de otro colaborador? (s/n): ";
+			cin >> opcion;
+			if(opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+				continue;
+			}
+			
+			break;
+			} while (true);
+			if (opcion == 's' || opcion == 'S') continue;
+			break;
+		} while (true);
 			break;
 		}
 		case 5: {
 			cout << "Volviendo al Submenu de Sucursales..." << endl;
+			subMenuSucursales(s->getNumSucursal());
 			break;
 		}
 		default: {

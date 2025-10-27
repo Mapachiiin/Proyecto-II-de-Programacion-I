@@ -1,4 +1,6 @@
 #include "ListaVehiculos.h"
+#include <string>
+using namespace std;
 
 	ListaVehiculos::ListaVehiculos(): inicio(nullptr), tam(0) {}
 

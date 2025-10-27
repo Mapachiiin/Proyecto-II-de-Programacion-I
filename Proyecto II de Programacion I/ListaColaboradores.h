@@ -1,5 +1,7 @@
 #pragma once
 #include "NodoColaborador.h"
+#include <string>
+using namespace std;
 
 class ListaColaboradores
 {
@@ -9,9 +11,9 @@ private:
 public:
 	ListaColaboradores();
 	~ListaColaboradores();
-	void agregarColaborador(Colaborador* c);
+	bool agregarColaborador(Colaborador* c);
+	Colaborador* buscarColaboradorPorCed(string cedula);
 	bool eliminarColaborador(string cedula);
 	void mostrarColaboradores();
-
 };
 

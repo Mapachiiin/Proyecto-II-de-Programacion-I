@@ -7,12 +7,13 @@ ListaColaboradores::~ListaColaboradores(){
 		delete temp;
 	}
 }
-void ListaColaboradores::agregarColaborador(Colaborador* c){
-	if (!c) return;
+bool ListaColaboradores::agregarColaborador(Colaborador* c){
+	if (!c) return false;
 	NodoColaborador* nuevo = new NodoColaborador(c);
 	if (!inicio) {
 		inicio = nuevo;
 		tam++;
+		return true;
 	}
 	else {
 		NodoColaborador* actual = inicio;
@@ -22,6 +23,7 @@ void ListaColaboradores::agregarColaborador(Colaborador* c){
 		actual->setNodoSig(nuevo);
 		tam++;
 	}
+	return true;
 }
 #include "ListaColaboradores.h"
 #include "NodoColaborador.h"
@@ -39,6 +41,32 @@ ListaColaboradores::~ListaColaboradores() {
         delete actual;
         actual = siguiente;
     }
+}
+bool ListaColaboradores::agregarColaborador(Colaborador* c) {
+    if (!c) return;
+    NodoColaborador* nuevo = new NodoColaborador(c);
+    if (!inicio) {
+        inicio = nuevo;
+        tam++;
+    }
+    else {
+        NodoColaborador* actual = inicio;
+        while (actual->getNodoSig()) {
+            actual = actual->getNodoSig();
+        }
+        actual->setNodoSig(nuevo);
+        tam++;
+    }
+}
+Colaborador* ListaColaboradores::buscarColaboradorPorCed(string cedula) {
+    NodoColaborador* actual = inicio;
+    while (actual) {
+        if (actual->getDato() && actual->getDato()->getCedula() == cedula) {
+            return actual->getDato();
+        }
+        actual = actual->getNodoSig();
+    }
+    return nullptr;
 }
 
 bool ListaColaboradores::eliminarColaborador(string cedula) {

@@ -1,4 +1,7 @@
 #include "ListaPlanteles.h"
+#include <string>
+#include <iostream>
+using namespace std;
 
 static const string RED = "\033[31m";
 static const string GREEN = "\033[32m"; //Para que se vea mas bonito jajajjaja

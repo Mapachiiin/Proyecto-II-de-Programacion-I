@@ -19,6 +19,10 @@ public:
 	Sucursal(int num);
 	~Sucursal();
 	int getNumSucursal();
+	ListaPlanteles* getPlanteles();
+	ListaSolisyContras* getSolicitudes();
+	ListaClientes* getClientes();
+	ListaColaboradores* getColaboradores();
 	void agregarPlantel(Plantel* p);
 	void eliminarPlantel(string letra);
 	void agregarSolicitud(SoliAlquiyContra* s);

@@ -2,6 +2,7 @@
 #include "ListaClientes.h"
 #include "ListaColaboradores.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 ListaSolisyContras::ListaSolisyContras(): inicio(nullptr), tam(0) {}
@@ -234,18 +235,20 @@ void ListaSolisyContras::reportesAlquilerPorColaborador(string cedula) {
 	NodoSoliyContra* actual = inicio;
 	int cont = 0;
 	while (actual) {
-		if(actual->getDato()->getCola()->getCedula() == cedula){
-			if(cont==0){
-				cout << "Colaborador: " << actual->getDato()->getCola()->getNombre() << " ha realizado los siguientes alquileres: " << endl;
-				cont++;
+		if (actual->getDato() && actual->getDato()->getCola()) {
+			if (actual->getDato()->getCola()->getCedula() == cedula) {
+				if (cont == 0) {
+					cout << "Colaborador: " << actual->getDato()->getCola()->getNombre() << " ha realizado los siguientes alquileres: " << endl;
+					cont++;
+				}
+				if (actual->getDato()->getEsContrato()) {
+					cout << "Contrato de alquiler asociado al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
+				}
+				if (!actual->getDato()->getEsContrato()) {
+					cout << "Solicitud de alquiler asociada al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
+				}
 			}
-			if (actual->getDato()->getEsContrato()){
-				cout << "Contrato de alquiler asociado al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
-			}
-			if(!actual->getDato()->getEsContrato()){
-				cout << "Solicitud de alquiler asociada al colaborador " << actual->getDato()->getCola()->getNombre() << ", Codigo:\n" << actual->getDato()->getCodigo() << endl;
-			}
+			actual = actual->getNodoSig();
 		}
-		actual = actual->getNodoSig();
 	}
 }

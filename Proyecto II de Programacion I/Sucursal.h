@@ -16,6 +16,7 @@ private:
 	ListaColaboradores* colaboradores;
 public:
 	Sucursal();
+	Sucursal(int num);
 	~Sucursal();
 	int getNumSucursal();
 	void agregarPlantel(Plantel* p);

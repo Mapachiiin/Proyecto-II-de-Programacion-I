@@ -12,6 +12,6 @@ public:
 	void agregarCliente(Cliente* c);
 	void mostrarClientes();
 	bool eliminarCliente(string cedula);
-	Cliente* buscarClientePorCedula(string cedula)
+	Cliente* buscarClientePorCedula(string cedula);
 };
 

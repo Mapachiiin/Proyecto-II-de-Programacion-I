@@ -7,6 +7,7 @@
 #include "Vehiculo.h"
 #include "Plantel.h"
 #include "SoliAlquiyContra.h"
+#include "Quemados.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -20,15 +21,15 @@ public:
     Control();
     ~Control();
     void agregarSucursal();
-    void eliminarSucursal();
+    bool eliminarSucursal(int numSucursal);
     void mostrarSucursales();
     //menus y sub menus
     void menuPrincipal();
-	void subMenuSucursales();
-    void subMenuColaboradores();
-	void subMenuClientes();
-	void subMenuVehiculosyPlanteles();
-	void submenuSolicitudesYContratos();
+	void subMenuSucursales(int numSucursal);
+    void subMenuColaboradores(Sucursal* s);
+	void subMenuClientes(Sucursal* s);
+	void subMenuVehiculosyPlanteles(Sucursal* s);
+	void submenuSolicitudesYContratos(Sucursal* s);
 
 
 

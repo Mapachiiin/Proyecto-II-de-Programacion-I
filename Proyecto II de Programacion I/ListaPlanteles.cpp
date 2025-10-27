@@ -1,8 +1,8 @@
 #include "ListaPlanteles.h"
 
-const string RED = "\033[31m";
-const string GREEN = "\033[32m"; //Para que se vea mas bonito jajajjaja
-const string ORIGINAL = "\033[0m";
+static const string RED = "\033[31m";
+static const string GREEN = "\033[32m"; //Para que se vea mas bonito jajajjaja
+static const string ORIGINAL = "\033[0m";
 
 ListaPlanteles::ListaPlanteles() :inicio(nullptr), tam(0) {}
 ListaPlanteles::~ListaPlanteles() {

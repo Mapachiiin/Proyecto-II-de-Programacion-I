@@ -11,5 +11,6 @@ public:
 	void agregarSucursal(Sucursal* s);
 	bool eliminarSucursal(int numSucur);
 	void mostrarSucursales();
+	Sucursal* obtenerSucursal(int numSucursal);
 };
 

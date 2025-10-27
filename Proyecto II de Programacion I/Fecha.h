@@ -6,12 +6,11 @@ class Fecha
 	int mes;
 	int anio;
 	public:
-		Fecha();
-		Fecha(int d, int m, int a);
+		Fecha(int dia, int mes, int annio);
 		~Fecha();
 		int getDia();
 		int getMes();
 		int getAnio();
-		string mostrarFecha();
+		Fecha* obtenerFechaActual();
 };
 

@@ -63,3 +63,14 @@ void ListaSucursales::mostrarSucursales(){
 		actual = actual->getSiguiente();
 	}
 }
+Sucursal* ListaSucursales::obtenerSucursal(int numSucursal){
+	if (!inicio) return nullptr;
+	NodoSucursal* actual = inicio;
+	while (actual) {
+		if (actual->getSucursal()->getNumSucursal() == numSucursal) {
+			return actual->getSucursal();
+		}
+		actual = actual->getSiguiente();
+	}
+	return nullptr;
+}

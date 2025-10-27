@@ -10,7 +10,7 @@ protected:
 	string cedula;
 public:
 	Persona();
-	~Persona();
+	virtual ~Persona();
 	string getNombre() const;
 	int getEdad() const;
 	string getCedula() const;

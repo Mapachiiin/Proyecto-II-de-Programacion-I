@@ -7,6 +7,13 @@ Sucursal::Sucursal() {
 	clientes = new ListaClientes;
 	colaboradores = new ListaColaboradores;
 }
+Sucursal::Sucursal(int num) {
+	numSucursal = num;
+	planteles = new ListaPlanteles;
+	solicitudes = new ListaSolisyContras;
+	clientes = new ListaClientes;
+	colaboradores = new ListaColaboradores;
+}
 Sucursal::~Sucursal() {
 	delete planteles;
 	delete solicitudes;

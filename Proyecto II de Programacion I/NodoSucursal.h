@@ -13,4 +13,3 @@ public:
 	NodoSucursal* getSiguiente();
 	void setSiguiente(NodoSucursal* sig);
 };
-

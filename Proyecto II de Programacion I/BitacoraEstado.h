@@ -1,4 +1,8 @@
 #pragma once
+#include "Colaborador.h"
+#include "Fecha.h"
+#include <string>
+using namespace std;
 
 class BitacoraEstado
 {

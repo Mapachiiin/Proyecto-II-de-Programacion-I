@@ -86,7 +86,7 @@ void ListaPlanteles::visualizacionGraficaDePlanteles(char letra) {
 	cout << "No se encontro el plantel con la letra: " << letra << endl;
 }
 bool ListaPlanteles::eliminarPlantel(char letra) {
-	if (!inicio) return;
+	if (!inicio) return false;
 	NodoPlantel* actual = inicio;
 	NodoPlantel* anterior = nullptr;
 	while(actual) {

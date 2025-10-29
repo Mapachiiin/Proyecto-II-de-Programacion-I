@@ -26,7 +26,7 @@ ListaSolisyContras* Sucursal::getSolicitudes() { return solicitudes; }
 ListaClientes* Sucursal::getClientes() { return clientes; }
 ListaColaboradores* Sucursal::getColaboradores() { return colaboradores; }
 void Sucursal::agregarPlantel(Plantel* p) { planteles->agregarPlantel(p); }
-void Sucursal::eliminarPlantel(string letra) { planteles->eliminarPlantel(letra); }
+void Sucursal::eliminarPlantel(char letra) { planteles->eliminarPlantel(letra); }
 void Sucursal::agregarSolicitud(SoliAlquiyContra* s) { solicitudes->agregarSolicitud(s); }
 void Sucursal::agregarCliente(Cliente* c) { clientes->agregarCliente(c); }
 void Sucursal::eliminarCliente(string cedula) { clientes->eliminarCliente(cedula); }

@@ -5,7 +5,9 @@
 using namespace std;
 
 int main() {
-
+	Control* menu = new Control();
+	menu->menuPrincipal();
+	delete menu;
 	/*
 	
 	Proyecto 2

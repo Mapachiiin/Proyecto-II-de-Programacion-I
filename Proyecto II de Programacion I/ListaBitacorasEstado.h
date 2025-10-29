@@ -13,4 +13,3 @@ public:
 	~ListaBitacorasEstado();
 	void agregarBitacora(int estado, Colaborador* c, Fecha* fAtc);
 };
-

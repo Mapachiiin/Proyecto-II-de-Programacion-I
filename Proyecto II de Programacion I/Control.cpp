@@ -83,6 +83,7 @@ void Control::menuPrincipal() {
 		}
 		case 5:
 			cout << "Saliendo del programa..." << endl;
+			delete listaSucursales;
 			exit(0);
 		default:
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
@@ -118,10 +119,10 @@ void Control::subMenuSucursales(int numSucursal) {
 			subMenuClientes(sGestionar);
 			break;
 		case 3:
-			subMenuVehiculosyPlanteles(sGestionar);
+			//subMenuVehiculosyPlanteles(sGestionar);
 			break;
 		case 4:
-			submenuSolicitudesYContratos(sGestionar);
+			//submenuSolicitudesYContratos(sGestionar);
 			break;
 		case 5:
 			cout << "Volviendo al Menu Principal..." << endl;
@@ -159,7 +160,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
 					continue;
 				}
-				if (s->getColaboradores()->buscarColaboradorPorCed() && cedula == s->getColaboradores()->buscarColaboradorPorCed(cedula)->getCedula()) {
+				if (s->getColaboradores()->buscarColaboradorPorCed(cedula) && cedula == s->getColaboradores()->buscarColaboradorPorCed(cedula)->getCedula()) {
 					cout << "El colaborador ya existe. Intente de nuevo." << endl;
 					continue;
 				}
@@ -167,7 +168,9 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			} while (true);
 			do {
 				cout <<endl<< "Ingrese el nombre del nuevo colaborador: ";
-				cin >> nombre;
+				cin.clear();
+				cin.ignore();
+				getline(cin, nombre);
 				if (nombre.empty()) {
 					cout << "El nombre no puede estar vacio. Intente de nuevo." << endl;
 					continue;
@@ -207,7 +210,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			break;
 		}
 		case 4: {
-			do{
+			do {
 			string cedula;
 			s->getColaboradores()->mostrarColaboradores();
 			
@@ -278,11 +281,156 @@ void Control::subMenuColaboradores(Sucursal* s) {
 	return;
 }
 void Control::subMenuClientes(Sucursal* s) {
+	if (!s) return;
+	int respuesta;
+	do {
+		cout << "-----Submenu de Clientes-----" << endl << endl;
+		cout << "1. Agregar Cliente a la sucursal" << endl;
+		cout << "2. Eliminar Cliente de la sucursal" << endl;
+		cout << "3. Mostrar Cliente de la sucursal" << endl;
+		cout << "4. Historial de solicitudes y contratos por cliente" << endl;
+		cout << "5. Reporte de clientes por cantidad de contratos" << endl;
+		cout << "6. Volver al Submenu de Sucursales" << endl;
+		cout << "Ingrese una opcion: ";
+		cin >> respuesta;
 
+		switch (respuesta)
+		{
+		case 1: {
+			string cedula, nombre, paisResi, activiEco= " ";
+			double descuento = 0.0;
+			char opcion;
+			bool juri;
+			cout << "Agregar Cliente a la sucursal" << endl << endl;
+			do {
+				cout << "Es el cliente una persona juridica? (s/n): ";
+				cin >> opcion;
+				if (opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					continue;
+				}
+				if(opcion == 's' || opcion == 'S') {
+					juri = true;
+					cout << "Ingrese la actividad economica del nuevo cliente: ";
+					cin.clear();
+					cin.ignore();
+					getline(cin, activiEco);
+					do {
+						cout << "Ingrese el porcentaje de descuento para el nuevo cliente (0-100): ";
+						cin >> descuento;
+						if (descuento < 0 || descuento > 100) {
+							cout << "El porcentaje de descuento debe estar entre 0 y 100; puede tener decimales. Intente de nuevo." << endl;
+							continue;
+						}
+						descuento = descuento / 100;
+						break;
+					} while (true);
+				} else {
+					juri = false;
+				}
+				break;
+			} while (true);
+			do {
+				cout << "Ingrese el numero de cedula del nuevo colaborador :";cin >> cedula;
+				if (cedula.empty()) {
+					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (s->getClientes()->buscarClientePorCedula(cedula) && cedula == s->getClientes()->buscarClientePorCedula(cedula)->getCedula()) {
+					cout << "El cliente ya existe. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			do {
+				cout << endl << "Ingrese el nombre del nuevo cliente: ";
+				cin.clear();
+				cin.ignore();
+				getline(cin, nombre);
+				if (nombre.empty()) {
+					cout << "El nombre no puede estar vacio. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			if(!juri){
+			s->agregarCliente(new Cliente(cedula, nombre, paisResi));
+			}
+			else {
+				s->agregarCliente(new Cliente(cedula, nombre, paisResi, activiEco, descuento));
+			}
+			break;
+		}
+		case 2: {
+			string cedula;
+			s->getClientes()->mostrarClientes();
+			do{
+				cout << endl << "Ingrese la cedula del cliente a eliminar: ";
+				cin >> cedula;
+				if (cedula.empty()) {
+					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!s->getClientes()->buscarClientePorCedula(cedula)) {
+					cout << "El cliente no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			s->eliminarCliente(cedula);
+			cout << "Cliente eliminado exitosamente." << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 3: {
+			cout << " Clientes de la sucursal " << s->getNumSucursal() <<endl<< endl;
+			s->getClientes()->mostrarClientes();
+			cin.get();
+			break;
+		}
+		case 4: {
+			cout << "Historial de solicitudes y contratos por cliente" << endl;
+			string cedula;
+			s->getClientes()->mostrarClientes();
+			do{
+				cout << endl << "Ingrese la cedula del cliente para ver su historial: ";
+				cin >> cedula;
+				if (cedula.empty()) {
+					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!s->getClientes()->buscarClientePorCedula(cedula)) {
+					cout << "El cliente no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				break;
+			} while (true);
+			s->getSolicitudes()->historialPorCliente(cedula);
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 5: {
+			cout << "Reporte de clientes por cantidad de contratos" << endl;
+			s->getSolicitudes()->reporteClientesPorCantidadDeContratos();
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 6: {
+			cout << "Volviendo al Submenu de Sucursales..." << endl;
+			subMenuSucursales(s->getNumSucursal());
+			break;
+		}
+		default: {
+			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+	} while (respuesta != 5);
 }
-void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 
-}
-void Control::submenuSolicitudesYContratos(Sucursal* s) {
-
-}
+//void Control::subMenuVehiculosyPlanteles(Sucursal* s) {}
+//void Control::submenuSolicitudesYContratos(Sucursal* s) {}

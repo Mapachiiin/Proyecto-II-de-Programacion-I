@@ -8,9 +8,9 @@ private:
 public:
 	NodoBitacoraEstado(BitacoraEstado* c);
 	~NodoBitacoraEstado();
-	void setDato();
+	void setDato(BitacoraEstado* b);
 	BitacoraEstado* getDato();
-	void setNodoSig();
+	void setNodoSig(NodoBitacoraEstado* sig);
 	NodoBitacoraEstado* getNodoSig();
 };
 

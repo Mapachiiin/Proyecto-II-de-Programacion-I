@@ -14,4 +14,3 @@ public:
 	void setNodoSig(NodoSoliyContra* sig);
 	NodoSoliyContra* getNodoSig();
 };
-

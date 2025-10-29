@@ -24,7 +24,7 @@ public:
 	ListaClientes* getClientes();
 	ListaColaboradores* getColaboradores();
 	void agregarPlantel(Plantel* p);
-	void eliminarPlantel(string letra);
+	void eliminarPlantel(char letra);
 	void agregarSolicitud(SoliAlquiyContra* s);
 	void agregarCliente(Cliente* c);
 	void eliminarCliente(string cedula);

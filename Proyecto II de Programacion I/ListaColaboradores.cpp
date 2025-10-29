@@ -1,4 +1,8 @@
 #include "ListaColaboradores.h"
+#include "NodoColaborador.h"
+#include <iostream>
+using namespace std;
+
 ListaColaboradores::ListaColaboradores() : inicio(nullptr), tam(0) {}
 ListaColaboradores::~ListaColaboradores(){
 	while (inicio) {
@@ -25,39 +29,6 @@ bool ListaColaboradores::agregarColaborador(Colaborador* c){
 	}
 	return true;
 }
-#include "ListaColaboradores.h"
-#include "NodoColaborador.h"
-#include <iostream>
-
-using namespace std;
-
-ListaColaboradores::ListaColaboradores() : inicio(nullptr), tam(0) {}
-ListaColaboradores::~ListaColaboradores() {
-    if (!inicio) return;
-    NodoColaborador* actual = inicio;
-    NodoColaborador* siguiente = nullptr;
-    while (actual) {
-        siguiente = actual->getNodoSig();
-        delete actual;
-        actual = siguiente;
-    }
-}
-bool ListaColaboradores::agregarColaborador(Colaborador* c) {
-    if (!c) return;
-    NodoColaborador* nuevo = new NodoColaborador(c);
-    if (!inicio) {
-        inicio = nuevo;
-        tam++;
-    }
-    else {
-        NodoColaborador* actual = inicio;
-        while (actual->getNodoSig()) {
-            actual = actual->getNodoSig();
-        }
-        actual->setNodoSig(nuevo);
-        tam++;
-    }
-}
 Colaborador* ListaColaboradores::buscarColaboradorPorCed(string cedula) {
     NodoColaborador* actual = inicio;
     while (actual) {
@@ -68,7 +39,6 @@ Colaborador* ListaColaboradores::buscarColaboradorPorCed(string cedula) {
     }
     return nullptr;
 }
-
 bool ListaColaboradores::eliminarColaborador(string cedula) {
     if (!inicio) return false;
 

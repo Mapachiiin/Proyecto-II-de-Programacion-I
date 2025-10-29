@@ -28,8 +28,8 @@ public:
 	void subMenuSucursales(int numSucursal);
     void subMenuColaboradores(Sucursal* s);
 	void subMenuClientes(Sucursal* s);
-	void subMenuVehiculosyPlanteles(Sucursal* s);
-	void submenuSolicitudesYContratos(Sucursal* s);
+	//void subMenuVehiculosyPlanteles(Sucursal* s);
+	//void submenuSolicitudesYContratos(Sucursal* s);
 
 
 

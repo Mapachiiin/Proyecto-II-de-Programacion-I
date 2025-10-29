@@ -149,132 +149,225 @@ void Control::subMenuColaboradores(Sucursal* s) {
 		cout << "5. Volver al Submenu de Sucursales" << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
+		cin.ignore(10000, '\n');
+
 		switch (respuesta)
 		{
 		case 1: {
-			string cedula, nombre;
-			cout << "Agregar Colaborador a la sucursal" << endl << endl;
-			do {
-				cout << "Ingrese el numero de cedula del nuevo colaborador :";cin >> cedula;
-				if (cedula.empty()) {
-					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
-					continue;
+			system("cls");
+			bool seguir = true;
+			while (seguir) {
+				string cedula, nombre;
+				cout << "Agregar Colaborador a la sucursal" << endl << endl;
+				while (true) {
+					cout << "Ingrese el numero de cedula del nuevo colaborador: ";
+					cin >> cedula;
+					cin.ignore(10000, '\n');
+					if (cedula.empty()) {
+						cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+						continue;
+					}
+					bool tieneEspacio = false;
+					for (char c : cedula) {
+						if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+							tieneEspacio = true;
+							break;
+						}
+					}
+					if (tieneEspacio) {
+						cout << "La cedula no puede contener espacios. Intente de nuevo." << endl;
+						continue;
+					}
+					if (s->getColaboradores()->buscarColaboradorPorCed(cedula) != nullptr) {
+						cout << "El colaborador ya existe. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
 				}
-				if (s->getColaboradores()->buscarColaboradorPorCed(cedula) && cedula == s->getColaboradores()->buscarColaboradorPorCed(cedula)->getCedula()) {
-					cout << "El colaborador ya existe. Intente de nuevo." << endl;
-					continue;
+				while (true) {
+					cout << "Ingrese el nombre del nuevo colaborador: ";
+					getline(cin, nombre);
+					if (nombre.empty()) {
+						cout << "El nombre no puede estar vacio. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
 				}
-				break;
-			} while (true);
-			do {
-				cout <<endl<< "Ingrese el nombre del nuevo colaborador: ";
-				cin.clear();
-				cin.ignore();
-				getline(cin, nombre);
-				if (nombre.empty()) {
-					cout << "El nombre no puede estar vacio. Intente de nuevo." << endl;
-					continue;
+				s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual->obtenerFechaActual()));
+				cout <<endl<< "Colaborador agregado exitosamente." << endl;
+				char op;
+				while (true) {
+					cout <<endl<< "Desea agregar otro colaborador? (s/n): ";
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') {
+						break;
+					}
+					else if (op == 'n' || op == 'N') {
+						seguir = false;
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
 				}
-				break;
-			} while (true);
-			s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual));
+			}
+			cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+			cin.get();
 			break;
 		}
+		case 2: { 
+			system("cls");
+			bool seguir = true;
+			while (seguir) {
+				string cedula;
+				s->getColaboradores()->mostrarColaboradores();
+				while (true) {
+					cout << endl << "Ingrese la cedula del colaborador a eliminar (o 'n' para salir): ";
+					cin >> cedula;
+					cin.ignore(10000, '\n');
+					if (cedula == "N" || cedula == "n") { seguir = false; break; }
+					if (cedula.empty()) {
+						cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+						continue;
+					}
+					if (!s->getColaboradores()->buscarColaboradorPorCed(cedula)) {
+						cout << "El colaborador no existe. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
+				}
+				if (!seguir) break;
+				char conf;
+				while (true) {
+					cout << "Confirma eliminar al colaborador con cedula " << cedula << " ? (s/n): ";
+					cin >> conf;
+					cin.ignore(10000, '\n');
+					if (conf == 's' || conf == 'S') break;
+					if (conf == 'n' || conf == 'N') { cout << "Eliminacion cancelada." << endl; break; }
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
+			    if (conf == 'n' || conf == 'N') {
+					char op;
+					while (true) {
+						cout << "Desea intentar eliminar otro colaborador? (s/n): ";
+						cin >> op;
+						cin.ignore(10000, '\n');
+						if (op == 's' || op == 'S') break;
+						if (op == 'n' || op == 'N') { seguir = false; break; }
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+					continue;
+				}
+				s->eliminarColaborador(cedula);
+				cout << "Colaborador eliminado exitosamente." << endl;
 
-		case 2: {
-			string cedula;
+				char op;
+				while (true) {
+					cout << "Desea eliminar otro colaborador? (s/n): ";
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') break;
+					if (op == 'n' || op == 'N') { seguir = false; break; }
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
+			}
+			cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+			cin.get();
+			break;
+		}
+		case 3: {
+			system("cls");
+			cout << " Colaboradores de la sucursal " << s->getNumSucursal() << endl << endl;
 			s->getColaboradores()->mostrarColaboradores();
-			do{
-				cout << endl << "Ingrese la cedula del colaborador a eliminar: ";
-				cin >> cedula;
+			cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 4: {
+			bool seguir = true;
+			while (seguir) {
+				system("cls");
+				string cedula;
+				s->getColaboradores()->mostrarColaboradores();
+
+				cout << endl << "Ingrese la cedula del colaborador para ver su historial (o 'n' para salir): ";
+				getline(cin, cedula);
+				cin.ignore(10000, '\n');
+				if (cedula == "n" || cedula == "N") break;
 				if (cedula.empty()) {
 					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				bool tieneEspacio = false;
+				for (char c : cedula) {
+					if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+						tieneEspacio = true;
+						break;
+					}
+				}
+				if (tieneEspacio) {
+					cout << "La cedula no puede contener espacios. Intente de nuevo." << endl;
 					continue;
 				}
 				if (!s->getColaboradores()->buscarColaboradorPorCed(cedula)) {
 					cout << "El colaborador no existe. Intente de nuevo." << endl;
 					continue;
 				}
-				break;
-			} while (true);
-			s->eliminarColaborador(cedula);
-			cout << "Colaborador eliminado exitosamente." << endl;
-			cin.clear();
-			cin.get();
-			break;
-		}
-		case 3: {
-			cout << " Colaboradores de la sucursal " << s->getNumSucursal() <<endl<< endl;
-			s->getColaboradores()->mostrarColaboradores();
-			cin.get();
-			break;
-		}
-		case 4: {
-			do {
-			string cedula;
-			s->getColaboradores()->mostrarColaboradores();
-			
-			cout << endl << "Ingrese la cedula del colaborador para ver su historial: ";
-			cin >> cedula;
-			if (cedula.empty()) {
-				cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
-				continue;
-			}
-			if (s->getColaboradores()->buscarColaboradorPorCed(cedula) &&!s->getColaboradores()->buscarColaboradorPorCed(cedula)) {
-				cout << "El colaborador no existe. Intente de nuevo." << endl;
-				continue;
-			}
-			s->getSolicitudes()->reportesAlquilerPorColaborador(cedula);
-			char opcion;
-			do {
-				cout << endl << "Desea ver detalladamente alguna solicitud o contrato realizado por este colaborador? (s/n): ";
-				cin >> opcion;
-				if (opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
-					cout << "Opcion invalida. Intente de nuevo." << endl;
-					continue;
-				}
-
-				if (opcion == 's' || opcion == 'S') {
-					string codigo;
-					do {
-						cout << "Ingrese el codigo de la solicitud o contrato: ";
-						cin >> codigo;
-						if (codigo.empty()) {
-							cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
-							continue;
+				s->getSolicitudes()->reportesAlquilerPorColaborador(cedula);
+				char opcionDetalle;
+				while (true) {
+					cout << endl << "Desea ver detalladamente alguna solicitud o contrato realizado por este colaborador? (s/n): ";
+					cin >> opcionDetalle;
+					cin.ignore(10000, '\n');
+					if (opcionDetalle == 's' || opcionDetalle == 'S') {
+						string codigo;
+						while (true) {
+							cout << "Ingrese el codigo de la solicitud o contrato (o 'q' para cancelar): ";
+							cin >> codigo;
+							cin.ignore(10000, '\n');
+							if (codigo == "q" || codigo == "Q") break;
+							if (codigo.empty()) {
+								cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+								continue;
+							}
+							system("cls");
+							s->getSolicitudes()->mostrarSolicitudEspecifica(codigo);
+							break;
 						}
-						system("cls");
-						s->getSolicitudes()->mostrarSolicitudEspecifica(codigo);
 						break;
-					} while (true);
-				} 
-
-			}while (true);
-
-			do{
-			cout << endl << "Desea ver los contratos de otro colaborador? (s/n): ";
-			cin >> opcion;
-			if(opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
-				cout << "Opcion invalida. Intente de nuevo." << endl;
-				continue;
+					}
+					else if (opcionDetalle == 'n' || opcionDetalle == 'N') {
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+				char opcionOtro;
+				while (true) {
+					cout << endl << "Desea ver los contratos de otro colaborador? (s/n): ";
+					cin >> opcionOtro;
+					cin.ignore(10000, '\n');
+					if (opcionOtro == 's' || opcionOtro == 'S') break;
+					if (opcionOtro == 'n' || opcionOtro == 'N') { seguir = false; break; }
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
 			}
-			
-			break;
-			} while (true);
-			if (opcion == 's' || opcion == 'S') continue;
-			break;
-		} while (true);
+			cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+			cin.get();
 			break;
 		}
+
 		case 5: {
-			cout << "Volviendo al Submenu de Sucursales..." << endl;
 			subMenuSucursales(s->getNumSucursal());
-			break;
+			return;
 		}
+
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
-			cin.ignore(10000, '\n');
-			continue;
+			break;
 		}
 		}
 	} while (respuesta != 5);

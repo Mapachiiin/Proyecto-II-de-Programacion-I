@@ -6,6 +6,8 @@ using namespace std;
 
 int main() {
 	Control* menu = new Control();
+	Quemados* quemar= new Quemados(menu);
+	quemar->quemarDatos();
 	menu->menuPrincipal();
 	delete menu;
 	/*

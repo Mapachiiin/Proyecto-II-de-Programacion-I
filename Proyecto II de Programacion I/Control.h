@@ -1,13 +1,11 @@
 #pragma once
 #include "ListaSucursales.h"
-#include "Control.h"
 #include "Sucursal.h"
 #include "Colaborador.h"
 #include "Cliente.h"
 #include "Vehiculo.h"
 #include "Plantel.h"
 #include "SoliAlquiyContra.h"
-#include "Quemados.h"
 #include <string>
 #include <iostream>
 #include <sstream>

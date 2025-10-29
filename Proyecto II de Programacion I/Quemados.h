@@ -1,9 +1,12 @@
 #pragma once
+#include "Control.h"
+
 class Quemados
 {
+private:
+	Control* control;
 public:
-	Quemados();
+	Quemados(Control* c);
 	~Quemados();
 	void quemarDatos();
 };
-

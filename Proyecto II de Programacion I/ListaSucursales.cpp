@@ -1,20 +1,16 @@
 #include "ListaSucursales.h"
+#include "NodoSucursal.h"
+
 ListaSucursales::ListaSucursales(): inicio(nullptr), tam(0) {}
 ListaSucursales::~ListaSucursales(){
-	if (!inicio) return;
 	NodoSucursal* actual = inicio;
-	NodoSucursal* siguiente = actual->getSiguiente();
 	while (actual) {
-		if (siguiente) {
-			delete actual;
-			actual = siguiente;
-			siguiente = actual->getSiguiente();
-		}
-		else {
-			delete actual;
-			actual = nullptr;
-		}
+		NodoSucursal* siguiente = actual->getSiguiente();
+		delete actual;
+		actual = siguiente;
 	}
+	inicio = nullptr;
+	tam = 0;
 }
 void ListaSucursales::agregarSucursal(Sucursal* s){
 	if (!s) return;

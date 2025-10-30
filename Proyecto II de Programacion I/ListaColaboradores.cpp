@@ -5,11 +5,14 @@ using namespace std;
 
 ListaColaboradores::ListaColaboradores() : inicio(nullptr), tam(0) {}
 ListaColaboradores::~ListaColaboradores(){
-	while (inicio) {
-		NodoColaborador* temp = inicio;
-		inicio = inicio->getNodoSig();
-		delete temp;
+    NodoColaborador* actual = inicio;
+	while (actual) {
+		NodoColaborador* temp = actual->getNodoSig();
+		delete actual;
+        actual = temp;
 	}
+    inicio = nullptr;
+    tam = 0;
 }
 bool ListaColaboradores::agregarColaborador(Colaborador* c){
 	if (!c) return false;

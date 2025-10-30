@@ -1,4 +1,5 @@
 #include "ListaPlanteles.h"
+#include "NodoPlantel.h"
 #include <string>
 #include <iostream>
 using namespace std;
@@ -9,21 +10,14 @@ static const string ORIGINAL = "\033[0m";
 
 ListaPlanteles::ListaPlanteles() :inicio(nullptr), tam(0) {}
 ListaPlanteles::~ListaPlanteles() {
-	if (!inicio) return;
-	if( tam==1){
-		delete inicio;
-		return;
-	}
 	NodoPlantel* actual = inicio;
-	NodoPlantel* anterior = nullptr;
 	while (actual) {
-		if (anterior) {
-			delete anterior;
-		}
-		anterior = actual;
-		actual = actual->getNodoSig();
+		NodoPlantel* siguiente = actual->getNodoSig();
+		delete actual;
+		actual = siguiente;
 	}
-
+	inicio = nullptr;
+	tam = 0;
 }
 void ListaPlanteles::agregarPlantel(Plantel* p) {
 	if (!p) return;

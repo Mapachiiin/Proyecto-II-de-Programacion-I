@@ -14,6 +14,6 @@ public:
 	int getDia();
 	int getMes();
 	int getAnio();
-	static Fecha* obtenerFechaActual();
+	static Fecha obtenerFechaActual();
 	string toString();
 };

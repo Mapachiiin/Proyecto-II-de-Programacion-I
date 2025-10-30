@@ -3,9 +3,9 @@
 #include "Fecha.h"
 class Colaborador:public Persona {
 private:
-	Fecha* fechaIngre;
+	Fecha fechaIngre;
 public:
-	Colaborador(string ced, string nom, Fecha* fecha);
+	Colaborador(string ced, string nom, Fecha fecha);
 	~Colaborador();
 	string toString();
 };

@@ -8,18 +8,13 @@ using namespace std;
 ListaSolisyContras::ListaSolisyContras(): inicio(nullptr), tam(0) {}
 ListaSolisyContras::~ListaSolisyContras() {
 	NodoSoliyContra* actual = inicio;
-	NodoSoliyContra* siguiente = actual->getNodoSig();
 	while (actual) {
-		if (siguiente) {
-			delete actual;
-			actual = siguiente;
-			siguiente = actual->getNodoSig();
-		}
-		else {
-			delete actual;
-			actual = nullptr;
-		}
+		NodoSoliyContra* siguiente = actual->getNodoSig();
+		delete actual; 
+		actual = siguiente;
 	}
+	inicio = nullptr;
+	tam = 0;
 }
 void ListaSolisyContras::agregarSolicitud(SoliAlquiyContra* s){
 	if (!s) return;

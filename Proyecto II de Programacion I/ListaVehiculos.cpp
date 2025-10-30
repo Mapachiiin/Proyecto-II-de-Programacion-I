@@ -1,4 +1,5 @@
 #include "ListaVehiculos.h"
+#include "NodoVehiculo.h"
 #include <string>
 using namespace std;
 
@@ -6,11 +7,13 @@ using namespace std;
 
 	ListaVehiculos::~ListaVehiculos(){
 		NodoVehiculo* actual = inicio;
-		while (actual != nullptr) {
+		while (actual) {
 			NodoVehiculo* siguiente = actual->getNodoSig();
 			delete actual;
 			actual = siguiente;
 		}
+		inicio = nullptr;
+		tam = 0;
 	}
 
 	void ListaVehiculos::agregarVehiculo(Vehiculo* v){

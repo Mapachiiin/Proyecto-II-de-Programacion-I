@@ -4,11 +4,13 @@
 
 ListaBitacorasEstado::ListaBitacorasEstado() :inicio(nullptr), tam(0) {}
 ListaBitacorasEstado::~ListaBitacorasEstado() {
-	while (inicio != nullptr) {
-		NodoBitacoraEstado* temp = inicio;
-		inicio = inicio->getNodoSig();
-		delete temp;
+	NodoBitacoraEstado* actual = inicio;
+	while (actual) {
+		NodoBitacoraEstado* siguiente = actual->getNodoSig();
+		delete actual;
+		actual = siguiente;
 	}
+	inicio = nullptr;
 	tam = 0;
 }
 void ListaBitacorasEstado::agregarBitacora(int estado, Colaborador* c, Fecha* fAtc) {

@@ -1,22 +1,17 @@
 #include "ListaClientes.h"
+#include "NodoCliente.h"
 
 ListaClientes::ListaClientes() : inicio(nullptr), tam(0) {}
 NodoCliente* ListaClientes::getInicio() { return inicio; }
 ListaClientes::~ListaClientes() {
-	if (!inicio) return;
 	NodoCliente* actual = inicio;
-	NodoCliente* siguiente = actual->getNodoSig();
 	while (actual) {
-		if (siguiente) {
-			delete actual;
-			actual = siguiente;
-			siguiente = actual->getNodoSig();
-		}
-		else {
-			delete actual;
-			actual = nullptr;
-		}
+		NodoCliente* siguiente = actual->getNodoSig();
+		delete actual;
+		actual = siguiente;
 	}
+	inicio = nullptr;
+	tam = 0;
 }
 void ListaClientes::agregarCliente(Cliente* c){
 	if (!c) return;

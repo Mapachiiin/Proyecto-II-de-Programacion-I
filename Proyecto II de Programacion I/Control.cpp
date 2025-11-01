@@ -120,7 +120,7 @@ void Control::subMenuSucursales(int numSucursal) {
 			subMenuVehiculosyPlanteles(sGestionar);
 			break;
 		case 4:
-			//submenuSolicitudesYContratos(sGestionar);
+			submenuSolicitudesYContratos(sGestionar);
 			break;
 		case 5:
 			cout << "Volviendo al Menu Principal..." << endl;
@@ -133,6 +133,7 @@ void Control::subMenuSucursales(int numSucursal) {
 	} while (respuesta != 5);
 	return;
 }
+
 void Control::subMenuColaboradores(Sucursal* s) {
 	if (!s) return;
 	int respuesta = 0;
@@ -889,7 +890,95 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 
 	} while (resp != 11);
 }
-//void Control::subMenuSolicitudesYContratos(Sucursal* s) {}
+void Control::subMenuSolicitudesYContratos(Sucursal* s) {
+	int resp = 0;
+	do {
+		cout << "-----Submenu de Solicitudes y Contratos-----" << endl << endl;
+		cout << "1. Crear Solicitud de Alquiler" << endl;
+		cout << "2. Aprobar/Rechazar Solicitud de Alquiler" << endl;
+		cout << "3. Mostrar Solicitudes/Contratos de Alquiler de la sucursal" << endl;
+		cout << "4. Mostrar Solicitud/Contrato de Alquiler especifico" << endl;
+		cout << "5. Recepcion de vehiculos" << endl;
+		cout << "6. Reportes de Solicitudes y Contratos" << endl;
+		cout << "7. Volver al Submenu de Sucursales" << endl << endl;
+		cout << "Ingrese una opcion: ";
+		cin >> resp;
+		cin.ignore(10000, '\n');
+		switch (resp) {
+		case 1: {
+			funcionCrearSolicitudDeAlquiler(s);
+			break;
+		}
+		case 2: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes en esta sucursal para aprobar o rechazar." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionAprobarRechazarSolicitudDeAlquiler(s);
+			break;
+		}
+		case 3: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes o contratos en esta sucursal para mostrar." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(s);
+			break;
+		}
+		case 4: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes o contratos en esta sucursal para mostrar." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionMostrarSolicitudContratoEspecifico(s);
+			break;
+		}
+		case 5: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes o contratos en esta sucursal para recepcion de vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionRecepcionDeVehiculos(s);
+			break;
+
+		}
+		case 6: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes o contratos en esta sucursal para generar reportes." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionReportesDeSolicitudesYContratos(s);
+			break;
+		}
+		case 7: {
+			cout << "Volviendo al Submenu de Sucursales..." << endl;
+			subMenuSucursales(s->getNumSucursal());
+			break;
+		}
+		default: {
+			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+
+	} while (resp != 7);
+}
 
 void Control::funcionAgregarPlantel(Sucursal* s) {
 	string tipo;
@@ -1070,6 +1159,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 	}
 	return;
 }
+//Falta agregar el vehiculo a un espacio de estacionamiento libre del plantel
 void Control::funcionEliminarVehiculo(Sucursal* s) {
 	string placa;
 	bool seguir = true;
@@ -1499,4 +1589,31 @@ void Control::funcionPorcentajeOcupacionPlanteles(Sucursal* s) {
 	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
 	cin.get();
 }
-void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {}
+
+void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
+
+}
+
+void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
+
+}
+
+void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s){
+
+}
+
+void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal* s){
+
+}
+
+void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s){
+
+}
+
+void Control::funcionRecepcionDeVehiculos(Sucursal* s){
+
+}
+
+void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s){
+
+}

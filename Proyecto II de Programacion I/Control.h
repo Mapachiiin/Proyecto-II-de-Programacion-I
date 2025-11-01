@@ -27,7 +27,7 @@ public:
     void subMenuColaboradores(Sucursal* s);
 	void subMenuClientes(Sucursal* s);
     void subMenuVehiculosyPlanteles(Sucursal* s);
-	//void subMenuSolicitudesYContratos(Sucursal* s);
+	void subMenuSolicitudesYContratos(Sucursal* s);
 
 	//Funciones para no hacer mis switch tan largos :D
 	void funcionAgregarPlantel(Sucursal* s);
@@ -39,7 +39,12 @@ public:
 	void funcionEstadosVehiculo(Sucursal* s);
 	void funcionPorcentajeOcupacionPlanteles(Sucursal* s);
 	void funcionTrasladoVehiculosEntreSucursales(Sucursal* s);
-
+	void funcionCrearSolicitudDeAlquiler(Sucursal* s);
+	void funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s);
+	void funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal* s);
+	void funcionMostrarSolicitudContratoEspecifico(Sucursal* s);
+	void funcionRecepcionDeVehiculos(Sucursal* s);
+	void funcionReportesDeSolicitudesYContratos(Sucursal* s);
 
 };
 

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estadoActual(estadoRevision) {
+Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estadoActual(estadoRevision), precio(0), categoria('N') {
 	listaBE = new ListaBitacorasEstado();
 	if (cat == 'A' || cat == 'B' || cat == 'C' || cat == 'D') {
 		switch (cat) {
@@ -40,15 +40,13 @@ Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) :
 	else {
 		precio = 0;
 		cate = "No determinado";
+		categoria = 'N';
 	}
 }
-
 Vehiculo::~Vehiculo() {
 	delete listaBE;
 }
-
 string Vehiculo::estado[5] = { "Disponible", "Alquilado", "Devuelto", "Revision", "Lavado" };
-
 bool Vehiculo::transPermitida[5][5] = {
 { false, true, false, true, true },  // Desde Disponible
 { false, false, true, false, false},  // Desde Alquilado
@@ -56,7 +54,6 @@ bool Vehiculo::transPermitida[5][5] = {
 { false, false, false, false, true },  // Desde Revision
 { true, false, false, true, false }   // Desde Lavado
 };
-
 string Vehiculo::getPlaca() { return placa; }
 string Vehiculo::getModelo() { return model; }
 string Vehiculo::getMarca() { return marca; }
@@ -70,7 +67,6 @@ bool Vehiculo::puedeCambiarEstado(int estActual, int estNuevo) {
 	if (estActual < 0 || estActual>4 || estNuevo < 0 || estNuevo>4) return false;
 	return transPermitida[estActual][estNuevo];
 }
-
 void Vehiculo::cambiarEstado(int nEstado, Colaborador* cola, Fecha* fAct) {
 	if (!cola || !fAct) return;
 	if (!puedeCambiarEstado(estadoActual, nEstado)) {
@@ -80,6 +76,7 @@ void Vehiculo::cambiarEstado(int nEstado, Colaborador* cola, Fecha* fAct) {
 	if (puedeCambiarEstado(estadoActual, nEstado)) {
 		listaBE->agregarBitacora(estadoActual, nEstado, cola, fAct);
 		this->estadoActual = nEstado;
+		cout << "Cambio de estado realizado exitosamente: " << estado[estadoActual] << " -> " << estado[nEstado] << endl;
 		return;
 	}
 	else {
@@ -88,12 +85,9 @@ void Vehiculo::cambiarEstado(int nEstado, Colaborador* cola, Fecha* fAct) {
 
 
 }
-
 void Vehiculo::mostrarBitacora() {
 	listaBE->mostrarBitacora();
-
 }
-
 string Vehiculo::toString() {
 	stringstream ss;
 	ss << "Placa: " << placa << "\n";

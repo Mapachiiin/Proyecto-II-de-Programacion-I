@@ -35,7 +35,10 @@ public:
     void funcionEliminarVehiculo(Sucursal* s);
     void funcionVisualizacionVehiculo(Sucursal* s);
 	void funcionReubicarVehiculo(Sucursal* s);
-
+	void funcionCambioEstadoVehiculo(Sucursal* s);
+	void funcionEstadosVehiculo(Sucursal* s);
+	void funcionPorcentajeOcupacionPlanteles(Sucursal* s);
+	void funcionTrasladoVehiculosEntreSucursales(Sucursal* s);
 
 
 };

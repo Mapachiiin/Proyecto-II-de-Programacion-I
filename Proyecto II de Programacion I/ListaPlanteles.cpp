@@ -119,3 +119,22 @@ bool ListaPlanteles::eliminarPlantel(char letra) {
 	}
 	return false;
 }
+double ListaPlanteles::reporteDePorcentajeDeOcupacionDeLosPlanteles() {
+	if (!inicio) return 0.0;
+	NodoPlantel* actual = inicio;
+	int totalEspacios = 0;
+	int espaciosOcupados = 0;
+	while (actual) {
+		Plantel* p = actual->getDato();
+		if (p) {
+			EspacioEstacionamiento* espacio = p->getEstacionamiento();
+			if (espacio) {
+				totalEspacios += espacio->getCapMax();
+				espaciosOcupados += (espacio->getCapMax() - espacio->contarEspaciosVacios());
+			}
+		}
+		actual = actual->getNodoSig();
+	}
+	if (totalEspacios == 0) return 0.0;
+	return (double)espaciosOcupados / (double)totalEspacios * 100.0;
+}

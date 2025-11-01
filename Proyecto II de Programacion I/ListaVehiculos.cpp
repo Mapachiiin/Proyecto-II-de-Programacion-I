@@ -110,36 +110,6 @@ using namespace std;
 			actual = actual->getNodoSig();
 		}
 	}
-	double ListaVehiculos::reporteDePorcentajeDeOcupacionDelPlantel(EspacioEstacionamiento* espacios){
-		if (!espacios) return 0.0;
-		int totalEspacios = espacios->getCapMax();
-		if (totalEspacios == 0) return 0.0;
-		int espaciosVacios = espacios->contarEspaciosVacios();
-		double ocupacion = ((totalEspacios - espaciosVacios) / (double)totalEspacios) * 100.0;
-		return ocupacion;
-	}
-	/*void ListaVehiculos::trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino) {
-		if (!destino) return;
-		NodoVehiculo* actual = inicio;
-		NodoVehiculo* anterior = nullptr;
-		while (actual) {
-			if (actual->getDato()->getPlaca() == placa) {
-				if (anterior) {
-					anterior->setNodoSig(actual->getNodoSig());
-				}
-				else {
-					inicio = actual->getNodoSig();
-				}
-				tam--;
-				destino->agregarVehiculo(actual->getDato());
-				delete actual;
-				return;
-			}
-			anterior = actual;
-			actual = actual->getNodoSig();
-		}
-		return;
-	}*/
 	bool ListaVehiculos::eliminarVehiculo(string placa){
 		if (!inicio) return false;
 		NodoVehiculo* actual = inicio;
@@ -161,3 +131,24 @@ using namespace std;
 		}
 		return false;
 	}
+	void ListaVehiculos::trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino) {}
+	/*if (!destino) return;
+	NodoVehiculo* actual = inicio;
+	NodoVehiculo* anterior = nullptr;
+	while (actual) {
+		if (actual->getDato()->getPlaca() == placa) {
+			if (anterior) {
+				anterior->setNodoSig(actual->getNodoSig());
+			}
+			else {
+				inicio = actual->getNodoSig();
+			}
+			tam--;
+			destino->agregarVehiculo(actual->getDato());
+			delete actual;
+			return;
+		}
+		anterior = actual;
+		actual = actual->getNodoSig();
+	}
+	return; */

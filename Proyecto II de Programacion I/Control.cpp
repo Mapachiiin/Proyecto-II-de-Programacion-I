@@ -362,7 +362,6 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			subMenuSucursales(s->getNumSucursal());
 			break;
 		}
-
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
 			break;
@@ -632,7 +631,6 @@ void Control::subMenuClientes(Sucursal* s) {
 		} 
 	}while (respuesta != 5);
 }
-
 void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 	int resp = 0;
 	do {
@@ -711,7 +709,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			funcionAgregarVehiculo(s);
 			break;
 		}
-		case 4:{
+		case 4: {
 			funcionEliminarVehiculo(s);
 			break;
 		}
@@ -721,6 +719,27 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		}
 		case 6: {
 			funcionReubicarVehiculo(s);
+			break;
+		}
+		case 7: {
+			funcionCambioEstadoVehiculo(s);
+			break;
+		}
+		case 8: {
+			funcionEstadosVehiculo(s);
+			break;
+		}
+		case 9: {
+			funcionPorcentajeOcupacionPlanteles(s);
+			break;
+		}
+		case 10: {
+			funcionTrasladoVehiculosEntreSucursales(s);
+			break;
+		}
+		case 11: {
+			cout << "Volviendo al Submenu de Sucursales..." << endl;
+			subMenuSucursales(s->getNumSucursal());
 			break;
 		}
 		default: {
@@ -1155,3 +1174,193 @@ void Control::funcionReubicarVehiculo(Sucursal* s) {
 		}
 	}
 }
+void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
+	if (!s) return;
+	bool seguir = true;
+	while (true) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			return;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosSimple();
+		string placa;
+		while (true) {
+			cout << endl << "Ingrese la placa del vehiculo cuyo estado desea cambiar: ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		system("cls");
+		s->getColaboradores()->mostrarColaboradores();
+
+		Colaborador* c = nullptr;
+		while (true) {
+			cout << "Ingrese la cedula del colaborador que realiza el cambio de estado: ";
+			string cedColaborador;
+			cin >> cedColaborador;
+			cin.ignore(10000, '\n');
+			if (cedColaborador.empty()) {
+				cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!s->getColaboradores()->buscarColaboradorPorCed(cedColaborador)) {
+				cout << "El colaborador no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			Colaborador* c = s->getColaboradores()->buscarColaboradorPorCed(cedColaborador);
+		}
+
+		int opcion;
+		while (true) {
+			system("cls");
+			cout << "Estado actual del vehiculo: " << v->getEstadoNombre() << endl;
+			cout << "Seleccione el nuevo estado del vehiculo:" << endl;
+			cout << "1. Disponible" << endl;
+			cout << "2. Alquilado" << endl;
+			cout << "3. Devuelto" << endl;
+			cout << "4. Revision" << endl;
+			cout << "5. Lavado" << endl;
+			cout << "Ingrese una opcion: ";
+			cin >> opcion;
+			cin.ignore(10000, '\n');
+
+			switch (opcion) {
+			case 1: {
+				v->cambiarEstado(0, c, fechaActual);
+				break;
+			}
+			case 2: {
+				v->cambiarEstado(1, c, fechaActual);
+				break;
+			}
+			case 3: {
+				v->cambiarEstado(2, c, fechaActual);
+				break;
+			}
+			case 4: {
+				v->cambiarEstado(3, c, fechaActual);
+				break;
+			}
+			case 5: {
+				v->cambiarEstado(4, c, fechaActual);
+				break;
+			}
+			default:
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			break;
+		}
+		char op;
+		while (true) {
+			cout << "Desea cambiar el estado de otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+}
+void Control::funcionEstadosVehiculo(Sucursal* s) {
+	if (!s) return;
+	string placa;
+	bool seguir = true;
+	while (seguir) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel se encuentra el vehiculo? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosSimple();
+		while (true) {
+			cout << endl << "Ingrese la placa del vehiculo para ver sus estados: ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		if(!v) {
+			cout << "Vehiculo no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		v->mostrarBitacora();
+		cout << endl;
+		char op;
+		while (true) {
+			cout << "Desea ver los estados de otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+}
+void Control::funcionPorcentajeOcupacionPlanteles(Sucursal* s) {
+	if (!s) return;
+	system("cls");
+	cout << "El porcentaje de ocupacion de los planteles es: " << s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() << "%" << endl;
+	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+	cin.get();
+}
+void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {}

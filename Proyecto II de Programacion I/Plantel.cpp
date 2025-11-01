@@ -1,6 +1,9 @@
 #include "Plantel.h"
 
-Plantel::Plantel() : letra(' '), tipo(" "), capMax(0) { estacionamiento = new EspacioEstacionamiento(capMax); }
+Plantel::Plantel() : letra(' '), tipo(" "), capMax(0) {
+	estacionamiento = new EspacioEstacionamiento(capMax); 
+	listaVehiculos = new ListaVehiculos();
+}
 
 Plantel::Plantel(char letra, string tipo, int capMax) {
 	this->letra = letra;
@@ -9,12 +12,10 @@ Plantel::Plantel(char letra, string tipo, int capMax) {
 	estacionamiento = new EspacioEstacionamiento(capMax);
 	listaVehiculos = new ListaVehiculos();
 }
-
 Plantel::~Plantel() {
 	delete estacionamiento;
 	delete listaVehiculos;
 }
-
 char Plantel::getLetra() { return letra; }
 ListaVehiculos* Plantel::getListaVehiculos() { return listaVehiculos; }
 string Plantel::getTipo() { return tipo; }

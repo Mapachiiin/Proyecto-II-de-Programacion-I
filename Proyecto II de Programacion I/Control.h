@@ -27,7 +27,7 @@ public:
     void subMenuColaboradores(Sucursal* s);
 	void subMenuClientes(Sucursal* s);
     void subMenuVehiculosyPlanteles(Sucursal* s);
-	//void submenuSolicitudesYContratos(Sucursal* s);
+	//void subMenuSolicitudesYContratos(Sucursal* s);
 
 	//Funciones para no hacer mis switch tan largos :D
 	void funcionAgregarPlantel(Sucursal* s);

@@ -82,8 +82,7 @@ void Control::menuPrincipal() {
 		}
 		case 5:
 			cout << "Saliendo del programa..." << endl;
-			delete listaSucursales;
-			exit(0);
+			return;
 		default:
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
 			cin.ignore(10000, '\n');
@@ -134,7 +133,6 @@ void Control::subMenuSucursales(int numSucursal) {
 	} while (respuesta != 5);
 	return;
 }
-
 void Control::subMenuColaboradores(Sucursal* s) {
 	if (!s) return;
 	int respuesta = 0;
@@ -314,7 +312,6 @@ void Control::subMenuColaboradores(Sucursal* s) {
 
 				cout << endl << "Ingrese la cedula del colaborador para ver su historial (o 'n' para salir): ";
 				getline(cin, cedula);
-				cin.ignore(10000, '\n');
 				if (cedula == "n" || cedula == "N") break;
 				if (cedula.empty()) {
 					cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
@@ -679,7 +676,7 @@ void Control::subMenuClientes(Sucursal* s) {
 			continue;
 		}
 		} 
-	}while (respuesta != 5);
+	}while (respuesta != 6);
 }
 void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 	int resp = 0;
@@ -892,9 +889,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 
 	} while (resp != 11);
 }
-
-
-
+//void Control::subMenuSolicitudesYContratos(Sucursal* s) {}
 
 void Control::funcionAgregarPlantel(Sucursal* s) {
 	string tipo;
@@ -1001,7 +996,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
-		if(s->getPlanteles()){
+		if(s->getPlanteles()->getTam() == 0){
 			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
 			cin.get();
 			return;
@@ -1035,7 +1030,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 			cin >> cate;
 			cin.ignore(10000, '\n');
 			cate = toupper(cate); //..................... No sabia que existia esta funcion............... Mucho tiempo desperdiciado
-			if (cate < 'A' || cate > 'E') {
+			if (cate < 'A' || cate > 'D') {
 				cout << "Categoria invalida. Intente de nuevo." << endl;
 				continue;
 			}
@@ -1085,7 +1080,7 @@ void Control::funcionEliminarVehiculo(Sucursal* s) {
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
-		if(!s->getPlanteles()){
+		if(s->getPlanteles()->getTam() == 0){
 			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
 			cin.get();
 			return;
@@ -1187,7 +1182,7 @@ void Control::funcionVisualizacionVehiculo(Sucursal* s) {
 		}
 		break;
 	}
-		p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa)->toString();
+		cout << p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa)->toString()<<endl;
 		char op;
 		while (true) {
 			cout << "Desea visualizar otro vehiculo? (s/n): ";
@@ -1366,13 +1361,13 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 				cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
 				continue;
 			}
-			if (!s->getColaboradores()->buscarColaboradorPorCed(cedColaborador)) {
+			c = s->getColaboradores()->buscarColaboradorPorCed(cedColaborador); 
+			if (!c) {
 				cout << "El colaborador no existe. Intente de nuevo." << endl;
 				continue;
 			}
-			Colaborador* c = s->getColaboradores()->buscarColaboradorPorCed(cedColaborador);
+			break; 
 		}
-
 		int opcion;
 		while (true) {
 			system("cls");

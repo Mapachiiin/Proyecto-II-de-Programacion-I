@@ -3,58 +3,97 @@
 
 using namespace std;
 
-Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estadoActual(estadoRevision){
+Vehiculo::Vehiculo(string plac, string mode, string marc, char cat, char lice) : placa(plac), model(mode), marca(marc), licencia(lice), estadoActual(estadoRevision) {
+	listaBE = new ListaBitacorasEstado();
 	if (cat == 'A' || cat == 'B' || cat == 'C' || cat == 'D') {
 		switch (cat) {
 		case 'A':
 		{
-			precio = 0;
+			precio = 50000;
 			cate = "Economico";
-				break;
+			categoria = 'A';
+			break;
 		}
 		case 'B':
 		{
-			precio = 0;
+			precio = 75000;
 			cate = "Estandar";
-				break;
+			categoria = 'B';
+			break;
 		}
 		case 'C':
 		{
-			precio = 0;
+			precio = 150000;
 			cate = "Lujo";
-				break;
+			categoria = 'C';
+			break;
 		}
 		case 'D':
 		{
-			precio = 0;
+			precio = 120000;
 			cate = "4x4";
-				break;
+			categoria = 'D';
+			break;
 		}
 		}
-	} else { 
+	}
+	else {
 		precio = 0;
 		cate = "No determinado";
 	}
 }
 
-string Vehiculo::getPlaca() { return placa; }
-int Vehiculo::getEstado() { return estadoActual; }
-bool Vehiculo::puedeCambiarEstado(int estadoActual, int estadoNuevo) {
-	if (estadoActual < 0 || estadoActual>4 || estadoNuevo < 0 || estadoNuevo>4) return false;
-	return transPermitida[estadoActual][estadoNuevo];
+Vehiculo::~Vehiculo() {
+	delete listaBE;
 }
 
-void Vehiculo::cambiarEstado(int estado, Colaborador* cola, Fecha* fAct) {
-	if (puedeCambiarEstado(estadoActual, estado)) {
-		this->estadoActual = estado;
-		listaBE->agregarBitacora(estado, cola, fAct); // CAMBIAR ESTA VERGA, LA BITACORA NECESITA UN PICHAZO DE COSAS MAAAAAAAAAAAAAAAAS
+string Vehiculo::estado[5] = { "Disponible", "Alquilado", "Devuelto", "Revision", "Lavado" };
+
+bool Vehiculo::transPermitida[5][5] = {
+{ false, true, false, true, true },  // Desde Disponible
+{ false, false, true, false, false},  // Desde Alquilado
+{ false, false, false, true, true },  // Desde Devuelto
+{ false, false, false, false, true },  // Desde Revision
+{ true, false, false, true, false }   // Desde Lavado
+};
+
+string Vehiculo::getPlaca() { return placa; }
+string Vehiculo::getModelo() { return model; }
+string Vehiculo::getMarca() { return marca; }
+string Vehiculo::getCategoria() { return cate; }
+char Vehiculo::getCategoriaChar() { return categoria; }
+string Vehiculo::getEstadoNombre() { return estado[estadoActual]; }
+double Vehiculo::getPrecio() { return precio; }
+char Vehiculo::getLicencia() { return licencia; }
+int Vehiculo::getEstado() { return estadoActual; }
+bool Vehiculo::puedeCambiarEstado(int estActual, int estNuevo) {
+	if (estActual < 0 || estActual>4 || estNuevo < 0 || estNuevo>4) return false;
+	return transPermitida[estActual][estNuevo];
+}
+
+void Vehiculo::cambiarEstado(int nEstado, Colaborador* cola, Fecha* fAct) {
+	if (!cola || !fAct) return;
+	if (!puedeCambiarEstado(estadoActual, nEstado)) {
+		cout << "Cambio de estado no permitido" << endl << estado[estadoActual] << " -> " << estado[nEstado] << endl;
+		return;
+	}
+	if (puedeCambiarEstado(estadoActual, nEstado)) {
+		listaBE->agregarBitacora(estadoActual, nEstado, cola, fAct);
+		this->estadoActual = nEstado;
+		return;
 	}
 	else {
 		return;
 	}
-	
-	
+
+
 }
+
+void Vehiculo::mostrarBitacora() {
+	listaBE->mostrarBitacora();
+
+}
+
 string Vehiculo::toString() {
 	stringstream ss;
 	ss << "Placa: " << placa << "\n";

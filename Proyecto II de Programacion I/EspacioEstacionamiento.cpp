@@ -49,6 +49,9 @@ EspacioEstacionamiento::~EspacioEstacionamiento() {
 	delete[] espacios;
     }
 }
+int EspacioEstacionamiento::getCapMax() { return nF * nC; }
+int EspacioEstacionamiento::getnF() { return nF; }
+int EspacioEstacionamiento::getnC() { return nC; }
 string EspacioEstacionamiento::espacioRecomendado() {
 	if (!espacios) return "No hay espacios disponibles";
     int maxVecinos=-1, mejorF=-1, mejorC=-1; //Los -1 es para que no entre al ultimo if si no hay ningun espacio disponible
@@ -82,24 +85,42 @@ string EspacioEstacionamiento::espacioRecomendado() {
     return "No hay espacios disponibles";
 }
 int EspacioEstacionamiento::cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, int posNueva) {
-    if (!v || !espacios) return -1; // Espacios nulos o vehiculo nulo
+    if (!v || !espacios) return -1;
     int filaVieja = posVieja / nC;
     int colVieja = posVieja % nC;
     int filaNueva = posNueva / nC;
     int colNueva = posNueva % nC;
     if (filaVieja < 0 || filaVieja >= nF || colVieja < 0 || colVieja >= nC ||
         filaNueva < 0 || filaNueva >= nF || colNueva < 0 || colNueva >= nC) {
-        return -2; // Alguna de las posiciones fuera de rango
+        return -2;
     }
     if (espacios[filaVieja][colVieja] != v) {
-        return -3; // El vehículo no esta en la posicion vieja
+        return -3;
     }
     if (espacios[filaNueva][colNueva] != nullptr) {
-        return -4; // La posicion nueva ya esta ocupada
+        return -4;
     }
     espacios[filaNueva][colNueva] = v;
     espacios[filaVieja][colVieja] = nullptr;
-    return 0; // Éxito
+    return 0; 
+}
+int EspacioEstacionamiento::obtenerFilaVehiculo(Vehiculo* v) {
+    if (!v || !espacios) return -1;
+    for (int i = 0;i < nF;i++) {
+        for (int j = 0;j < nC;j++) {
+            if (espacios[i][j] == v) return i;
+        }
+    }
+    return -2; // Vehiculo no encontrado
+}
+int EspacioEstacionamiento::obtenerColumnaVehiculo(Vehiculo* v) {
+    if (!v || !espacios) return -1;
+    for (int i = 0;i < nF;i++) {
+        for (int j = 0;j < nC;j++) {
+            if (espacios[i][j] == v) return j;
+        }
+    }
+    return -2; // Vehiculo no encontrado
 }
 int EspacioEstacionamiento::contarEspaciosVacios() {
     int eT = 0;
@@ -128,13 +149,13 @@ bool EspacioEstacionamiento::esPrimo(int num) {
     }
     return true;
 }
-void EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C) {
+bool EspacioEstacionamiento::agregarVehiculoEnEspacio(Vehiculo* v, int F, int C) {
     if (F >= 0 && F < nF && C >= 0 && C < nC && !espacios[F][C]) {
         espacios[F][C] = v;
-        return;
+        return true;
     }
 	cout << "Espacio no disponible o fuera de rango" << endl;
-    return;
+    return false;
 }
 bool EspacioEstacionamiento::estaOcupado(int f, int c) {
     if (f >= 0 && f < nF && c >= 0 && c < nC) {

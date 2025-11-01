@@ -3,8 +3,8 @@
 #include <sstream>
 using namespace std;
 
-Colaborador::Colaborador(string ced, string nom, Fecha fecha){
-	this->fechaIngre= fecha.obtenerFechaActual();
+Colaborador::Colaborador(string ced, string nom, Fecha* fecha){
+	this->fechaIngre= fecha;
 	setCedula(ced);
 	setNombre(nom);
 }
@@ -12,6 +12,6 @@ Colaborador::~Colaborador(){}
 
 string Colaborador::toString(){
 	stringstream ss;
-	ss << "Colaborador: " << nombre << " | Cedula: " << cedula << " | Fecha de Ingreso: " << fechaIngre.toString();
+	ss << "Colaborador: " << nombre << " | Cedula: " << cedula << " | Fecha de Ingreso: " << fechaIngre->toString();
 	return ss.str();
 }

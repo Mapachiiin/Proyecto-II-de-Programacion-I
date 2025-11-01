@@ -23,13 +23,15 @@ public:
 	~EspacioEstacionamiento();
 	string espacioRecomendado();
 	int cambiarVehiculoDeEspacio(Vehiculo* v, int posVieja, int posNueva);
-	int getCapMax() { return nF * nC; }
-	int getnF() { return nF; }
-	int getnC() { return nC; }
+	int obtenerFilaVehiculo(Vehiculo* v);
+	int obtenerColumnaVehiculo(Vehiculo* v);
+	int getCapMax();
+	int getnF();
+	int getnC();
 	bool estaOcupado(int nF, int nC);
 	int contarEspaciosVacios();
 	void eliminarVehiAlquilado(Vehiculo* elimi);
 	bool esPrimo(int num);
-	void agregarVehiculoEnEspacio(Vehiculo* v, int nF, int nC);
+	bool agregarVehiculoEnEspacio(Vehiculo* v, int nF, int nC);
 };
 

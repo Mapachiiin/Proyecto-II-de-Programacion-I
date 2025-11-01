@@ -2,7 +2,7 @@
 #include <ctime>
 
 static int numeroSucursales = 1;
-static Fecha fechaActual;
+static Fecha* fechaActual = Fecha::obtenerFechaActualPtr();
 
 
 Control::Control() {
@@ -28,7 +28,6 @@ void Control::mostrarSucursales() {
 }
 //menus y sub menus
 void Control::menuPrincipal() {
-	fechaActual = fechaActual.obtenerFechaActual();
 	int respuesta = 0;
 	do {
 		system("cls");
@@ -119,7 +118,7 @@ void Control::subMenuSucursales(int numSucursal) {
 			subMenuClientes(sGestionar);
 			break;
 		case 3:
-			//subMenuVehiculosyPlanteles(sGestionar);
+			subMenuVehiculosyPlanteles(sGestionar);
 			break;
 		case 4:
 			//submenuSolicitudesYContratos(sGestionar);
@@ -193,7 +192,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 					}
 					break;
 				}
-				s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual.obtenerFechaActual()));
+				s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual));
 				cout <<endl<< "Colaborador agregado exitosamente." << endl;
 				char op;
 				while (true) {
@@ -634,5 +633,525 @@ void Control::subMenuClientes(Sucursal* s) {
 	}while (respuesta != 5);
 }
 
-//void Control::subMenuVehiculosyPlanteles(Sucursal* s) {}
-//void Control::submenuSolicitudesYContratos(Sucursal* s) {}
+void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
+	int resp = 0;
+	do {
+		system("cls");
+		cout << "-----Submenu de Vehiculos y Planteles-----" << endl << endl;
+		cout << "1. Agregar Plantel a la sucursal" << endl;
+		cout << "2. Visualizacion Grafica de un Plantel" << endl;
+		cout << "3. Agregar Vehiculo a la sucursal" << endl;
+		cout << "4. Eliminar Vehiculo de la sucursal" << endl;
+		cout << "5. Visualizacion de Vehiculo" << endl;
+		cout << "6. Reubicar Vehiculo en la sucursal" << endl;
+		cout << "7. Cambio de Estado de un Vehiculo" << endl;
+		cout << "8. Estados de un Vehiculo especifico" << endl;
+		cout << "9. Porcentaje de ocupacion de los planteles" << endl;
+		cout << "10. Traslado de Vehiculos entre Sucursales" << endl;
+		cout << "11. Volver al Submenu de Sucursales" << endl << endl;
+		cout << "Ingrese una opcion: ";
+		cin >> resp;
+		cin.ignore(10000, '\n');
+
+		switch (resp) {
+		case 1: {
+			funcionAgregarPlantel(s);
+			break;
+		}
+		case 2:
+		{
+			bool seguir = true;
+			while (seguir) {
+				system("cls");
+				char letra;
+				bool conf = false;
+				cout << "=== Visualizacion Grafica de un Plantel ===" << endl << endl;
+				s->getPlanteles()->mostrarPlanteles();
+				while (true) {
+					cout << endl << "Ingrese la letra del plantel a visualizar (o 'n' para salir): ";
+					cin >> letra;
+					cin.ignore(10000, '\n');
+					if (letra == 'n' || letra == 'N') {
+						seguir = false;
+						break;
+					}
+					if (!s->getPlanteles()->existeLetraPlantel(letra)) {
+						cout << "No se encontro el plantel con la letra: " << letra << endl;
+						continue;
+					}
+					conf = true;
+					break;
+				}
+
+				if (conf && s->getPlanteles()->existeLetraPlantel(letra)) {
+					s->getPlanteles()->visualizacionGraficaDePlanteles(letra);
+				}
+				while (true) {
+					cout << endl << "Desea visualizar otro plantel? (s/n): ";
+					char op;
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') {
+						break;
+					}
+					else if (op == 'n' || op == 'N') {
+						seguir = false;
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+			}
+			cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+			cin.get();
+			break;
+		}
+		case 3: {
+			funcionAgregarVehiculo(s);
+			break;
+		}
+		case 4:{
+			funcionEliminarVehiculo(s);
+			break;
+		}
+		case 5: {
+			funcionVisualizacionVehiculo(s);
+			break;
+		}
+		case 6: {
+			funcionReubicarVehiculo(s);
+			break;
+		}
+		default: {
+			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+
+	} while (resp != 11);
+}
+
+
+
+
+void Control::funcionAgregarPlantel(Sucursal* s) {
+	string tipo;
+	bool seguir = true;
+	while (seguir) {
+
+		system("cls");
+		char letra;
+		int capMax;
+		cout << "Agregar Plantel a la sucursal" << endl << endl;
+		while (true) {
+			cout << "Ingrese la letra del plantel: ";
+			cin >> letra;
+			cin.ignore(10000, '\n');
+			if (s->getPlanteles()->existeLetraPlantel(letra)) {
+				cout << "La letra del plantel ya existe. Intente de nuevo." << endl;
+				continue;
+			}
+			if (letra < 'A' || letra > 'Z') { //Que loco como efectivamente los char se pueden comparar asi, como numeros.
+				cout << "La letra del plantel debe ser una letra mayuscula (A-Z). Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			cout << "Ingrese la capacidad maxima del plantel: ";
+			cin >> capMax;
+			cin.ignore(10000, '\n');
+			if (capMax <= 0) {
+				cout << "La capacidad maxima del plantel debe ser un numero positivo. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			int op = 0;
+			cout << "Ingrese el tipo de plantel:" << endl;
+			cout << "1. Techado y asfaltado" << endl;
+			cout << "2. Techado y lastreado" << endl;
+			cout << "3. Asfaltado" << endl;
+			cout << "4. Lastreado" << endl;
+			cout << "Ingrese una opcion (1-4): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			switch (op) {
+			case 1: {
+				tipo = "Techado y asfaltado";
+				break;
+			}
+			case 2: {
+				tipo = "Techado y lastreado";
+				break;
+			}
+			case 3: {
+				tipo = "Asfaltado";
+				break;
+			}
+			case 4: {
+				tipo = "Lastreado";
+				break;
+			}
+			default:
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+				cin.ignore(10000, '\n');
+				cin.clear();
+				continue;
+			}
+
+
+			break;
+		}
+		Plantel* p = new Plantel(letra, tipo, capMax);
+		s->getPlanteles()->agregarPlantel(p);
+		cout << endl << "Plantel agregado exitosamente." << endl;
+		char op;
+		while (true) {
+			cout << "Desea agregar otro plantel? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+	cin.get();
+	return;
+}
+void Control::funcionAgregarVehiculo(Sucursal* s) {
+	string placa, modelo, marca;
+	char cate, lice;
+	bool seguir = true;
+	while(seguir) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout<<"En que plantel desea agregar el vehiculo? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		if(s->getPlanteles()){
+			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
+			cin.get();
+			return;
+		}
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		while (true) {
+			cout << "Ingrese la placa del vehiculo: ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "La placa del vehiculo ya existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		cout << "Ingrese el modelo del vehiculo: ";
+		getline(cin, modelo);
+		cout << "Ingrese la marca del vehiculo: ";
+		getline(cin, marca);
+		while (true) {
+			cout << "Ingrese la categoria del vehiculo (A, B, C, D, E): ";
+			cin >> cate;
+			cin.ignore(10000, '\n');
+			cate = toupper(cate); //..................... No sabia que existia esta funcion............... Mucho tiempo desperdiciado
+			if (cate < 'A' || cate > 'E') {
+				cout << "Categoria invalida. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			cout << "Ingrese el tipo de licencia requerida para conducir el vehiculo (A, B, C, D, E): ";
+			cin >> lice;
+			cin.ignore(10000, '\n');
+			lice = toupper(lice);
+			if (lice < 'A' || lice > 'E') {
+				cout << "Tipo de licencia invalida. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+
+	Vehiculo* vehi= new Vehiculo(placa, modelo, marca, cate, lice);
+	p->getListaVehiculos()->agregarVehiculo(vehi);
+		cout << endl << "Vehiculo agregado exitosamente." << endl;
+		char op;
+		while (true) {
+			cout << "Desea agregar otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+	return;
+}
+void Control::funcionEliminarVehiculo(Sucursal* s) {
+	string placa;
+	bool seguir = true;
+	while (seguir) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel desea eliminar el vehiculo? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		if(!s->getPlanteles()){
+			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
+			cin.get();
+			return;
+		}
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosSimple();
+		while (true) {
+			cout << endl << "Ingrese la placa del vehiculo a eliminar (o 'n' para salir): ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa == "n" || placa == "N") break;
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		if (placa != "n" && placa != "N") {
+			p->getListaVehiculos()->eliminarVehiculo(placa);
+			cout << "Vehiculo eliminado exitosamente." << endl;
+		}
+		else {
+			return;
+		}
+		char op;
+		while (true) {
+			cout << "Desea eliminar otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+	cin.get();
+	return;
+}
+void Control::funcionVisualizacionVehiculo(Sucursal* s) {
+	if (!s) return;
+	if (!s->getPlanteles()) {
+		cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
+		cin.get();
+		return;
+	}
+	string placa;
+	bool seguir = true;
+	while (seguir) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel se encuentra el vehiculo? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosSimple();
+		while (true) {
+		cout << endl << "Ingrese la placa del vehiculo a visualizar: ";
+		cin >> placa;
+		cin.ignore(10000, '\n');
+		if(placa.empty()) {
+			cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+			continue;
+		}
+		if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+			cout << "El vehiculo no existe. Intente de nuevo." << endl;
+			continue;
+		}
+		break;
+	}
+		p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa)->toString();
+		char op;
+		while (true) {
+			cout << "Desea visualizar otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+}
+void Control::funcionReubicarVehiculo(Sucursal* s) {
+	if (!s) return;
+	string placa;
+	bool seguir = true;
+	while (seguir) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel se encuentra el vehiculo a reubicar? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosSimple();
+		while (true) {
+			cout << endl << "Ingrese la placa del vehiculo a reubicar: ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		while (true) {
+			system("cls");
+			cout << "Seleccione el nuevo plantel para reubicar el vehiculo:" << endl;
+			s->getPlanteles()->mostrarPlanteles();
+			cout << "Ingrese la letra del nuevo plantel: ";
+			char nuevaLetra;
+			cin >> nuevaLetra;
+			cin.ignore(10000, '\n');
+
+			Plantel* nuevoPlantel = s->getPlanteles()->obtenerPlantelPorLetra(nuevaLetra);
+			if (!nuevoPlantel) {
+				cout << "Plantel no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			while (true) {
+				int numFila;
+				int numColumna;
+				system("cls");
+				s->getPlanteles()->visualizacionGraficaDePlanteles(nuevaLetra);
+				cout << nuevoPlantel->getEstacionamiento()->espacioRecomendado() << endl;
+				while (true) {
+					cout << "En que fila desea reubicar el vehiculo? (Ingrese el numero de fila): ";
+
+					cin >> numFila;
+					cin.ignore(10000, '\n');
+					if (numFila < 0 || numFila >= nuevoPlantel->getEstacionamiento()->getnF()) {
+						cout << "Fila no valida. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
+				}
+				while (true) {
+					cout << "En que columna desea reubicar el vehiculo? (Ingrese el numero de columna): ";
+					cin >> numColumna;
+					cin.ignore(10000, '\n');
+					if (numColumna < 0 || numColumna >= nuevoPlantel->getEstacionamiento()->getnC()) {
+						cout << "Columna no valida. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
+				}
+				if (nuevoPlantel->getEstacionamiento()->agregarVehiculoEnEspacio(v, numFila, numColumna)) {
+					p->getListaVehiculos()->eliminarVehiculo(placa);
+					cout << "Vehiculo reubicado exitosamente." << endl;
+					break;
+				}
+				else {
+					cout << "No se pudo reubicar el vehiculo en el espacio seleccionado. Intente de nuevo." << endl;
+					continue;
+				}
+			}
+		}
+		char op;
+		while (true) {
+			cout << "Desea reubicar otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+}

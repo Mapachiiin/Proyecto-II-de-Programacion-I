@@ -36,7 +36,26 @@ void ListaPlanteles::agregarPlantel(Plantel* p) {
 		tam++;
 }
 }	
-
+bool ListaPlanteles::existeLetraPlantel(char letra) {
+	NodoPlantel* actual = inicio;
+	while (actual) {
+		if (actual->getDato() && actual->getDato()->getLetra() == letra) {
+			return true;
+		}
+		actual = actual->getNodoSig();
+	}
+	return false;
+}
+Plantel* ListaPlanteles::obtenerPlantelPorLetra(char letra) {
+	NodoPlantel* actual = inicio;
+	while (actual) {
+		if (actual->getDato() && actual->getDato()->getLetra() == letra) {
+			return actual->getDato();
+		}
+		actual = actual->getNodoSig();
+	}
+	return nullptr;
+}
 void ListaPlanteles::mostrarPlanteles() {
 	NodoPlantel* actual = inicio;
 	while (actual){

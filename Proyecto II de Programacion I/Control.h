@@ -26,8 +26,15 @@ public:
 	void subMenuSucursales(int numSucursal);
     void subMenuColaboradores(Sucursal* s);
 	void subMenuClientes(Sucursal* s);
-	//void subMenuVehiculosyPlanteles(Sucursal* s);
+    void subMenuVehiculosyPlanteles(Sucursal* s);
 	//void submenuSolicitudesYContratos(Sucursal* s);
+
+	//Funciones para no hacer mis switch tan largos :D
+	void funcionAgregarPlantel(Sucursal* s);
+	void funcionAgregarVehiculo(Sucursal* s); 
+    void funcionEliminarVehiculo(Sucursal* s);
+    void funcionVisualizacionVehiculo(Sucursal* s);
+	void funcionReubicarVehiculo(Sucursal* s);
 
 
 

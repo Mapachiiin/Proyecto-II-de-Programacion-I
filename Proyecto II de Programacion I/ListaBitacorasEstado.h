@@ -1,15 +1,16 @@
 #pragma once
 #include "NodoBitacoraEstado.h"
-#include "Colaborador.h"
-#include "Fecha.h"
 
-class ListaBitacorasEstado
-{
+class ListaBitacorasEstado {
 private:
-	NodoBitacoraEstado* inicio;
-	int tam;
+    NodoBitacoraEstado* inicio;
+    int tam;
+
 public:
-	ListaBitacorasEstado();
-	~ListaBitacorasEstado();
-	void agregarBitacora(int estado, Colaborador* c, Fecha* fAtc);
+    ListaBitacorasEstado();
+    ~ListaBitacorasEstado();
+    void agregarBitacora(int estadoAnt, int estadoNvo, Colaborador* c, Fecha* fCambio);
+	void mostrarBitacora();
+    bool estaVacia();
+    int getTam();
 };

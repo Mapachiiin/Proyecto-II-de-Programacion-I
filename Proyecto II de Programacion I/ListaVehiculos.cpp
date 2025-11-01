@@ -1,10 +1,9 @@
-#include "ListaVehiculos.h"
+﻿#include "ListaVehiculos.h"
 #include "NodoVehiculo.h"
 #include <string>
 using namespace std;
 
 	ListaVehiculos::ListaVehiculos(): inicio(nullptr), tam(0) {}
-
 	ListaVehiculos::~ListaVehiculos(){
 		NodoVehiculo* actual = inicio;
 		while (actual) {
@@ -15,7 +14,6 @@ using namespace std;
 		inicio = nullptr;
 		tam = 0;
 	}
-
 	void ListaVehiculos::agregarVehiculo(Vehiculo* v){
 		if (!v) return;
 		NodoVehiculo* nuevo = new NodoVehiculo(v);
@@ -31,7 +29,44 @@ using namespace std;
 		}
 		tam++;
 	}
+	void ListaVehiculos::mostrarVehiculosDetallados(){ //Profe, esto es solo para que quedara bonito :D
+		if (!inicio) {
+			cout << "No hay vehículos en la lista." << endl;
+			return;
+		}
+		int cont = 1;
+		NodoVehiculo* actual = inicio;
+		while (actual) {
+			Vehiculo* v = actual->getDato();
+			cout << "╔═══════════════════════════════════════════════════════════════╗" << endl;
+			cout << "║  [" << cont << "] Placa: " << v->getPlaca() << " | Modelo: " << v->getModelo()
+				<< " | Marca: " << v->getMarca() << endl;
+			cout << "║  Categoria: " << v->getCategoria() << " | Licencia: " << v->getLicencia()
+				<< " | Precio: ₡" << v->getPrecio() << " | Estado: " << v->getEstado() << endl;
+			cout << "╚═══════════════════════════════════════════════════════════════╝" << endl;
+			actual = actual->getNodoSig();
+			cont++;
+		}
+	}
+	void ListaVehiculos::mostrarVehiculosSimple(){
+		if (!inicio) {
+			cout << "No hay vehículos en la lista." << endl;
+			return;
+		}
+		NodoVehiculo* actual = inicio;
+		int contador = 1;
 
+		while (actual) {
+			Vehiculo* v = actual->getDato();
+			cout << " " << contador << ". " << v->getPlaca()
+				<< " - " << v->getModelo()
+				<< " (" << v->getMarca()
+				<< ") - ₡" << v->getPrecio() << "/día" << endl;
+
+			actual = actual->getNodoSig();
+			contador++;
+		}
+	}
 	void ListaVehiculos::mostrarVehiculo(Vehiculo* v){
 		if (!v) return;
 		NodoVehiculo* actual = inicio;
@@ -44,7 +79,26 @@ using namespace std;
 		}
 		return;
 	}
-
+	bool ListaVehiculos::buscarVehiculoPorPlaca(string placa){
+		NodoVehiculo* actual = inicio;
+		while (actual) {
+			if(actual->getDato()->getPlaca()==placa){
+				return true;
+			}
+			actual = actual->getNodoSig();
+		}
+		return false;
+	}
+	Vehiculo* ListaVehiculos::obtenerVehiculoPorPlaca(string placa){
+		NodoVehiculo* actual = inicio;
+		while (actual) {
+			if(actual->getDato()->getPlaca()==placa){
+				return actual->getDato();
+			}
+			actual = actual->getNodoSig();
+		}
+		return nullptr;
+	}
 	void ListaVehiculos::cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c, Fecha* fA){
 		if (!c) return;
 		NodoVehiculo* actual = inicio;
@@ -56,7 +110,6 @@ using namespace std;
 			actual = actual->getNodoSig();
 		}
 	}
-
 	double ListaVehiculos::reporteDePorcentajeDeOcupacionDelPlantel(EspacioEstacionamiento* espacios){
 		if (!espacios) return 0.0;
 		int totalEspacios = espacios->getCapMax();
@@ -65,8 +118,7 @@ using namespace std;
 		double ocupacion = ((totalEspacios - espaciosVacios) / (double)totalEspacios) * 100.0;
 		return ocupacion;
 	}
-
-	void ListaVehiculos::trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino) {
+	/*void ListaVehiculos::trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino) {
 		if (!destino) return;
 		NodoVehiculo* actual = inicio;
 		NodoVehiculo* anterior = nullptr;
@@ -87,8 +139,7 @@ using namespace std;
 			actual = actual->getNodoSig();
 		}
 		return;
-	}
-
+	}*/
 	bool ListaVehiculos::eliminarVehiculo(string placa){
 		if (!inicio) return false;
 		NodoVehiculo* actual = inicio;

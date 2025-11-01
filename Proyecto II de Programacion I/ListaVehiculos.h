@@ -13,6 +13,10 @@ public:
 	~ListaVehiculos();
 	void agregarVehiculo(Vehiculo* v);
 	void mostrarVehiculo(Vehiculo* v);
+	void mostrarVehiculosSimple();
+	void mostrarVehiculosDetallados();
+	bool buscarVehiculoPorPlaca(string placa);
+	Vehiculo* obtenerVehiculoPorPlaca(string placa);
 	void cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c, Fecha* fA);
 	double reporteDePorcentajeDeOcupacionDelPlantel(EspacioEstacionamiento* espacios);
 	void trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino);

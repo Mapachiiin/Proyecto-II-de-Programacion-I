@@ -29,6 +29,7 @@ char letra;
 string tipo;
 int capMax;
 EspacioEstacionamiento* estacionamiento;
+ListaVehiculos* listaVehiculos;
 
 public:
 Plantel();
@@ -38,5 +39,6 @@ char getLetra();
 string getTipo();
 int getCapMax();
 EspacioEstacionamiento* getEstacionamiento();
+ListaVehiculos* getListaVehiculos();
 };
 

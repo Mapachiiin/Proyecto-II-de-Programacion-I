@@ -49,27 +49,31 @@ private:
 	string model;
 	string marca;
 	string cate;
+	char categoria;
 	char licencia;
 	double precio;
-	const int estadoDisponible = 0;
-	const int estadoAlquilado = 1;
-	const int estadoDevuelto = 2;
-	const int estadoRevision = 3;
-	const int estadoLavado = 4;
+	static const int estadoDisponible = 0;
+	static const int estadoAlquilado = 1;
+	static const int estadoDevuelto = 2;
+	static const int estadoRevision = 3;
+	static const int estadoLavado = 4;
 	int estadoActual;
 	ListaBitacorasEstado* listaBE;
 public:
-	string estado[5] = { "Disponible", "Alquilado", "Devuelto", "Revision", "Lavado" };
-	bool transPermitida[5][5] = {
-{ false, true, false, true, true },  // Desde Disponible
-{ false, false, true, false, false},  // Desde Alquilado
-{ false, false, false, true, true },  // Desde Devuelto
-{ false, false, false, false, true },  // Desde Revision
-{ true, false, false, true, false }   // Desde Lavado
-	};
+	static string estado[5];
+	static bool transPermitida[5][5];
 	Vehiculo(string plac, string mode, string marc, char cate, char lice);
+	~Vehiculo();
+	void mostrarBitacora();
 	bool puedeCambiarEstado(int estadoActual, int estadoNuevo);
 	string getPlaca();
+	string getModelo();
+	string getMarca();
+	string getCategoria();
+	double getPrecio();
+	string getEstadoNombre();
+	char getCategoriaChar();
+	char getLicencia();
 	int getEstado();
 	void cambiarEstado(int estado, Colaborador* c, Fecha* fAtc);
 	string toString();

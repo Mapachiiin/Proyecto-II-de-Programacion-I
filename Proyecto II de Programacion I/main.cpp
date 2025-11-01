@@ -1,14 +1,19 @@
 #include <iostream>
 #include "Control.h"
+#include "Fecha.h"
 #include "Quemados.h"
 
 using namespace std;
 
 int main() {
+    Fecha::inicializarFechaGlobal();
+
 	Control* menu = new Control();
 	Quemados* quemar= new Quemados(menu);
 	quemar->quemarDatos();
 	menu->menuPrincipal();
+
+	Fecha::liberarFechaGlobal();
 	delete menu;
 	/*
 	

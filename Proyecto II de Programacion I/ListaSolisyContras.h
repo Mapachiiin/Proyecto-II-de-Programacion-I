@@ -20,5 +20,6 @@ public:
 	void historialPorCliente(string cedula);
 	void reporteClientesPorCantidadDeContratos();
 	void reportesAlquilerPorColaborador(string cedula);
+	int getTam();
 };
 

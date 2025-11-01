@@ -110,6 +110,7 @@ using namespace std;
 			actual = actual->getNodoSig();
 		}
 	}
+	int ListaVehiculos::getTam(){ return tam; }
 	bool ListaVehiculos::eliminarVehiculo(string placa){
 		if (!inicio) return false;
 		NodoVehiculo* actual = inicio;

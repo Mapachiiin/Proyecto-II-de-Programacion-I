@@ -247,3 +247,4 @@ void ListaSolisyContras::reportesAlquilerPorColaborador(string cedula) {
 		}
 	}
 }
+int ListaSolisyContras::getTam() { return tam; }

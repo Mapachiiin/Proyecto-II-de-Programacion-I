@@ -75,3 +75,4 @@ Cliente* ListaClientes::buscarClientePorCedula(string cedula) {
 	}
 	return nullptr;
 }
+int ListaClientes::getTam() { return tam; }

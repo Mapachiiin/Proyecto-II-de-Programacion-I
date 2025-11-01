@@ -11,6 +11,7 @@ private:
 public:
 	ListaColaboradores();
 	~ListaColaboradores();
+	int getTam();
 	bool agregarColaborador(Colaborador* c);
 	Colaborador* buscarColaboradorPorCed(string cedula);
 	bool eliminarColaborador(string cedula);

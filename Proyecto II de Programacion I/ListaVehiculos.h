@@ -17,6 +17,7 @@ public:
 	void mostrarVehiculosDetallados();
 	bool buscarVehiculoPorPlaca(string placa);
 	Vehiculo* obtenerVehiculoPorPlaca(string placa);
+	int getTam();
 	void cambioEstadoVehiculo(string placa, int nuevoEstado, Colaborador* c, Fecha* fA);
 	void trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino);
 	bool eliminarVehiculo(string placa);

@@ -138,3 +138,4 @@ double ListaPlanteles::reporteDePorcentajeDeOcupacionDeLosPlanteles() {
 	if (totalEspacios == 0) return 0.0;
 	return (double)espaciosOcupados / (double)totalEspacios * 100.0;
 }
+int ListaPlanteles::getTam() { return tam; }

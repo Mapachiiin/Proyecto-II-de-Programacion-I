@@ -70,3 +70,4 @@ Sucursal* ListaSucursales::obtenerSucursal(int numSucursal){
 	}
 	return nullptr;
 }
+int ListaSucursales::getTam() { return tam; }

@@ -216,6 +216,13 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			break;
 		}
 		case 2: { 
+			if(s->getColaboradores()->getTam() == 0) {
+				system("cls");
+				cout << "No hay colaboradores para eliminar." << endl;
+				cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+				cin.get();
+				break;
+			}
 			system("cls");
 			bool seguir = true;
 			while (seguir) {
@@ -276,6 +283,13 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			break;
 		}
 		case 3: {
+			if(s->getColaboradores()->getTam() == 0) {
+				system("cls");
+				cout << "No hay colaboradores para mostrar." << endl;
+				cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+				cin.get();
+				break;
+			}
 			system("cls");
 			cout << " Colaboradores de la sucursal " << s->getNumSucursal() << endl << endl;
 			s->getColaboradores()->mostrarColaboradores();
@@ -285,6 +299,13 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			break;
 		}
 		case 4: {
+			if (s->getColaboradores()->getTam() == 0) {
+				system("cls");
+				cout << "No hay colaboradores para mostrar reportes." << endl;
+				cout << "Aprete enter para volver al submenu de colaboradores" << endl;
+				cin.get();
+				break;
+			}
 			bool seguir = true;
 			while (seguir) {
 				system("cls");
@@ -497,6 +518,13 @@ void Control::subMenuClientes(Sucursal* s) {
 			}
 		}
 		case 2: {
+			if(s->getClientes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay clientes para eliminar." << endl;
+				cout << "Aprete enter para volver al submenu de clientes" << endl;
+				cin.get();
+				break;
+			}
 			bool seguir = true;
 			while (seguir) {
 				system("cls");
@@ -553,14 +581,29 @@ void Control::subMenuClientes(Sucursal* s) {
 			break;
 		}
 		case 3: {
+			if(s->getClientes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay clientes para mostrar." << endl;
+				cout << "Aprete enter para volver al submenu de clientes" << endl;
+				cin.get();
+				break;
+			}
 			system("cls");
 			cout << " Clientes de la sucursal " << s->getNumSucursal() << endl << endl;
 			s->getClientes()->mostrarClientes();
 			cout << endl << "Aprete enter para volver al submenu de clientes" << endl;
+			cin.clear();
 			cin.get();
 			break;
 		}
 		case 4: {
+			if(s->getClientes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay clientes para mostrar historial." << endl;
+				cout << "Aprete enter para volver al submenu de clientes" << endl;
+				cin.get();
+				break;
+			} 
 			bool seguir = true;
 			while (seguir) {
 				system("cls");
@@ -611,6 +654,13 @@ void Control::subMenuClientes(Sucursal* s) {
 			break;
 		}
 		case 5: {
+			if(s->getClientes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay clientes para generar reporte." << endl;
+				cout << "Aprete enter para volver al submenu de clientes" << endl;
+				cin.get();
+				break;
+			}
 			system("cls");
 			cout << "Reporte de clientes por cantidad de contratos" << endl;
 			s->getSolicitudes()->reporteClientesPorCantidadDeContratos();
@@ -658,6 +708,13 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		}
 		case 2:
 		{
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para visualizar." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			bool seguir = true;
 			while (seguir) {
 				system("cls");
@@ -710,22 +767,87 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			break;
 		}
 		case 4: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para eliminar vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para eliminar." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionEliminarVehiculo(s);
 			break;
 		}
 		case 5: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para visualizar vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para visualizar." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionVisualizacionVehiculo(s);
 			break;
 		}
 		case 6: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para reubicar vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para reubicar." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionReubicarVehiculo(s);
 			break;
 		}
 		case 7: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para cambiar estado de vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para cambiar estado." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionCambioEstadoVehiculo(s);
 			break;
 		}
 		case 8: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para ver estados de vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para ver estados." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionEstadosVehiculo(s);
 			break;
 		}
@@ -734,6 +856,25 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			break;
 		}
 		case 10: {
+			if(s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para trasladar vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para trasladar." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			} else if(this->listaSucursales->getTam() < 2) {
+				system("cls");
+				cout << "No hay otras sucursales para trasladar vehiculos." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
 			funcionTrasladoVehiculosEntreSucursales(s);
 			break;
 		}

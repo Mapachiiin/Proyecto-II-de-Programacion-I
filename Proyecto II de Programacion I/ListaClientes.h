@@ -9,6 +9,7 @@ public:
 	ListaClientes();
 	~ListaClientes();
 	NodoCliente* getInicio();
+	int getTam();
 	void agregarCliente(Cliente* c);
 	void mostrarClientes();
 	bool eliminarCliente(string cedula);

@@ -82,3 +82,4 @@ void ListaColaboradores::mostrarColaboradores() {
         actual = actual->getNodoSig();
     }
 }
+int ListaColaboradores::getTam() { return tam; }

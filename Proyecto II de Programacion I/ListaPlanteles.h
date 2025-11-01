@@ -13,6 +13,7 @@ public:
 	void mostrarPlanteles();
 	bool existeLetraPlantel(char letra);
 	Plantel* obtenerPlantelPorLetra(char letra);
+	int getTam();
 	void visualizacionGraficaDePlanteles(char letra);
 	bool eliminarPlantel(char letra);
 	double reporteDePorcentajeDeOcupacionDeLosPlanteles();

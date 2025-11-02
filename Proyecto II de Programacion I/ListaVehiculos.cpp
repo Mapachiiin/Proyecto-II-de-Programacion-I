@@ -67,6 +67,25 @@ using namespace std;
 			contador++;
 		}
 	}
+	void ListaVehiculos::mostrarVehiculosAlquilados(){
+		if (!inicio) {
+			cout << "No hay vehículos en la lista." << endl;
+			return;
+		}
+		NodoVehiculo* actual = inicio;
+		int contador = 1;
+		while (actual) {
+			Vehiculo* v = actual->getDato();
+			if (v->getEstadoNombre() == "Alquilado") {
+				cout << " " << contador << ". " << v->getPlaca()
+					<< " - " << v->getModelo()
+					<< " (" << v->getMarca()
+					<< ") - ₡" << v->getPrecio() << "/día" << endl;
+				contador++;
+			}
+			actual = actual->getNodoSig();
+		}
+	}
 	void ListaVehiculos::mostrarVehiculo(Vehiculo* v){
 		if (!v) return;
 		NodoVehiculo* actual = inicio;

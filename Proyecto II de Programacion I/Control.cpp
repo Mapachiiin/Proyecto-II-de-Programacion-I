@@ -95,7 +95,6 @@ void Control::menuPrincipal() {
 		}
 	} while (respuesta != 5);
 }
-
 void Control::subMenuSucursales(int numSucursal) {
 	int respuesta = 0;
 	Sucursal* sGestionar = listaSucursales->obtenerSucursal(numSucursal);
@@ -976,7 +975,6 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 
 	} while (resp != 7);
 }
-
 void Control::funcionAgregarPlantel(Sucursal* s) {
 	string tipo;
 	bool seguir = true;
@@ -1587,11 +1585,6 @@ void Control::funcionPorcentajeOcupacionPlanteles(Sucursal* s) {
 	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
 	cin.get();
 }
-
-void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
-
-} //opcional dejar de ultimop
-
 void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 	if (!s) return;
 	bool seguir = true;
@@ -1753,7 +1746,6 @@ void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 		cin.get();
 	}
 }
-
 void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s) {
 	if (!s) return;
 	bool seguir = true;
@@ -1837,7 +1829,6 @@ void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s) {
 		}
 	}
 }
-
 void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal* s) {
 	if (!s) return;
 	bool opCA = true;
@@ -1880,7 +1871,6 @@ void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal
 		}
 		} while (op != 3);
 }
-
 void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 	if (!s) return;
 	while (true) {
@@ -1995,11 +1985,133 @@ void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 		}
 	}
 }
+void Control::funcionRecepcionDeVehiculos(Sucursal* s) {
+	if (!s) return;
+	while (true) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel se encuentra registrado el vehiculo alquilado que se va a recibir? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
 
-void Control::funcionRecepcionDeVehiculos(Sucursal* s){
-
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+		p->getListaVehiculos()->mostrarVehiculosAlquilados();
+		string placa;
+		while (true) {
+			cout << endl << "Ingrese la placa del vehiculo alquilado a recibir: ";
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		v->cambiarEstado(2, nullptr, fechaActual->clonar());
+		cout << "Vehiculo recibido exitosamente." << endl;
+		cin.clear();
+		cin.get();
+		return;
+	}
+}
+void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
+	if (!s) return;
+	while (true) {
+		system("cls");
+		cout << "Reportes de Solicitudes y Contratos" << endl << endl;
+		cout << "1. Reporte de solicitudes de alquiler por estado" << endl;
+		cout << "2. Reporte de contratos de alquiler por estado" << endl;
+		cout << "3. Volver al submenu de contratos y alquileres" << endl << endl;
+		cout << "Ingrese una opcion: ";
+		int opcion;
+		cin >> opcion;
+		cin.ignore(10000, '\n');
+		switch (opcion) {
+		case 1: {
+			bool opCA = false;
+			string codSolicitud;
+			while (true) {
+				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+				cout << endl;
+				while (true) {
+					cout << "Ingrese el codigo de la solicitud a visualizar: ";
+					cin >> codSolicitud;
+					cin.ignore(10000, '\n');
+					if (codSolicitud.empty()) {
+						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+						continue;
+					}
+					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+						cout << "La solicitud no existe. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
+				}
+				s->getSolicitudes()->obtenerSolicitudPorCodigo(codSolicitud)->mostrarInfo();
+				break;
+			}
+			cout << endl << "Aprete enter para volver al menu anterior" << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 2: {
+			bool opCA = true;
+			string codSolicitud;
+			while (true) {
+				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+				cout << endl;
+				while (true) {
+					cout << "Ingrese el codigo del contrato a visualizar: ";
+					cin >> codSolicitud;
+					cin.ignore(10000, '\n');
+					if (codSolicitud.empty()) {
+						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+						continue;
+					}
+					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+						cout << "El contrato no existe. Intente de nuevo." << endl;
+						continue;
+					}
+					break;
+				}
+				s->getSolicitudes()->obtenerSolicitudPorCodigo(codSolicitud)->mostrarInfo();
+				break;
+			}
+			cout << endl << "Aprete enter para volver al menu anterior" << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 3: {
+			return;
+		}
+		default: {
+			cout << "Opcion invalida. Intente de nuevo." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+	}
 }
 
-void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s){
+void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 
-}
+} //opcional dejar de ultimop

@@ -15,6 +15,7 @@ public:
 	void mostrarVehiculo(Vehiculo* v);
 	void mostrarVehiculosSimple();
 	void mostrarVehiculosDetallados();
+	void mostrarVehiculosAlquilados();
 	bool buscarVehiculoPorPlaca(string placa);
 	Vehiculo* obtenerVehiculoPorPlaca(string placa);
 	int getTam();

@@ -59,22 +59,15 @@ Fecha* Fecha::agregarDias(int dias) {
     int nDia = this->dia;
     int nMes = this->mes;
     int nAnio = this->anio;
-
-    // Sumar los días
     nDia += dias;
-
-    // Ajustar si se pasa del mes
     while (nDia > diasEnMes(nMes, nAnio)) {
         nDia -= diasEnMes(nMes, nAnio);
         nMes++;
-
-        // Si se pasa del año
         if (nMes > 12) {
             nMes = 1;
             nAnio++;
         }
     }
-
     return new Fecha(nDia, nMes, nAnio);
 }
 

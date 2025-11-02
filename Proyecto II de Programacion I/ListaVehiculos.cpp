@@ -42,7 +42,7 @@ using namespace std;
 			cout << "║  [" << cont << "] Placa: " << v->getPlaca() << " | Modelo: " << v->getModelo()
 				<< " | Marca: " << v->getMarca() << endl;
 			cout << "║  Categoria: " << v->getCategoria() << " | Licencia: " << v->getLicencia()
-				<< " | Precio: ₡" << v->getPrecio() << " | Estado: " << v->getEstado() << endl;
+				<< " | Precio: " << v->getPrecio()<<" colones " << " | Estado: " << v->getEstado() << endl;
 			cout << "╚═══════════════════════════════════════════════════════════════╝" << endl;
 			actual = actual->getNodoSig();
 			cont++;
@@ -61,7 +61,7 @@ using namespace std;
 			cout << " " << contador << ". " << v->getPlaca()
 				<< " - " << v->getModelo()
 				<< " (" << v->getMarca()
-				<< ") - ₡" << v->getPrecio() << "/día" << endl;
+				<< ") - " << v->getPrecio() <<" colones" << "/dia" << endl;
 
 			actual = actual->getNodoSig();
 			contador++;
@@ -80,7 +80,7 @@ using namespace std;
 				cout << " " << contador << ". " << v->getPlaca()
 					<< " - " << v->getModelo()
 					<< " (" << v->getMarca()
-					<< ") - ₡" << v->getPrecio() << "/día" << endl;
+					<< ") - " << v->getPrecio() <<" colones" << "/dia" << endl;
 				contador++;
 			}
 			actual = actual->getNodoSig();

@@ -37,7 +37,7 @@ void ListaBitacorasEstado::mostrarBitacora() {
         return;
     }
 
-    cout << "\n===== Bitacora =====" << endl;
+    cout << "\n Bitacora " << endl;
     cout << "Cambios totales en los estados del vehiculo: " << tam << endl << endl;
 
     NodoBitacoraEstado* actual = inicio;

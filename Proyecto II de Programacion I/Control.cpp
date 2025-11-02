@@ -12,86 +12,196 @@ Control::~Control() {
 	delete listaSucursales;
 }
 void Control::agregarSucursal() {
-		
-		Sucursal* nuevaSucursal = new Sucursal(numeroSucursales);
-		numeroSucursales++;
-		listaSucursales->agregarSucursal(nuevaSucursal);
+	Sucursal* nuevaSucursal = new Sucursal(numeroSucursales);
+	numeroSucursales++;
+	listaSucursales->agregarSucursal(nuevaSucursal);
 }
+
 bool Control::eliminarSucursal(int numSucursal) {
-		if(listaSucursales->eliminarSucursal(numSucursal)) {
-			numeroSucursales--;
-			return true;
-		}
-		return false;
+	if (listaSucursales->eliminarSucursal(numSucursal)) {
+		numeroSucursales--;
+		return true;
+	}
+	return false;
 }
+
 void Control::mostrarSucursales() {
 	listaSucursales->mostrarSucursales();
 }
+
 //menus y sub menus
 void Control::menuPrincipal() {
 	int respuesta = 0;
 	do {
 		system("cls");
-		cout<<"Bienvenido al Sistema D.R.T"<<endl;
-		cout <<"        " << fechaActual->toString() << endl << endl;
+		cout << " Bienvenido al Sistema D.R.T " << endl;
+		cout << "     " << fechaActual->toString() << endl << endl;
 		cout << "-----Menu Principal-----" << endl << endl;
 		cout << "1. Agregar Sucursal" << endl;
 		cout << "2. Eliminar Sucursal" << endl;
 		cout << "3. Mostrar Sucursales" << endl;
 		cout << "4. Gestionar Sucursales" << endl;
-		cout << "5. Cerrar programa" << endl;
+		cout << "5. Cerrar programa" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
+		cin.ignore(10000, '\n');
+
 		switch (respuesta) {
 		case 1: {
+			system("cls");
+			cout << " Agregar Sucursal " << endl << endl;
 			agregarSucursal();
-			cout << "Sucursal " << numeroSucursales << " agregada exitosamente." << endl;
+			cout << "Sucursal #" << (numeroSucursales - 1) << " agregada exitosamente." << endl;
+			cout << endl << "Aprete enter para volver al menu principal" << endl;
 			cin.get();
 			break;
 		}
 		case 2: {
-			int numSuc;
-			this->mostrarSucursales();
-			cout << endl << "Ingrese el numero de la sucursal a eliminar: ";
-			cin >> numSuc;
-			if (eliminarSucursal(numSuc)) {
-				cout << "Sucursal " << numSuc << " eliminada exitosamente." << endl;
+			if (numeroSucursales == 0) {
+				system("cls");
+				cout << "No hay sucursales para eliminar. Agregue una sucursal primero." << endl;
+				cout << endl << "Aprete enter para volver al menu principal" << endl;
+				cin.get();
+				break;
 			}
-			else {
-				cout << "No se encontro la sucursal " << numSuc << "." << endl;
+
+			system("cls");
+			cout << " Eliminar Sucursal " << endl << endl;
+			mostrarSucursales();
+
+			int nSuc;
+			while (true) {
+				cout << endl << "Ingrese el numero de la sucursal a eliminar (o 0 para cancelar): ";
+				cin >> nSuc;
+				cin.ignore(10000, '\n');
+
+				if (nSuc == 0) {
+					cout << "Operacion cancelada." << endl;
+					cout << endl << "Aprete enter para volver al menu principal" << endl;
+					cin.get();
+					break;
+				}
+
+				if (nSuc < 0 || nSuc >= numeroSucursales) {
+					cout << "Numero de sucursal invalido. Intente de nuevo." << endl;
+					continue;
+				}
+				char conf;
+				while (true) {
+					cout << "Esta seguro que desea eliminar la sucursal #" << nSuc << "? (s/n): ";
+					cin >> conf;
+					cin.ignore(10000, '\n');
+
+					if (conf == 's' || conf == 'S') {
+						if (eliminarSucursal(nSuc)) {
+							cout << endl << "Sucursal #" << nSuc << " eliminada exitosamente." << endl;
+						}
+						else {
+							cout << endl << "Error: No se pudo eliminar la sucursal #" << nSuc << "." << endl;
+						}
+						cout << endl << "Aprete enter para volver al menu principal" << endl;
+						cin.get();
+						break;
+					}
+					else if (conf == 'n' || conf == 'N') {
+						cout << "Eliminacion cancelada." << endl;
+						cout << endl << "Aprete enter para volver al menu principal" << endl;
+						cin.get();
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+				break;
 			}
 			break;
 		}
 		case 3: {
+			if (numeroSucursales == 0) {
+				system("cls");
+				cout << "No hay sucursales registradas. Agregue una sucursal primero." << endl;
+				cout << endl << "Aprete enter para volver al menu principal" << endl;
+				cin.get();
+				break;
+			}
+			system("cls");
+			cout << " Sucursales Registradas " << endl << endl;
 			mostrarSucursales();
+			cout << endl << "Aprete enter para volver al menu principal" << endl;
+			cin.get();
 			break;
 		}
 		case 4: {
-			do {
-				mostrarSucursales();
-				cout << endl << "Ingrese el numero de la sucursal a gestionar: ";
-				int numSucursal;
-				cin >> numSucursal;
-				if (numSucursal<0 || numSucursal>numeroSucursales) {
-					system("cls");
-					cout << "Numero de sucursal invalido intentelo de nuevo" << endl;
-					continue;
-				}
-				else {
-					subMenuSucursales(numSucursal);
-				}
+			if (numeroSucursales == 0) {
+				system("cls");
+				cout << "No hay sucursales para gestionar. Agregue una sucursal primero." << endl;
+				cout << endl << "Aprete enter para volver al menu principal" << endl;
+				cin.get();
 				break;
-			} while (true);
+			}
+			bool volverMenuPrincipal = false;
+			while (!volverMenuPrincipal) {
+				system("cls");
+				cout << " Gestionar Sucursales " << endl << endl;
+				mostrarSucursales();
+				int numSucursal;
+				while (true) {
+					cout << endl << "Ingrese el numero de la sucursal a gestionar (o 'n' para volver): ";
+					string entrada;
+					cin >> entrada;
+					cin.ignore(10000, '\n');
+					if (entrada == "n" || entrada == "N") {
+						volverMenuPrincipal = true;
+						break;
+					}
+					try {
+						numSucursal = stoi(entrada);
+					}
+					catch (...) {
+						cout << "Entrada invalida. Intente de nuevo." << endl;
+						continue;
+					}
+					if (numSucursal < 0 || numSucursal >= numeroSucursales) {
+						cout << "Numero de sucursal invalido. Intente de nuevo." << endl;
+						continue;
+					}
+					subMenuSucursales(numSucursal);
+					volverMenuPrincipal = true;
+					break;
+				}
+			}
 			break;
 		}
-		case 5:
-			cout << "Saliendo del programa..." << endl;
-			return;
-		default:
-			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
-			cin.ignore(10000, '\n');
-			continue;
+		case 5: {
+			system("cls");
+			char conf;
+			while (true) {
+				cout << "Esta seguro que desea cerrar el programa? (s/n): ";
+				cin >> conf;
+				cin.ignore(10000, '\n');
 
+				if (conf == 's' || conf == 'S') {
+					cout << endl << "Cerrando el sistema D.R.T..." << endl;
+					cout << "Gracias por usar nuestro sistema. Hasta pronto!" << endl;
+					return;
+				}
+				else if (conf == 'n' || conf == 'N') {
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
+			}
+			break;
+		}
+		default: {
+			system("cls");
+			cout << "Opcion invalida. Por favor, intente de nuevo." << endl;
+			cout << endl << "Aprete enter para continuar" << endl;
+			cin.get();
+			continue;
+		}
 		}
 	} while (respuesta != 5);
 }
@@ -1052,7 +1162,7 @@ void Control::funcionVisualizacionPlantel(Sucursal* s) {
 		system("cls");
 		char letra;
 		bool conf = false;
-		cout << "=== Visualizacion Grafica de un Plantel ===" << endl << endl;
+		cout << " Visualizacion Grafica de un Plantel " << endl << endl;
 		s->getPlanteles()->mostrarPlanteles();
 		while (true) {
 			cout << endl << "Ingrese la letra del plantel a visualizar (o 'n' para salir): ";
@@ -1200,7 +1310,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 		Vehiculo* vehi = new Vehiculo(placa, modelo, marca, cate, lice);
 		p->getListaVehiculos()->agregarVehiculo(vehi);
 		system("cls");
-		cout << "=== ESTACIONAR VEHICULO ===" << endl << endl;
+		cout << " Estacionar vehiculo " << endl << endl;
 		s->getPlanteles()->visualizacionGraficaDePlanteles(letraPlantel);
 		cout << endl << p->getEstacionamiento()->espacioRecomendado() << endl << endl;
 		while (true) {
@@ -1254,56 +1364,92 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 void Control::funcionEliminarVehiculo(Sucursal* s) {
 	string placa;
 	bool seguir = true;
+
 	while (seguir) {
 		system("cls");
+
+		if (s->getPlanteles()->getTam() == 0) {
+			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
+			cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+			cin.get();
+			return;
+		}
+
 		s->getPlanteles()->mostrarPlanteles();
 		cout << "En que plantel desea eliminar el vehiculo? (Ingrese la letra del plantel): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
-		if(s->getPlanteles()->getTam() == 0){
-			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
-			cin.get();
-			return;
-		}
+
 		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
 		if (!p) {
 			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cout << endl << "Aprete enter para continuar" << endl;
 			cin.get();
 			continue;
 		}
-		if (!p->getListaVehiculos()) {
+
+		if (!p->getListaVehiculos() || p->getListaVehiculos()->getTam() == 0) {
 			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
 			cin.get();
 			return;
 		}
+
+		system("cls");
+		cout << "=== Eliminar Vehiculo del Plantel " << letraPlantel << " ===" << endl << endl;
 		p->getListaVehiculos()->mostrarVehiculosSimple();
+
 		while (true) {
 			cout << endl << "Ingrese la placa del vehiculo a eliminar (o 'n' para salir): ";
 			cin >> placa;
 			cin.ignore(10000, '\n');
-			if (placa == "n" || placa == "N") break;
+			if (placa == "n" || placa == "N") {
+				break;
+			}
 			if (placa.empty()) {
 				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
 				continue;
 			}
 			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
-				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				cout << "El vehiculo con placa " << placa << " no existe en este plantel. Intente de nuevo." << endl;
 				continue;
+			}
+			char conf;
+			while (true) {
+				cout << "Esta seguro que desea eliminar el vehiculo con placa " << placa << "? (s/n): ";
+				cin >> conf;
+				cin.ignore(10000, '\n');
+				if (conf == 's' || conf == 'S') {
+					bool eliEspacio = p->getEstacionamiento()->eliminarVehi(placa);
+					bool eliLista = p->getListaVehiculos()->eliminarVehiculo(placa);
+					if (eliLista) {
+						cout << endl << "Vehiculo con placa " << placa << " eliminado exitosamente." << endl;
+						if (!eliEspacio) {
+							cout << "(El vehiculo no estaba estacionado en ningun espacio)" << endl;
+						}
+					}
+					else {
+						cout << endl << "Error: No se pudo eliminar el vehiculo." << endl;
+					}
+					break;
+				}
+				else if (conf == 'n' || conf == 'N') {
+					cout << "Eliminacion cancelada." << endl;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
 			}
 			break;
 		}
-		if (placa != "n" && placa != "N") {
-			s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel)->getEstacionamiento()->eliminarVehi(placa);
-			p->getListaVehiculos()->eliminarVehiculo(placa);
-			cout << "Vehiculo eliminado exitosamente." << endl;
-		}
-		else {
+		if (placa == "n" || placa == "N") {
 			return;
 		}
 		char op;
 		while (true) {
-			cout << "Desea eliminar otro vehiculo? (s/n): ";
+			cout << endl << "Desea eliminar otro vehiculo? (s/n): ";
 			cin >> op;
 			cin.ignore(10000, '\n');
 			if (op == 's' || op == 'S') {
@@ -1320,7 +1466,6 @@ void Control::funcionEliminarVehiculo(Sucursal* s) {
 	}
 	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
 	cin.get();
-	return;
 }
 void Control::funcionVisualizacionVehiculo(Sucursal* s) {
 	if (!s) return;

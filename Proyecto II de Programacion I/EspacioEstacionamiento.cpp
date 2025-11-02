@@ -135,14 +135,15 @@ int EspacioEstacionamiento::contarEspaciosVacios() {
     }
     return eT;
 }
-void EspacioEstacionamiento::eliminarVehi(string placa) {
+bool EspacioEstacionamiento::eliminarVehi(string placa) {
     if (espacios) {
         for (int i = 0;i < nF;i++) {
             for (int j = 0;j < nC;j++) {
-                if (espacios[i][j]->getPlaca() == placa) { espacios[i][j] = nullptr; return; }
+                if (espacios[i][j]->getPlaca() == placa) { espacios[i][j] = nullptr; return true; }
             }
         }
     }
+    return false;
 }
 bool EspacioEstacionamiento::esPrimo(int num) {
     if (num <= 1) return false;

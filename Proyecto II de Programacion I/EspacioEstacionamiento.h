@@ -29,8 +29,9 @@ public:
 	int getnF();
 	int getnC();
 	bool estaOcupado(int nF, int nC);
+	Vehiculo* getVehiculoEnEspacio(int nF, int nC);
 	int contarEspaciosVacios();
-	void eliminarVehiAlquilado(Vehiculo* elimi);
+	void eliminarVehi(string placa);
 	bool esPrimo(int num);
 	bool agregarVehiculoEnEspacio(Vehiculo* v, int nF, int nC);
 };

@@ -95,6 +95,7 @@ void Control::menuPrincipal() {
 		}
 	} while (respuesta != 5);
 }
+
 void Control::subMenuSucursales(int numSucursal) {
 	int respuesta = 0;
 	Sucursal* sGestionar = listaSucursales->obtenerSucursal(numSucursal);
@@ -703,8 +704,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			funcionAgregarPlantel(s);
 			break;
 		}
-		case 2:
-		{
+		case 2: {
 			if(s->getPlanteles()->getTam() == 0) {
 				system("cls");
 				cout << "No hay planteles en esta sucursal para visualizar." << endl;
@@ -712,51 +712,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 				cin.get();
 				break;
 			}
-			bool seguir = true;
-			while (seguir) {
-				system("cls");
-				char letra;
-				bool conf = false;
-				cout << "=== Visualizacion Grafica de un Plantel ===" << endl << endl;
-				s->getPlanteles()->mostrarPlanteles();
-				while (true) {
-					cout << endl << "Ingrese la letra del plantel a visualizar (o 'n' para salir): ";
-					cin >> letra;
-					cin.ignore(10000, '\n');
-					if (letra == 'n' || letra == 'N') {
-						seguir = false;
-						break;
-					}
-					if (!s->getPlanteles()->existeLetraPlantel(letra)) {
-						cout << "No se encontro el plantel con la letra: " << letra << endl;
-						continue;
-					}
-					conf = true;
-					break;
-				}
-
-				if (conf && s->getPlanteles()->existeLetraPlantel(letra)) {
-					s->getPlanteles()->visualizacionGraficaDePlanteles(letra);
-				}
-				while (true) {
-					cout << endl << "Desea visualizar otro plantel? (s/n): ";
-					char op;
-					cin >> op;
-					cin.ignore(10000, '\n');
-					if (op == 's' || op == 'S') {
-						break;
-					}
-					else if (op == 'n' || op == 'N') {
-						seguir = false;
-						break;
-					}
-					else {
-						cout << "Opcion invalida. Intente de nuevo." << endl;
-					}
-				}
-			}
-			cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
-			cin.get();
+			funcionVisualizacionPlantel(s);
 			break;
 		}
 		case 3: {
@@ -885,7 +841,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		}
 		}
 
-	} while (resp != 11);
+	} while (resp != 12);
 }
 void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 	int resp = 0;
@@ -898,7 +854,8 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 		cout << "4. Mostrar Solicitud/Contrato de Alquiler especifico" << endl;
 		cout << "5. Recepcion de vehiculos" << endl;
 		cout << "6. Reportes de Solicitudes y Contratos" << endl;
-		cout << "7. Volver al Submenu de Sucursales" << endl << endl;
+		cout << "7. Reporte contratos por vehiculo" << endl;
+		cout << "8. Volver al Submenu de Sucursales" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> resp;
 		cin.ignore(10000, '\n');
@@ -964,6 +921,24 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 			break;
 		}
 		case 7: {
+			if (s->getPlanteles()->getTam() == 0) {
+				system("cls");
+				cout << "No hay planteles en esta sucursal para generar reportes de contratos por vehiculo." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
+			else if (s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() == 0) {
+				system("cls");
+				cout << "No hay vehiculos en los planteles de esta sucursal para generar reportes de contratos por vehiculo." << endl;
+				cout << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+				cin.get();
+				break;
+			}
+			funcionReporteContratosPorVehiculo(s);
+			break;
+		}
+		case 8: {
 			return;
 		}
 		default: {
@@ -975,6 +950,7 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 
 	} while (resp != 7);
 }
+
 void Control::funcionAgregarPlantel(Sucursal* s) {
 	string tipo;
 	bool seguir = true;
@@ -1069,6 +1045,89 @@ void Control::funcionAgregarPlantel(Sucursal* s) {
 	cin.get();
 	return;
 }
+void Control::funcionVisualizacionPlantel(Sucursal* s) {
+	if (!s) return;
+	bool seguir = true;
+	while (seguir) {
+		system("cls");
+		char letra;
+		bool conf = false;
+		cout << "=== Visualizacion Grafica de un Plantel ===" << endl << endl;
+		s->getPlanteles()->mostrarPlanteles();
+		while (true) {
+			cout << endl << "Ingrese la letra del plantel a visualizar (o 'n' para salir): ";
+			cin >> letra;
+			cin.ignore(10000, '\n');
+			if (letra == 'n' || letra == 'N') {
+				seguir = false;
+				return;
+			}
+			if (!s->getPlanteles()->existeLetraPlantel(letra)) {
+				cout << "No se encontro el plantel con la letra: " << letra << endl;
+				continue;
+			}
+			conf = true;
+			break;
+		}
+
+		if (conf && s->getPlanteles()->existeLetraPlantel(letra)) {
+			s->getPlanteles()->visualizacionGraficaDePlanteles(letra);
+		}
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letra);
+		char verEspacio;
+		while (true) {
+			cout << endl << "Desea consultar un espacio especifico? (s/n): ";
+			cin >> verEspacio;
+			cin.ignore(10000, '\n');
+			if (verEspacio == 's' || verEspacio == 'S') {
+				int fila, columna;
+				cout << "Ingrese numero de fila: ";
+				cin >> fila;
+				cin.ignore(10000, '\n');
+				cout << "Ingrese numero de columna: ";
+				cin >> columna;
+				cin.ignore(10000, '\n');
+
+				if (fila >= 0 && fila < p->getEstacionamiento()->getnF() && columna >= 0 && columna < p->getEstacionamiento()->getnC()) {
+					if (p->getEstacionamiento()->estaOcupado(fila, columna)) {
+						cout << "Espacio ocupado por: " << endl;
+						cout << p->getEstacionamiento()->getVehiculoEnEspacio(fila, columna)->toString() << endl;
+
+					}
+					else {
+						cout << "Espacio [" << fila << "][" << columna << "] esta vacio." << endl;
+					}
+				}
+				else {
+					cout << "Posicion invalida." << endl;
+				}
+				break;
+			}
+			else if (verEspacio == 'n' || verEspacio == 'N') {
+				break;
+			}
+			cout << "Opcion invalida." << endl;
+		}
+		while (true) {
+			cout << endl << "Desea visualizar otro plantel? (s/n): ";
+			char op;
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
+	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+	cin.get();
+}
 void Control::funcionAgregarVehiculo(Sucursal* s) {
 	string placa, modelo, marca;
 	char cate, lice;
@@ -1134,6 +1193,30 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 
 	Vehiculo* vehi= new Vehiculo(placa, modelo, marca, cate, lice);
 	p->getListaVehiculos()->agregarVehiculo(vehi);
+	cout << "Donde quiere estacionar el vehiculo?" << endl;
+	s->getPlanteles()->visualizacionGraficaDePlanteles(letraPlantel);
+	p->getEstacionamiento()->espacioRecomendado();
+	int fila, columna;
+	while (true) { 
+		cout << "Ingrese numero de fila: ";
+		cin >> fila;
+		cin.ignore(10000, '\n');
+		cout << "Ingrese numero de columna: ";
+		cin >> columna;
+		cin.ignore(10000, '\n');
+		if (fila >= 0 && fila < p->getEstacionamiento()->getnF() && columna >= 0 && columna < p->getEstacionamiento()->getnC()) {
+			if (!p->getEstacionamiento()->estaOcupado(fila, columna)) {
+				p->getEstacionamiento()->agregarVehiculoEnEspacio(vehi, fila, columna);
+				break;
+			}
+			else {
+				cout << "El espacio ya esta ocupado. Intente de nuevo." << endl;
+			}
+		}
+		else {
+			cout << "Posicion invalida. Intente de nuevo." << endl;
+		}
+	}
 		cout << endl << "Vehiculo agregado exitosamente." << endl;
 		char op;
 		while (true) {
@@ -1154,7 +1237,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 	}
 	return;
 }
-//Falta agregar el vehiculo a un espacio de estacionamiento libre del plantel
+
 void Control::funcionEliminarVehiculo(Sucursal* s) {
 	string placa;
 	bool seguir = true;
@@ -1198,6 +1281,7 @@ void Control::funcionEliminarVehiculo(Sucursal* s) {
 			break;
 		}
 		if (placa != "n" && placa != "N") {
+			s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel)->getEstacionamiento()->eliminarVehi(placa);
 			p->getListaVehiculos()->eliminarVehiculo(placa);
 			cout << "Vehiculo eliminado exitosamente." << endl;
 		}
@@ -2108,6 +2192,108 @@ void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			continue;
 		}
+		}
+	}
+}
+void Control::funcionReporteContratosPorVehiculo(Sucursal* s) {
+	if (!s) return;
+	while (true) {
+		system("cls");
+		s->getPlanteles()->mostrarPlanteles();
+		cout << "En que plantel se encuentra el vehiculo? (Ingrese la letra del plantel): ";
+		char letraPlantel;
+		cin >> letraPlantel;
+		cin.ignore(10000, '\n');
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+		if (!p) {
+			cout << "Plantel no encontrado. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!p->getListaVehiculos()) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+			cin.get();
+			return;
+		}
+string placa;
+while (true) {
+	system("cls");
+	p->getListaVehiculos()->mostrarVehiculosSimple();
+	cout << endl << "Ingrese la placa del vehiculo para ver sus contratos: ";
+	cin >> placa;
+			cin.ignore(10000, '\n');
+			if (placa.empty()) {
+				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!s->getSolicitudes()->tieneVehiContrato(placa)) {
+				cout << "No hay contratos asociados al vehiculo con placa: " << placa << endl;
+				char opVolver;
+				while (true) {
+					cout << "Desea buscar otro vehiculo? (s/n): ";
+					cin >> opVolver;
+					cin.ignore(10000, '\n');
+					if (opVolver == 's' || opVolver == 'S') {
+						break;
+					}
+					else if (opVolver == 'n' || opVolver == 'N') {
+						return;
+					}
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+				}
+				continue;
+			}
+			break;
+		}
+		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		s->getSolicitudes()->reportesSolicitudesPorVehiculo(v->getPlaca());
+		char verDetalle;
+		while (true) {
+			cout << endl << "Desea ver el detalle de algun contrato? (s/n): ";
+			cin >> verDetalle;
+			cin.ignore(10000, '\n');
+			if (verDetalle == 's' || verDetalle == 'S') {
+				string codigoContrato;
+				cout << "Ingrese el codigo del contrato: ";
+				cin >> codigoContrato;
+				cin.ignore(10000, '\n');
+
+				if (s->getSolicitudes()->buscarSolicitudPorCodigo(codigoContrato)) {
+					system("cls");
+					s->getSolicitudes()->mostrarSolicitudEspecifica(codigoContrato);
+					cout << endl << "Aprete enter para continuar..." << endl;
+					cin.get();
+				}
+				else {
+					cout << "Contrato no encontrado." << endl;
+				}
+				break;
+			}
+			else if (verDetalle == 'n' || verDetalle == 'N') {
+				break;
+			}
+			cout << "Opcion invalida. Intente de nuevo." << endl;
+		}
+		char op;
+		while (true) {
+			cout << "Desea ver los contratos de otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				cout << endl << "Aprete enter para volver al submenu de contratos y alquileres" << endl;
+				cin.get();
+				return;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
 		}
 	}
 }

@@ -133,11 +133,11 @@ int EspacioEstacionamiento::contarEspaciosVacios() {
     }
     return eT;
 }
-void EspacioEstacionamiento::eliminarVehiAlquilado(Vehiculo* elimi) {
+void EspacioEstacionamiento::eliminarVehi(string placa) {
     if (espacios) {
         for (int i = 0;i < nF;i++) {
             for (int j = 0;j < nC;j++) {
-                if (espacios[i][j] == elimi) { espacios[i][j] = nullptr; return; }
+                if (espacios[i][j]->getPlaca() == placa) { espacios[i][j] = nullptr; return; }
             }
         }
     }
@@ -162,4 +162,10 @@ bool EspacioEstacionamiento::estaOcupado(int f, int c) {
         return espacios[f][c] != nullptr;
     }
     return false;
+}
+Vehiculo* EspacioEstacionamiento::getVehiculoEnEspacio(int f, int c) {
+    if (f >= 0 && f < nF && c >= 0 && c < nC) {
+        return espacios[f][c];
+    }
+    return nullptr;
 }

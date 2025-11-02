@@ -90,6 +90,27 @@ void ListaSolisyContras::mostrarSolicitudEspecifica(string codigo){
 		actual = actual->getNodoSig();
 	}
 }
+void ListaSolisyContras::mostrarContratosPorVehiculo(string placa){
+	NodoSoliyContra* actual = inicio;
+	while (actual) {
+		if (actual->getDato()->getEsContrato()) {
+			if (actual->getDato()->getPlaVehi() == placa) {
+				cout << actual->getDato()->mostrarInfo() << endl;
+			}
+		}
+		actual = actual->getNodoSig();
+	}
+}
+bool ListaSolisyContras::tieneVehiContrato(string placa) {
+	NodoSoliyContra* actual = inicio;
+	while (actual) {
+		if (actual->getDato()->getEsContrato()) {
+			if (actual->getDato()->getPlaVehi() == placa) return true;
+		}
+		actual = actual->getNodoSig();
+	}
+	return false;
+}
 void ListaSolisyContras::aprobaRechaSolicitud(string codigo){
 	NodoSoliyContra* actual = inicio;
 	bool finalizado = false;
@@ -268,3 +289,41 @@ void ListaSolisyContras::reportesAlquilerPorColaborador(string cedula) {
 	}
 }
 int ListaSolisyContras::getTam() { return tam; }
+void ListaSolisyContras::mostrarContratosOrdenados() { //Este metodo muestra los contratos ordenados del mas reciente al mas antiguo, ya que la naturaleza de la lista es agregar al final los mas recientes, por lo que simplemente se invierte (misma logica que el proyecto 1 jeje)
+	if (!inicio) {
+		cout << "No hay contratos en esta sucursal." << endl;
+		return;
+	}
+	NodoSoliyContra* listaInvertida = nullptr;
+	NodoSoliyContra* actual = inicio;
+	int totalContratos = 0;
+	while (actual) {
+		if (actual->getDato()->getEsContrato()) {
+			NodoSoliyContra* nuevoNodo = new NodoSoliyContra(actual->getDato());
+			nuevoNodo->setNodoSig(listaInvertida);
+			listaInvertida = nuevoNodo;
+			totalContratos++;
+		}
+		actual = actual->getNodoSig();
+	}
+
+	if (totalContratos == 0) {
+		cout << "No hay contratos en esta sucursal." << endl;
+		return;
+	}
+
+	cout << " Contratos del mas reciente al mas antiguo " << endl;
+	cout << "Total de contratos: " << totalContratos << endl << endl;
+
+	actual = listaInvertida;
+	while (actual) {
+		actual->getDato()->mostrarInfo();
+		cout << "---------------------------------------" << endl << endl;
+		actual = actual->getNodoSig();
+	}
+	while (listaInvertida) {
+		NodoSoliyContra* temp = listaInvertida;
+		listaInvertida = listaInvertida->getNodoSig();
+		delete temp;
+	}
+}

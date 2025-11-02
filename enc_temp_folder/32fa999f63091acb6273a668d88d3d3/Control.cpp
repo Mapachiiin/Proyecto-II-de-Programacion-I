@@ -1069,51 +1069,44 @@ void Control::funcionVisualizacionPlantel(Sucursal* s) {
 			conf = true;
 			break;
 		}
+
 		if (conf && s->getPlanteles()->existeLetraPlantel(letra)) {
 			s->getPlanteles()->visualizacionGraficaDePlanteles(letra);
-			Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letra);
-			char verEspacio;
-			while (true) {
-				cout << endl << "Desea consultar un espacio especifico? (s/n): ";
-				cin >> verEspacio;
+		}
+		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letra);
+		char verEspacio;
+		while (true) {
+			cout << endl << "Desea consultar un espacio especifico? (s/n): ";
+			cin >> verEspacio;
+			cin.ignore(10000, '\n');
+			if (verEspacio == 's' || verEspacio == 'S') {
+				int fila, columna;
+				cout << "Ingrese numero de fila: ";
+				cin >> fila;
 				cin.ignore(10000, '\n');
-				if (verEspacio == 's' || verEspacio == 'S') {
-					bool seguirConsultando = true;
-					while (seguirConsultando) {
-						int numeroEspacio;
-						cout << "Ingrese el numero del espacio (1-" << p->getCapMax() << ") o 0 para salir: ";
-						cin >> numeroEspacio;
-						cin.ignore(10000, '\n');
-						if (numeroEspacio == 0) {
-							break;
-						}
-						if (numeroEspacio < 1 || numeroEspacio > p->getCapMax()) {
-							cout << "Numero fuera de rango. Debe ser entre 1 y " << p->getCapMax() << "." << endl;
-							continue;
-						}
-						int numColumnas = p->getEstacionamiento()->getnC();
-						int posicion = numeroEspacio - 1;
-						int fila = posicion / numColumnas;
-						int columna = posicion % numColumnas;
-						string codigoEspacio = string(1, toupper(letra)) + (numeroEspacio < 10 ? "0" : "") + to_string(numeroEspacio);
-						cout << endl;
-						if (p->getEstacionamiento()->estaOcupado(fila, columna)) {
-							cout << "Espacio " << codigoEspacio << " - Ocupado " << endl;
-							cout << p->getEstacionamiento()->getVehiculoEnEspacio(fila, columna)->toString() << endl;
-						}
-						else {
-							cout << "Espacio " << codigoEspacio << " - Vacio " << endl;
-							cout << "Posicion: [Fila: " << fila << "][Columna: " << columna << "]" << endl;
-						}
-						cout << endl;
+				cout << "Ingrese numero de columna: ";
+				cin >> columna;
+				cin.ignore(10000, '\n');
+
+				if (fila >= 0 && fila < p->getEstacionamiento()->getnF() && columna >= 0 && columna < p->getEstacionamiento()->getnC()) {
+					if (p->getEstacionamiento()->estaOcupado(fila, columna)) {
+						cout << "Espacio ocupado por: " << endl;
+						cout << p->getEstacionamiento()->getVehiculoEnEspacio(fila, columna)->toString() << endl;
+
 					}
-					break;
+					else {
+						cout << "Espacio [" << fila << "][" << columna << "] esta vacio." << endl;
+					}
 				}
-				else if (verEspacio == 'n' || verEspacio == 'N') {
-					break;
+				else {
+					cout << "Posicion invalida." << endl;
 				}
-				cout << "Opcion invalida." << endl;
+				break;
 			}
+			else if (verEspacio == 'n' || verEspacio == 'N') {
+				break;
+			}
+			cout << "Opcion invalida." << endl;
 		}
 		while (true) {
 			cout << endl << "Desea visualizar otro plantel? (s/n): ";
@@ -1139,14 +1132,14 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 	string placa, modelo, marca;
 	char cate, lice;
 	bool seguir = true;
-	while (seguir) {
+	while(seguir) {
 		system("cls");
 		s->getPlanteles()->mostrarPlanteles();
-		cout << "En que plantel desea agregar el vehiculo? (Ingrese la letra del plantel): ";
+		cout<<"En que plantel desea agregar el vehiculo? (Ingrese la letra del plantel): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
-		if (s->getPlanteles()->getTam() == 0) {
+		if(s->getPlanteles()->getTam() == 0){
 			cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
 			cin.get();
 			return;
@@ -1173,13 +1166,13 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 		}
 		cout << "Ingrese el modelo del vehiculo: ";
 		getline(cin, modelo);
-		cout << "Ingrese el marca del vehiculo: ";
+		cout << "Ingrese la marca del vehiculo: ";
 		getline(cin, marca);
 		while (true) {
 			cout << "Ingrese la categoria del vehiculo (A: Economico, B: Estandar, C: Lujo, D: 4x4): ";
 			cin >> cate;
 			cin.ignore(10000, '\n');
-			cate = toupper(cate);
+			cate = toupper(cate); //..................... No sabia que existia esta funcion............... Mucho tiempo desperdiciado
 			if (cate < 'A' || cate > 'D') {
 				cout << "Categoria invalida. Intente de nuevo." << endl;
 				continue;
@@ -1197,40 +1190,33 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 			}
 			break;
 		}
-		Vehiculo* vehi = new Vehiculo(placa, modelo, marca, cate, lice);
-		p->getListaVehiculos()->agregarVehiculo(vehi);
-		system("cls");
-		cout << "=== ESTACIONAR VEHICULO ===" << endl << endl;
-		s->getPlanteles()->visualizacionGraficaDePlanteles(letraPlantel);
-		cout << endl << p->getEstacionamiento()->espacioRecomendado() << endl << endl;
-		while (true) {
-			int numeroEspacio;
-			cout << "Ingrese el numero del espacio (1-" << p->getCapMax() << "): ";
-			cin >> numeroEspacio;
-			cin.ignore(10000, '\n');
-			if (numeroEspacio < 1 || numeroEspacio > p->getCapMax()) {
-				cout << "Numero fuera de rango. Debe ser entre 1 y " << p->getCapMax() << "." << endl;
-				continue;
-			}
-			int numColumnas = p->getEstacionamiento()->getnC();
-			int posicion = numeroEspacio - 1;
-			int fila = posicion / numColumnas;
-			int columna = posicion % numColumnas;
-			string codigoEspacio = string(1, toupper(letraPlantel)) +
-				(numeroEspacio < 10 ? "0" : "") +
-				to_string(numeroEspacio);
-			if (p->getEstacionamiento()->estaOcupado(fila, columna)) {
-				cout << "El espacio " << codigoEspacio << " ya esta ocupado. Intente de nuevo." << endl;
-				continue;
-			}
-			if (p->getEstacionamiento()->agregarVehiculoEnEspacio(vehi, fila, columna)) {
-				cout << endl << "Vehiculo estacionado exitosamente en espacio " << codigoEspacio << endl;
+
+	Vehiculo* vehi= new Vehiculo(placa, modelo, marca, cate, lice);
+	p->getListaVehiculos()->agregarVehiculo(vehi);
+	cout << "Donde quiere estacionar el vehiculo?" << endl;
+	s->getPlanteles()->visualizacionGraficaDePlanteles(letraPlantel);
+	p->getEstacionamiento()->espacioRecomendado();
+	int fila, columna;
+	while (true) { 
+		cout << "Ingrese numero de fila: ";
+		cin >> fila;
+		cin.ignore(10000, '\n');
+		cout << "Ingrese numero de columna: ";
+		cin >> columna;
+		cin.ignore(10000, '\n');
+		if (fila >= 0 && fila < p->getEstacionamiento()->getnF() && columna >= 0 && columna < p->getEstacionamiento()->getnC()) {
+			if (!p->getEstacionamiento()->estaOcupado(fila, columna)) {
+				p->getEstacionamiento()->agregarVehiculoEnEspacio(vehi, fila, columna);
 				break;
 			}
 			else {
-				cout << "Error al estacionar el vehiculo. Intente de nuevo." << endl;
+				cout << "El espacio ya esta ocupado. Intente de nuevo." << endl;
 			}
 		}
+		else {
+			cout << "Posicion invalida. Intente de nuevo." << endl;
+		}
+	}
 		cout << endl << "Vehiculo agregado exitosamente." << endl;
 		char op;
 		while (true) {

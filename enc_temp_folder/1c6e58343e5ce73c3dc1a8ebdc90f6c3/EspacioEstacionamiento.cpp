@@ -53,36 +53,34 @@ int EspacioEstacionamiento::getCapMax() { return nF * nC; }
 int EspacioEstacionamiento::getnF() { return nF; }
 int EspacioEstacionamiento::getnC() { return nC; }
 string EspacioEstacionamiento::espacioRecomendado() {
-    if (!espacios) return "No hay espacios disponibles";
-    int maxVecinos = -1, mejorF = -1, mejorC = -1;
+	if (!espacios) return "No hay espacios disponibles";
+    int maxVecinos=-1, mejorF=-1, mejorC=-1; //Los -1 es para que no entre al ultimo if si no hay ningun espacio disponible
+    string mejorEspa = "";
     for (int i = 0; i < nF; i++) {
         for (int j = 0; j < nC; j++) {
             if (espacios[i][j] == nullptr) {
-                int veciLibres = 0;
+                int vecinosLibres = 0;
                 for (int k = -1; k <= 1; k++) {
                     for (int p = -1; p <= 1; p++) {
-                        if (k == 0 && p == 0) continue;
+                        if (k == 0 && p == 0) continue; //Este if es para no evaluar la celda central como un "vecino" aunque realmente no habria problema si no esta jajaj
                         int nf = i + k;
                         int nc = j + p;
                         if (nf >= 0 && nf < nF && nc >= 0 && nc < nC) {
                             if (espacios[nf][nc] == nullptr)
-                                veciLibres++;
+                                vecinosLibres++;
                         }
                     }
                 }
-                if (veciLibres > maxVecinos) {
-                    maxVecinos = veciLibres;
+                if (vecinosLibres > maxVecinos) {
+                    maxVecinos = vecinosLibres;
                     mejorF = i;
                     mejorC = j;
                 }
             }
         }
     }
-
-    if (mejorF >= 0 && mejorC >= 0) {
-        int numeroEspacio = (mejorF * nC) + mejorC + 1;
-        return "Espacio recomendado: " + to_string(numeroEspacio) +" (Fila " + to_string(mejorF) + ", Columna " + to_string(mejorC) + ")";
-    }
+    
+    if (mejorF >= 0 && mejorC >= 0) return to_string(mejorF)+to_string(mejorC);
 
     return "No hay espacios disponibles";
 }

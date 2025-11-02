@@ -41,7 +41,11 @@ void Control::menuPrincipal() {
 		cout << "5. Cerrar programa" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
-		cin.ignore(10000, '\n');
+		if(cin.fail()){
+			cin.clear();
+			cin.ignore(10000,'\n');
+			respuesta = 0;
+		}
 
 		switch (respuesta) {
 		case 1: {
@@ -70,6 +74,11 @@ void Control::menuPrincipal() {
 			while (true) {
 				cout << endl << "Ingrese el numero de la sucursal a eliminar (o 0 para cancelar): ";
 				cin >> nSuc;
+				if (cin.fail()) {
+					cin.clear();
+					cin.ignore(10000, '\n');
+					nSuc = 0;
+				}
 				cin.ignore(10000, '\n');
 
 				if (nSuc == 0) {
@@ -219,6 +228,11 @@ void Control::subMenuSucursales(int numSucursal) {
 		cout << "5. Volver al Menu Principal" << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			respuesta = 0;
+		}
 		switch (respuesta) {
 		case 1:
 			subMenuColaboradores(sGestionar);
@@ -255,7 +269,11 @@ void Control::subMenuColaboradores(Sucursal* s) {
 		cout << "5. Volver al Submenu de Sucursales" << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
-		cin.ignore(10000, '\n');
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			respuesta = 0;
+		}
 
 		switch (respuesta)
 		{
@@ -511,6 +529,11 @@ void Control::subMenuClientes(Sucursal* s) {
 		cout << "6. Volver al Submenu de Sucursales" << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			respuesta = 0;
+		}
 		cin.ignore(10000, '\n');
 
 		switch (respuesta) {
@@ -580,10 +603,14 @@ void Control::subMenuClientes(Sucursal* s) {
 							if (cin.fail()) {
 								cin.clear();
 								cin.ignore(10000, '\n');
+								descuento = 0.0;
+							}
+							if (cin.fail()) {
+								cin.clear();
+								cin.ignore(10000, '\n');
 								cout << "Entrada invalida. Ingrese un numero (puede tener decimales)." << endl;
 								continue;
 							}
-							cin.ignore(10000, '\n');
 							if (descuento < 0.0 || descuento > 100.0) {
 								cout << "El porcentaje de descuento debe estar entre 0 y 100; puede tener decimales. Intente de nuevo." << endl;
 								continue;
@@ -803,8 +830,16 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		cout << "11. Volver al Submenu de Sucursales" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> resp;
-		cin.ignore(10000, '\n');
-
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			resp = 0;
+		}
+		if(cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			resp = 0;
+		}
 		switch (resp) {
 		case 1: {
 			funcionAgregarPlantel(s);
@@ -947,7 +982,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		}
 		}
 
-	} while (resp != 12);
+	} while (resp != 11);
 }
 void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 	int resp = 0;
@@ -965,7 +1000,11 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 		cout << "9. Volver al Submenu de Sucursales" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> resp;
-		cin.ignore(10000, '\n');
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			resp = 0;
+		}
 		switch (resp) {
 		case 1: {
 			funcionCrearSolicitudDeAlquiler(s);
@@ -1066,7 +1105,7 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 		}
 		}
 
-	} while (resp != 7);
+	} while (resp != 9);
 }
 //funciones de los submenus
 void Control::funcionAgregarPlantel(Sucursal* s) {
@@ -1095,9 +1134,13 @@ void Control::funcionAgregarPlantel(Sucursal* s) {
 		while (true) {
 			cout << "Ingrese la capacidad maxima del plantel: ";
 			cin >> capMax;
-			cin.ignore(10000, '\n');
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				capMax = 0;
+			}
 			if (capMax <= 0) {
-				cout << "La capacidad maxima del plantel debe ser un numero positivo. Intente de nuevo." << endl;
+				cout << "La capacidad maxima del plantel debe mayor a 0. Intente de nuevo." << endl;
 				continue;
 			}
 			break;
@@ -1111,7 +1154,11 @@ void Control::funcionAgregarPlantel(Sucursal* s) {
 			cout << "4. Lastreado" << endl;
 			cout << "Ingrese una opcion (1-4): ";
 			cin >> op;
-			cin.ignore(10000, '\n');
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				op = 0;
+			}
 			switch (op) {
 			case 1: {
 				tipo = "Techado y asfaltado";
@@ -1198,22 +1245,30 @@ void Control::funcionVisualizacionPlantel(Sucursal* s) {
 				if (verEspacio == 's' || verEspacio == 'S') {
 					bool seguirConsultando = true;
 					while (seguirConsultando) {
-						int numeroEspacio;
-						cout << "Ingrese el numero del espacio (1-" << p->getCapMax() << ") o 0 para salir: ";
+						string numeroEspacio;
+						int num=0;
+						cout << "Ingrese el numero del espacio (1-" << p->getCapMax() << ") o 'n' para salir: ";
 						cin >> numeroEspacio;
 						cin.ignore(10000, '\n');
-						if (numeroEspacio == 0) {
-							break;
+						if (numeroEspacio == "n" || numeroEspacio == "N") {
+								break;
+							}
+						try {
+							num = stoi(numeroEspacio);
 						}
-						if (numeroEspacio < 1 || numeroEspacio > p->getCapMax()) {
+						catch (...) {
+							cout << "Entrada invalida. Ingrese un numero valido." << endl;
+							continue;
+						}
+						if (num < 1 || num > p->getCapMax()) {
 							cout << "Numero fuera de rango. Debe ser entre 1 y " << p->getCapMax() << "." << endl;
 							continue;
 						}
 						int numColumnas = p->getEstacionamiento()->getnC();
-						int posicion = numeroEspacio - 1;
+						int posicion = num - 1;
 						int fila = posicion / numColumnas;
 						int columna = posicion % numColumnas;
-						string codigoEspacio = string(1, toupper(letra)) + (numeroEspacio < 10 ? "0" : "") + to_string(numeroEspacio);
+						string codigoEspacio = string(1, toupper(letra)) + (num < 10 ? "0" : "") + to_string(num);
 						cout << endl;
 						if (p->getEstacionamiento()->estaOcupado(fila, columna)) {
 							cout << "Espacio " << codigoEspacio << " - Ocupado " << endl;
@@ -1325,7 +1380,11 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 			int numeroEspacio;
 			cout << "Ingrese el numero del espacio (1-" << p->getCapMax() << "): ";
 			cin >> numeroEspacio;
-			cin.ignore(10000, '\n');
+			if(cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				numeroEspacio = 0;
+			}
 			if (numeroEspacio < 1 || numeroEspacio > p->getCapMax()) {
 				cout << "Numero fuera de rango. Debe ser entre 1 y " << p->getCapMax() << "." << endl;
 				continue;
@@ -1582,7 +1641,6 @@ void Control::funcionReubicarVehiculo(Sucursal* s) {
 			char nuevaLetra;
 			cin >> nuevaLetra;
 			cin.ignore(10000, '\n');
-
 			Plantel* nuevoPlantel = s->getPlanteles()->obtenerPlantelPorLetra(nuevaLetra);
 			if (!nuevoPlantel) {
 				cout << "Plantel no encontrado. Intente de nuevo." << endl;
@@ -1590,34 +1648,54 @@ void Control::funcionReubicarVehiculo(Sucursal* s) {
 				continue;
 			}
 			while (true) {
-				int numFila;
-				int numColumna;
 				system("cls");
 				s->getPlanteles()->visualizacionGraficaDePlanteles(nuevaLetra);
-				cout << nuevoPlantel->getEstacionamiento()->espacioRecomendado() << endl;
+				cout << endl << nuevoPlantel->getEstacionamiento()->espacioRecomendado() << endl << endl;
+				string numeroEspacio;
+				int num = 0;
 				while (true) {
-					cout << "En que fila desea reubicar el vehiculo? (Ingrese el numero de fila): ";
-
-					cin >> numFila;
+					cout << "Ingrese el numero del espacio (1-" << nuevoPlantel->getCapMax() << ") o 'n' para cancelar: ";
+					cin >> numeroEspacio;
 					cin.ignore(10000, '\n');
-					if (numFila < 0 || numFila >= nuevoPlantel->getEstacionamiento()->getnF()) {
-						cout << "Fila no valida. Intente de nuevo." << endl;
+					if (numeroEspacio == "n" || numeroEspacio == "N") {
+						cout << "Reubicacion cancelada." << endl;
+						cout << endl << "Aprete enter para continuar" << endl;
+						cin.get();
+						return;
+					}
+					try {
+						num = stoi(numeroEspacio);
+					}
+					catch (...) {
+						cout << "Entrada invalida. Ingrese un numero valido." << endl;
+						continue;
+					}
+					if (num < 1 || num > nuevoPlantel->getCapMax()) {
+						cout << "Numero fuera de rango. Debe ser entre 1 y " << nuevoPlantel->getCapMax() << "." << endl;
 						continue;
 					}
 					break;
 				}
-				while (true) {
-					cout << "En que columna desea reubicar el vehiculo? (Ingrese el numero de columna): ";
-					cin >> numColumna;
-					cin.ignore(10000, '\n');
-					if (numColumna < 0 || numColumna >= nuevoPlantel->getEstacionamiento()->getnC()) {
-						cout << "Columna no valida. Intente de nuevo." << endl;
-						continue;
-					}
-					break;
+				int numColumnas = nuevoPlantel->getEstacionamiento()->getnC();
+				int posicion = num - 1;
+				int numFila = posicion / numColumnas;
+				int numColumna = posicion % numColumnas;
+				string codigoEspacio = string(1, toupper(nuevaLetra)) + (num < 10 ? "0" : "") + to_string(num);
+				if (nuevoPlantel->getEstacionamiento()->estaOcupado(numFila, numColumna)) {
+					cout << "El espacio " << codigoEspacio << " ya esta ocupado. Intente de nuevo." << endl;
+					cout << endl << "Aprete enter para continuar" << endl;
+					cin.get();
+					continue;
 				}
 				if (nuevoPlantel->getEstacionamiento()->agregarVehiculoEnEspacio(v, numFila, numColumna)) {
-					p->getListaVehiculos()->eliminarVehiculo(placa);
+					if (p == nuevoPlantel) {
+						p->getEstacionamiento()->eliminarVehi(placa);
+					}
+					else {
+						p->getEstacionamiento()->eliminarVehi(placa);
+						p->getListaVehiculos()->eliminarNodoVehiSinDelete(placa);
+						nuevoPlantel->getListaVehiculos()->agregarVehiculo(v);
+					}
 					cout << "Vehiculo reubicado exitosamente." << endl;
 					break;
 				}
@@ -1716,6 +1794,11 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 			cout << "5. Lavado" << endl;
 			cout << "Ingrese una opcion: ";
 			cin >> opcion;
+			if(cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				opcion = 0;
+			}
 			cin.ignore(10000, '\n');
 
 			switch (opcion) {
@@ -1965,7 +2048,11 @@ void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 		while (true) {
 			cout << "Ingrese la cantidad de dias de alquiler: ";
 			cin >> diasAlquiler;
-			cin.ignore(10000, '\n');
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				diasAlquiler = 0;
+			}
 			if(diasAlquiler <= 0){
 				cout << "La cantidad de dias debe ser mayor a 0. Intente de nuevo." << endl;
 				continue;
@@ -2032,7 +2119,11 @@ void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s) {
 			cout << "3. Anular solicitud" << endl;
 			cout << "4. Cancelar y volver al submenu de contratos y alquileres" << endl << endl;
 			cin >> opcion;
-			cin.ignore(10000, '\n');
+			if(cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				opcion = 0;
+			}	
 			switch (opcion) {
 			case 1: {
 				solicitud->cambiarEstadoSoli("Aprobada");
@@ -2125,7 +2216,7 @@ void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 	if (!s) return;
 	while (true) {
 		system("cls");
-		bool opCA;
+		bool opCA=true;
 		int opc;
 		cout << "Visualizacion de solicitud o contrato especifico" << endl << endl;
 		cout << "1. Solicitud de alquiler" << endl;
@@ -2133,7 +2224,11 @@ void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 		cout << "3. Volver al submenu de contratos y alquileres" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> opc;
-		cin.ignore(10000, '\n');
+		if(cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			opc = 0;
+		}
 		switch (opc) {
 		case 1: {
 			opCA = false;
@@ -2180,7 +2275,7 @@ void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 			break;
 		}
 		case 2: {
-			opCA = false;
+			opCA = true;
 			bool seguir = true;
 			while (seguir) {
 				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
@@ -2291,7 +2386,11 @@ void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
 		cout << "Ingrese una opcion: ";
 		int opcion;
 		cin >> opcion;
-		cin.ignore(10000, '\n');
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			opcion = 0;
+		}
 		switch (opcion) {
 		case 1: {
 			bool opCA = false;
@@ -2489,7 +2588,11 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 		cout << endl << "Ingrese el numero de sucursal origen: ";
 		int nSucuOrigen;
 		cin >> nSucuOrigen;
-		cin.ignore(10000, '\n');
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			nSucuOrigen = 0;
+		}
 		if (!this->listaSucursales->existeSucursal(nSucuOrigen)) {
 			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
 			cin.get();
@@ -2512,20 +2615,20 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 			cout << "Seleccione el plantel de origen del vehiculo a trasladar:" << endl;
 			sucuOrigen->getPlanteles()->mostrarPlanteles();
 			cout << endl << "Ingrese la letra del plantel de origen: ";
-			char nPlantelOrigen;
-			cin >> nPlantelOrigen;
+			char PlantelOrigen;
+			cin >> PlantelOrigen;
 			cin.ignore(10000, '\n');
-			if (!sucuOrigen->getPlanteles()->existeLetraPlantel(nPlantelOrigen)) {
+			if (!sucuOrigen->getPlanteles()->existeLetraPlantel(PlantelOrigen)) {
 				cout << "Plantel no encontrado. Intente de nuevo." << endl;
 				cin.get();
 				continue;
 			}
-			if(!sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(nPlantelOrigen)) {
+			if(!sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(PlantelOrigen)) {
 				cout << "Plantel no encontrado. Intente de nuevo." << endl;
 				cin.get();
 				continue;
 			}
-			else planOrigen = sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(nPlantelOrigen);
+			else planOrigen = sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(PlantelOrigen);
 			if(planOrigen->getListaVehiculos()->getTam() == 0){
 				cout << "El plantel seleccionado no tiene vehiculos. Agregue un vehiculo primero." << endl;
 				cout << "Intente de nuevo." << endl;
@@ -2576,7 +2679,11 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 		cout << endl << "Ingrese el numero de sucursal destino: ";
 		int nSucuDestino;
 		cin >> nSucuDestino;
-		cin.ignore(10000, '\n');
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			nSucuDestino = 0;
+		}
 		if (!this->listaSucursales->existeSucursal(nSucuDestino)) {
 			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
 			cin.get();
@@ -2599,20 +2706,20 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 			cout << "Seleccione el plantel de destino del vehiculo a trasladar:" << endl;
 			sucuDestino->getPlanteles()->mostrarPlanteles();
 			cout << endl << "Ingrese la letra del plantel de destino: ";
-			char nPlantelDestino;
-			cin >> nPlantelDestino;
+			char PlantelDestino;
+			cin >> PlantelDestino;
 			cin.ignore(10000, '\n');
-			if (!sucuDestino->getPlanteles()->existeLetraPlantel(nPlantelDestino)) {
+			if (!sucuDestino->getPlanteles()->existeLetraPlantel(PlantelDestino)) {
 				cout << "Plantel no encontrado. Intente de nuevo." << endl;
 				cin.get();
 				continue;
 			}
-			if (!sucuDestino->getPlanteles()->obtenerPlantelPorLetra(nPlantelDestino)) {
+			if (!sucuDestino->getPlanteles()->obtenerPlantelPorLetra(PlantelDestino)) {
 				cout << "Plantel no encontrado. Intente de nuevo." << endl;
 				cin.get();
 				continue;
 			}
-			else planDestino = sucuDestino->getPlanteles()->obtenerPlantelPorLetra(nPlantelDestino);
+			else planDestino = sucuDestino->getPlanteles()->obtenerPlantelPorLetra(PlantelDestino);
 			break;
 		}
 		break;
@@ -2663,7 +2770,11 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 		int numeroEspacio;
 		cout << "Ingrese el numero del espacio (1-" << planDestino->getCapMax() << "): ";
 		cin >> numeroEspacio;
-		cin.ignore(10000, '\n');
+		if(cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			numeroEspacio = 0;
+		}
 		if (numeroEspacio < 1 || numeroEspacio > planDestino->getCapMax()) {
 			cout << "Numero fuera de rango. Intente de nuevo." << endl;
 			continue;

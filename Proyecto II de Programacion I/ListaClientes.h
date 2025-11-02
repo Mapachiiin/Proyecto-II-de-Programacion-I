@@ -14,5 +14,6 @@ public:
 	void mostrarClientes();
 	bool eliminarCliente(string cedula);
 	Cliente* buscarClientePorCedula(string cedula);
+	bool eliminarNodoSinDelete(string cedula);
 };
 

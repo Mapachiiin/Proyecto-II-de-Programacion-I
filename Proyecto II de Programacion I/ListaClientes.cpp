@@ -34,7 +34,12 @@ if (!inicio) return;
 	NodoCliente* actual = inicio;
 	while (actual) {
 		if (actual->getDato()) {
+			if(actual->getDato()->getActiEco()==" "){
 			cout << "Cliente: " << actual->getDato()->getNombre() << " | Cedula: " << actual->getDato()->getCedula() << endl;
+			}
+			else {
+			cout << "Cliente: " << actual->getDato()->getNombre() << " | Cedula: " << actual->getDato()->getCedula() << "| Actividad economica: "<< actual->getDato()->getActiEco() <<" con un descuento de " << actual->getDato()->getDescuento()<< "%" << endl;
+			}
 		}
 		actual = actual->getNodoSig();
 	}
@@ -55,6 +60,28 @@ bool ListaClientes::eliminarCliente(string cedula){
 			if (anterior) {
 				anterior->setNodoSig(actual->getNodoSig());
 			}
+			delete actual;
+			tam--;
+			return true;
+		}
+		anterior = actual;
+		actual = actual->getNodoSig();
+	}
+	return false;
+}
+bool ListaClientes::eliminarNodoSinDelete(string cedula) {
+	if (!inicio) return false;
+	NodoCliente* actual = inicio;
+	NodoCliente* anterior = nullptr;
+	while (actual) {
+		if (actual->getDato()->getCedula() == cedula) {
+			if (anterior) {
+				anterior->setNodoSig(actual->getNodoSig());
+			}
+			else {
+				inicio = actual->getNodoSig();
+			}
+			actual->soltarDato();
 			delete actual;
 			tam--;
 			return true;

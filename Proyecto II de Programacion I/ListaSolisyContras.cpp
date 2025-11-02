@@ -206,44 +206,38 @@ void ListaSolisyContras::reporteClientesPorCantidadDeContratos() {
 		cout << "No hay solicitudes/contratos." << endl;
 		return;
 	}
-
 	ListaClientes* lista = new ListaClientes();
 	NodoSoliyContra* actual = inicio;
 	while (actual) {
 		SoliAlquiyContra* soli = actual->getDato();
-		if (soli) {
-			Cliente* clie = soli->getCli();
-			if (clie) {
-				if (!lista->buscarClientePorCedula(clie->getCedula())) {
-					lista->agregarCliente(clie);
-				}
+		if (soli && soli->getCli()) {
+			if (!lista->buscarClientePorCedula(soli->getCli()->getCedula())) {
+				lista->agregarCliente(soli->getCli());
 			}
 		}
 		actual = actual->getNodoSig();
 	}
-
 	cout << " Clientes ordenados por cantidad de contratos:" << endl << endl;
 	while (lista->getInicio()) {
 		NodoCliente* nAct = lista->getInicio();
-		NodoCliente* nMax = lista->getInicio();
+		NodoCliente* nMax = nullptr;
 		int maxCount = -1;
-
 		while (nAct) {
 			Cliente* cliente = nAct->getDato();
+			if (!cliente) {
+				nAct = nAct->getNodoSig();
+				continue;
+			}
 			string ced = cliente->getCedula();
 			int count = 0;
-			string codigos = "";
-
 			NodoSoliyContra* Actual2 = inicio;
 			while (Actual2) {
 				SoliAlquiyContra* soli = Actual2->getDato();
-				if (soli && soli->getCli() && soli->getCli()->getCedula() == ced) {
-					if (soli->getEsContrato()) count++;
+				if (soli && soli->getCli() && soli->getCli()->getCedula() == ced && soli->getEsContrato()) {
+					count++;
 				}
 				Actual2 = Actual2->getNodoSig();
 			}
-
-
 
 			if (count > maxCount) {
 				maxCount = count;
@@ -252,15 +246,13 @@ void ListaSolisyContras::reporteClientesPorCantidadDeContratos() {
 
 			nAct = nAct->getNodoSig();
 		}
-		if (maxCount == 0) break;
-		if (!nMax || !nMax->getDato()) break;
+		if (maxCount <= 0 || !nMax || !nMax->getDato()) break;
 		Cliente* cMax = nMax->getDato();
-		cout << "Cedula: " << cMax->getCedula() << " | Nombre: " << cMax->getNombre() << " | Numero de contratos: " << maxCount;
-		cout << "\n";
-
-		lista->eliminarCliente(cMax->getCedula());
+		cout << "Cedula: " << cMax->getCedula()
+			<< " | Nombre: " << cMax->getNombre()
+			<< " | Numero de contratos: " << maxCount << endl;
+		lista->eliminarNodoSinDelete(cMax->getCedula());
 	}
-
 	delete lista;
 }
 void ListaSolisyContras::reportesAlquilerPorColaborador(string cedula) {

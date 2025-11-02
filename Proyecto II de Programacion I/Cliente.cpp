@@ -13,6 +13,8 @@ Cliente::Cliente(string ced, string nom, string pais, string actiE, double des):
 	setNombre(nom);
 }
 Cliente::~Cliente(){}
+string Cliente::getActiEco() { return actiEco; }
+double Cliente::getDescuento() { return descuento;  }
 
 string Cliente::toString(){
 	stringstream ss;

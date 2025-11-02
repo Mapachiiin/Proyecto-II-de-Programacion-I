@@ -19,6 +19,7 @@ public:
     Control();
     ~Control();
     void agregarSucursal();
+	ListaSucursales* getListaSucursales() { return listaSucursales; }
     bool eliminarSucursal(int numSucursal);
     void mostrarSucursales();
     //menus y sub menus
@@ -48,6 +49,14 @@ public:
 	void funcionReporteContratosPorVehiculo(Sucursal* s);
 	void funcionVisualizacionPlantel(Sucursal* s);
 	void funcionReportesDeLaSucursalOrdenadosPorFechas(Sucursal* s);
-
+	void funcionAgregarColaborador(Sucursal* s);
+	void funcionEliminarColaborador(Sucursal* s);
+	void funcionMostrarColaboradoresDeLaSucursal(Sucursal* s);
+	void funcionReporteAlquiContraPorColaborador(Sucursal* s);
+	void funcionAgregarCliente(Sucursal* s);
+	void funcionEliminarCliente(Sucursal* s);
+	void funcionMostrarCLienteDeLaSucursal(Sucursal* s);
+	void funcionHistorialDeSoliContraPorCliente(Sucursal* s);
+	void funcionReporteDeClientePorCantidadContratos(Sucursal* s);
 };
 

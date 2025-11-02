@@ -836,7 +836,6 @@ void Control::funcionVisualizacionPlantel(Sucursal* s) {
 			break;
 		}
 		if (conf && s->getPlanteles()->existeLetraPlantel(letra)) {
-			system("cls");
 			s->getPlanteles()->visualizacionGraficaDePlanteles(letra);
 			Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letra);
 			char verEspacio;

@@ -21,6 +21,8 @@ public:
 	Cliente();
 	Cliente(string ced, string nom, string pais);
 	Cliente(string ced, string nom, string pais, string actiEco, double desc);
+	string getActiEco();
+	double getDescuento();
 	~Cliente();
 	string toString();
 

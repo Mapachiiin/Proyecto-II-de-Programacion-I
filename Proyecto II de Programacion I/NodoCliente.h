@@ -9,6 +9,7 @@ private:
 public:
 	NodoCliente(Cliente* c);
 	~NodoCliente();
+	void soltarDato();
 	void setDato(Cliente* c);
 	Cliente* getDato();
 	void setNodoSig(NodoCliente* n);

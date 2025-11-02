@@ -75,8 +75,8 @@ void Vehiculo::cambiarEstado(int nEstado, Colaborador* cola, Fecha* fAct) {
 	}
 	if (puedeCambiarEstado(estadoActual, nEstado)) {
 		listaBE->agregarBitacora(estadoActual, nEstado, cola, fAct);
-		this->estadoActual = nEstado;
 		cout << "Cambio de estado realizado exitosamente: " << estado[estadoActual] << " -> " << estado[nEstado] << endl;
+		this->estadoActual = nEstado;
 		return;
 	}
 	else {

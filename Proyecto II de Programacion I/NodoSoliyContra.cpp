@@ -7,6 +7,7 @@ NodoSoliyContra::~NodoSoliyContra() {
 	sig = nullptr;
 }
 void NodoSoliyContra::setDato(SoliAlquiyContra* c) { this->dato = c; }
+void NodoSoliyContra::soltarDato() { dato = nullptr; }
 SoliAlquiyContra* NodoSoliyContra::getDato() { return dato; }
 void NodoSoliyContra::setNodoSig(NodoSoliyContra* sig) { this->sig = sig; }
 NodoSoliyContra* NodoSoliyContra::getNodoSig() { return sig; }

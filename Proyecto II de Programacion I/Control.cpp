@@ -30,7 +30,7 @@ void Control::mostrarSucursales() {
 void Control::menuPrincipal() {
 	int respuesta = 0;
 	do {
-		cin.ignore(10000, '\n');
+		cin.ignore(1000, '\n');
 		system("cls");
 		cout << " Bienvenido al Sistema D.R.T " << endl;
 		cout << "     " << fechaActual->toString() << endl << endl;
@@ -207,14 +207,13 @@ void Control::subMenuSucursales(int numSucursal) {
 		return;
 	}
 	do {
-		cin.ignore(10000, '\n');
 		system("cls");
 		cout << "-----Submenu de Sucursal " << numSucursal << " -----" << endl << endl;
 		cout << "1. Gestionar Colaboradores" << endl;
 		cout << "2. Gestionar Clientes" << endl;
 		cout << "3. Gestionar Vehiculos y Planteles" << endl;
 		cout << "4. Gestionar Solicitudes y Contratos" << endl;
-		cout << "5. Volver al Menu Principal" << endl;
+		cout << "5. Volver al Menu Principal" << endl<<endl;
 		cout << "Ingrese una opcion: ";
 		cin >> respuesta;
 		if (cin.fail()) {
@@ -222,6 +221,7 @@ void Control::subMenuSucursales(int numSucursal) {
 			cin.ignore(10000, '\n');
 			respuesta = 0;
 		}
+		cin.ignore(10000, '\n');
 		switch (respuesta) {
 		case 1:
 			subMenuColaboradores(sGestionar);
@@ -249,7 +249,6 @@ void Control::subMenuColaboradores(Sucursal* s) {
 	if (!s) return;
 	int respuesta = 0;
 	do {
-		cin.ignore(10000, '\n');
 		system("cls");
 		cout << "-----Submenu de Colaboradores-----" << endl << endl;
 		cout << "1. Agregar Colaborador a la sucursal" << endl;
@@ -264,7 +263,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			respuesta = 0;
 		}
-
+		cin.ignore(10000, '\n');
 		switch (respuesta)
 		{
 		case 1: {
@@ -329,7 +328,6 @@ void Control::subMenuClientes(Sucursal* s) {
 	if (!s) return;
 	int respuesta;
 	do {
-		cin.ignore(10000, '\n');
 		system("cls");
 		cout << "-----Submenu de Clientes-----" << endl << endl;
 		cout << "1. Agregar Cliente a la sucursal" << endl;
@@ -346,7 +344,6 @@ void Control::subMenuClientes(Sucursal* s) {
 			respuesta = 0;
 		}
 		cin.ignore(10000, '\n');
-
 		switch (respuesta) {
 		case 1: {
 			funcionAgregarCliente(s);
@@ -419,7 +416,6 @@ void Control::subMenuClientes(Sucursal* s) {
 void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 	int resp = 0;
 	do {
-		cin.ignore(10000, '\n');
 		system("cls");
 		cout << "-----Submenu de Vehiculos y Planteles-----" << endl << endl;
 		cout << "1. Agregar Plantel a la sucursal" << endl;
@@ -440,6 +436,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			resp = 0;
 		}
+		cin.ignore(10000, '\n');
 		switch (resp) {
 		case 1: {
 			funcionAgregarPlantel(s);
@@ -587,7 +584,6 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 	int resp = 0;
 	do {
-		cin.ignore(10000, '\n');
 		system("cls");
 		cout << "-----Submenu de Solicitudes y Contratos-----" << endl << endl;
 		cout << "1. Crear Solicitud de Alquiler" << endl;
@@ -606,6 +602,7 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			resp = 0;
 		}
+		cin.ignore(10000, '\n');
 		switch (resp) {
 		case 1: {
 			funcionCrearSolicitudDeAlquiler(s);
@@ -1330,30 +1327,34 @@ void Control::funcionReubicarVehiculo(Sucursal* s) {
 void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 	if (!s) return;
 	bool seguir = true;
-	while (true) {
+	while (seguir) {
 		system("cls");
 		s->getPlanteles()->mostrarPlanteles();
-		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel): ";
+		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel o 'Z' para salir): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
+		if (toupper(letraPlantel) == 'Z') {
+			return;
+		}
 		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
 		if (!p) {
 			cout << "Plantel no encontrado. Intente de nuevo." << endl;
 			cin.get();
-			return;
+			continue;
 		}
-		if (!p->getListaVehiculos()) {
-			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+		if (p->getListaVehiculos()->getTam() == 0) {
+			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero o intente con otro plantel." << endl;
 			cin.get();
-			return;
+			continue;
 		}
 		p->getListaVehiculos()->mostrarVehiculosSimple();
 		string placa;
 		while (true) {
-			cout << endl << "Ingrese la placa del vehiculo cuyo estado desea cambiar: ";
+			cout << endl << "Ingrese la placa del vehiculo cuyo estado desea cambiar (o 'Z' para salir): ";
 			cin >> placa;
 			cin.ignore(10000, '\n');
+			if (placa == "Z" || placa == "Z") break;
 			if (placa.empty()) {
 				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
 				continue;
@@ -1364,10 +1365,10 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 			}
 			break;
 		}
+		if (placa == "z" || placa == "Z") continue;
 		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
 		system("cls");
 		s->getColaboradores()->mostrarColaboradores();
-
 		Colaborador* c = nullptr;
 		while (true) {
 			cout << "Ingrese la cedula del colaborador que realiza el cambio de estado: ";
@@ -1385,53 +1386,139 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 			}
 			break; 
 		}
-		int opcion;
+		bool bandera = false;
 		while (true) {
 			system("cls");
-			cout << "Estado actual del vehiculo: " << v->getEstadoNombre() << endl;
+			cout << "Estado actual del vehiculo: " << v->getEstadoNombre() << endl << endl;
+			int estadoActual = v->getEstado();
 			cout << "Seleccione el nuevo estado del vehiculo:" << endl;
-			cout << "1. Disponible" << endl;
-			cout << "2. Alquilado" << endl;
-			cout << "3. Devuelto" << endl;
-			cout << "4. Revision" << endl;
-			cout << "5. Lavado" << endl;
-			cout << "Ingrese una opcion: ";
-			cin >> opcion;
-			if(cin.fail()) {
-				cin.clear();
-				cin.ignore(10000, '\n');
-				opcion = 0;
+			switch (estadoActual) {
+			case 0: {
+				cout << "1. Alquilado" << endl;
+				cout << "2. Revision" << endl;
+				cout << "3. Lavado" << endl;
+				cout << "4. Cancelar" << endl;
+				break;
 			}
-			cin.ignore(10000, '\n');
-
-			switch (opcion) {
 			case 1: {
-				v->cambiarEstado(0, c, fechaActual->clonar());
+				cout << "1. Devuelto" << endl;
+				cout << "2. Cancelar" << endl;
 				break;
 			}
 			case 2: {
-				v->cambiarEstado(1, c, fechaActual->clonar());
+				cout << "1. Revision" << endl;
+				cout << "2. Lavado" << endl;
+				cout << "3. Cancelar" << endl;
 				break;
 			}
 			case 3: {
-				v->cambiarEstado(2, c, fechaActual->clonar());
+				cout << "1. Lavado" << endl;
+				cout << "2. Cancelar" << endl;
 				break;
 			}
 			case 4: {
-				v->cambiarEstado(3, c, fechaActual->clonar());
-				break;
-			}
-			case 5: {
-				v->cambiarEstado(4, c, fechaActual->clonar());
+				cout << "1. Disponible" << endl;
+				cout << "2. Revision" << endl;
+				cout << "3. Cancelar" << endl;
 				break;
 			}
 			default:
-				cout << "Opcion invalida. Intente de nuevo." << endl;
+				cout << "Estado invalido." << endl;
+				return;
+			}
+			cout << endl << "Ingrese una opcion: ";
+			int opcion;
+			cin >> opcion;
+			if (cin.fail()) {
 				cin.clear();
 				cin.ignore(10000, '\n');
+				cout << "Entrada invalida. Intente de nuevo." << endl;
+				cin.get();
 				continue;
 			}
-			break;
+			cin.ignore(10000, '\n');
+			int nuevoEstado = -1;
+			switch (estadoActual) {
+			case 0: { 
+				if (opcion == 1) nuevoEstado = 1;
+				else if (opcion == 2) nuevoEstado = 3;
+				else if (opcion == 3) nuevoEstado = 4; 
+				else if (opcion == 4) {
+					bandera = false;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+				break;
+			}
+			case 1: {
+				if (opcion == 1) nuevoEstado = 2;    
+				else if (opcion == 2) {
+					bandera = false;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+				break;
+			}
+			case 2: { 
+				if (opcion == 1) nuevoEstado = 3; 
+				else if (opcion == 2) nuevoEstado = 4; 
+				else if (opcion == 3) {
+					bandera = false;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+				break;
+			}
+			case 3: {
+				if (opcion == 1) nuevoEstado = 4;
+				else if (opcion == 2) {
+					bandera = false;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+				break;
+			}
+			case 4: {
+				if (opcion == 1) nuevoEstado = 0;
+				else if (opcion == 2) nuevoEstado = 3; 
+				else if (opcion == 3) {
+					bandera = false;
+					break;
+				}
+				else {
+					cout << "Opcion invalida. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+				break;
+			}
+			}
+
+			if (nuevoEstado != -1) {
+				v->cambiarEstado(nuevoEstado, c, fechaActual->clonar());
+				cout << endl << "Estado cambiado exitosamente a: " << v->getEstadoNombre() << endl;
+				bandera = true;
+				break;
+			}
+			else if (!bandera) {
+				break;
+			}
 		}
 		char op;
 		while (true) {
@@ -1494,6 +1581,7 @@ void Control::funcionEstadosVehiculo(Sucursal* s) {
 			cin.get();
 			continue;
 		}
+		system("cls");
 		v->mostrarBitacora();
 		cout << endl;
 		char op;
@@ -1936,47 +2024,103 @@ void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
 }
 void Control::funcionRecepcionDeVehiculos(Sucursal* s) {
 	if (!s) return;
-	while (true) {
+	bool seguir = true;
+
+	while (seguir) {
 		system("cls");
 		s->getPlanteles()->mostrarPlanteles();
-		cout << "En que plantel se encuentra registrado el vehiculo alquilado que se va a recibir? (Ingrese la letra del plantel): ";
+		cout << "En que plantel se encuentra registrado el vehiculo alquilado que se va a recibir? (Ingrese la letra del plantel o 'Z' para salir): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
-
+		if (letraPlantel == 'z' || letraPlantel == 'Z') {
+			return;
+		}
 		Plantel* p = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
 		if (!p) {
 			cout << "Plantel no encontrado. Intente de nuevo." << endl;
 			cin.get();
 			continue;
 		}
-		if (!p->getListaVehiculos()) {
-			cout << "No hay vehiculos en el plantel. Agregue un vehiculo primero." << endl;
+		if (!p->getListaVehiculos() || p->getListaVehiculos()->getTam() == 0) {
+			cout << "No hay vehiculos en el plantel." << endl;
 			cin.get();
-			return;
+			continue;
 		}
+		system("cls");
+		cout << " Vehiculos Alquilados del Plantel " << letraPlantel << endl << endl;
 		p->getListaVehiculos()->mostrarVehiculosAlquilados();
 		string placa;
+		Vehiculo* v = nullptr;
 		while (true) {
-			cout << endl << "Ingrese la placa del vehiculo alquilado a recibir: ";
+			cout << endl << "Ingrese la placa del vehiculo alquilado a recibir (o 'n' para cancelar): ";
 			cin >> placa;
 			cin.ignore(10000, '\n');
+			if (placa == "n" || placa == "N") {
+				break;
+			}
 			if (placa.empty()) {
 				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
 				continue;
 			}
 			if (!p->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
-				cout << "El vehiculo no existe. Intente de nuevo." << endl;
+				cout << "El vehiculo con placa " << placa << " no existe en este plantel. Intente de nuevo." << endl;
+				continue;
+			}
+			v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+			if (v->getEstadoNombre() != "Alquilado") {
+				cout << "ERROR: El vehiculo con placa " << placa << " NO esta alquilado." << endl;
+				cout << "Estado actual: " << v->getEstadoNombre() << endl;
+				cout << "Solo se pueden recibir vehiculos en estado 'Alquilado'." << endl;
+				continue;
+			}
+			if (!s->getSolicitudes()->tieneVehiContrato(placa)) {
+				cout << "ERROR: El vehiculo con placa " << placa << " no tiene contratos asociados." << endl;
 				continue;
 			}
 			break;
 		}
-		Vehiculo* v = p->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+		if (placa == "n" || placa == "N") {
+			continue;
+		}
+		if (!v) continue;
+		int diasUsados;
+		while (true) {
+			cout << endl << "Ingrese la cantidad de dias que se uso el vehiculo: ";
+			cin >> diasUsados;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
+				cout << "Entrada invalida. Ingrese un numero." << endl;
+				continue;
+			}
+			cin.ignore(10000, '\n');
+			if (diasUsados <= 0) {
+				cout << "La cantidad de dias debe ser mayor a 0. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		s->getSolicitudes()->recepcionVehiculoDevuelto(placa, diasUsados);
 		v->cambiarEstado(2, nullptr, fechaActual->clonar());
-		cout << "Vehiculo recibido exitosamente." << endl;
-		cin.clear();
-		cin.get();
-		return;
+		cout << endl << "Vehiculo recibido exitosamente." << endl;
+		cout << "Estado del vehiculo cambiado a: " << v->getEstadoNombre() << endl;
+		char op;
+		while (true) {
+			cout << endl << "Desea recibir otro vehiculo? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
 	}
 }
 void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
@@ -1995,60 +2139,71 @@ void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			opcion = 0;
 		}
+		cin.ignore(10000, '\n');
 		switch (opcion) {
 		case 1: {
 			bool opCA = false;
 			string codSolicitud;
+			system("cls");
+			s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+			cout << endl;
 			while (true) {
-				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
-				cout << endl;
-				while (true) {
-					cout << "Ingrese el codigo de la solicitud a visualizar: ";
-					cin >> codSolicitud;
-					cin.ignore(10000, '\n');
-					if (codSolicitud.empty()) {
-						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
-						continue;
-					}
-					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
-						cout << "La solicitud no existe. Intente de nuevo." << endl;
-						continue;
-					}
+				cout << "Ingrese el codigo de la solicitud a visualizar (o 'n' para cancelar): ";
+				cin >> codSolicitud;
+				cin.ignore(10000, '\n');
+				if (codSolicitud == "n" || codSolicitud == "N") {
 					break;
 				}
+				if (codSolicitud.empty()) {
+					cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+					cout << "La solicitud no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				system("cls");
+				cout << " Detalles de la solicitud " << endl << endl;
 				s->getSolicitudes()->obtenerSolicitudPorCodigo(codSolicitud)->mostrarInfo();
 				break;
 			}
+			if (codSolicitud == "n" || codSolicitud == "N") {
+				continue;
+			}
 			cout << endl << "Aprete enter para volver al menu anterior" << endl;
-			cin.clear();
 			cin.get();
 			break;
 		}
 		case 2: {
 			bool opCA = true;
-			string codSolicitud;
+			string codContrato;
+			system("cls");
+			s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+			cout << endl;
 			while (true) {
-				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
-				cout << endl;
-				while (true) {
-					cout << "Ingrese el codigo del contrato a visualizar: ";
-					cin >> codSolicitud;
-					cin.ignore(10000, '\n');
-					if (codSolicitud.empty()) {
-						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
-						continue;
-					}
-					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
-						cout << "El contrato no existe. Intente de nuevo." << endl;
-						continue;
-					}
+				cout << "Ingrese el codigo del contrato a visualizar (o 'n' para cancelar): ";
+				cin >> codContrato;
+				cin.ignore(10000, '\n');
+				if (codContrato == "n" || codContrato == "N") {
 					break;
 				}
-				s->getSolicitudes()->obtenerSolicitudPorCodigo(codSolicitud)->mostrarInfo();
+				if (codContrato.empty()) {
+					cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codContrato)) {
+					cout << "El contrato no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				system("cls");
+				cout << " Detalles del contrato " << endl << endl;
+				s->getSolicitudes()->obtenerSolicitudPorCodigo(codContrato)->mostrarInfo();
 				break;
 			}
+			if (codContrato == "n" || codContrato == "N") {
+				continue;
+			}
 			cout << endl << "Aprete enter para volver al menu anterior" << endl;
-			cin.clear();
 			cin.get();
 			break;
 		}
@@ -2057,8 +2212,7 @@ void Control::funcionReportesDeSolicitudesYContratos(Sucursal* s) {
 		}
 		default: {
 			cout << "Opcion invalida. Intente de nuevo." << endl;
-			cin.clear();
-			cin.ignore(10000, '\n');
+			cin.get();
 			continue;
 		}
 		}
@@ -2134,7 +2288,7 @@ while (true) {
 				if (s->getSolicitudes()->buscarSolicitudPorCodigo(codigoContrato)) {
 					system("cls");
 					s->getSolicitudes()->mostrarSolicitudEspecifica(codigoContrato);
-					cout << endl << "Aprete enter para continuar..." << endl;
+					cout << endl << " Aprete enter para continuar " << endl;
 					cin.get();
 				}
 				else {
@@ -2173,6 +2327,7 @@ void Control::funcionReportesDeLaSucursalOrdenadosPorFechas(Sucursal* s) {
 		s->getSolicitudes()->mostrarContratosOrdenados();
 
 		cout << endl << "Aprete enter para volver al submenu..." << endl;
+		cin.clear();
 		cin.get();
 		break;
 	}

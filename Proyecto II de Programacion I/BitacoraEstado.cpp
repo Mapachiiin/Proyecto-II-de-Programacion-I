@@ -15,7 +15,7 @@ Fecha* BitacoraEstado::getFechaCambio() { return fechaCambio; }
 
 string BitacoraEstado::toString() {
     stringstream ss;
-    ss << "Estado Anterior: " << nombresEstados[estadoAnterior] << " -> ";
+    ss << "Estado Anterior: " << nombresEstados[estadoAnterior] <<endl;
     ss << "Nuevo Estado: " << nombresEstados[nuevoEstado] << endl;
     ss << "Fecha del cambio: " << fechaCambio->toString() << endl;
     ss << "Colaborador: " << colaborador->getNombre()

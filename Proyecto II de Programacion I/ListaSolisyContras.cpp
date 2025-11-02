@@ -290,7 +290,7 @@ void ListaSolisyContras::mostrarContratosOrdenados() { //Este metodo muestra los
 	NodoSoliyContra* actual = inicio;
 	int totalContratos = 0;
 	while (actual) {
-		if (actual->getDato()->getEsContrato()) {
+		if (actual->getDato() && actual->getDato()->getEsContrato()) {
 			NodoSoliyContra* nuevoNodo = new NodoSoliyContra(actual->getDato());
 			nuevoNodo->setNodoSig(listaInvertida);
 			listaInvertida = nuevoNodo;
@@ -298,24 +298,24 @@ void ListaSolisyContras::mostrarContratosOrdenados() { //Este metodo muestra los
 		}
 		actual = actual->getNodoSig();
 	}
-
 	if (totalContratos == 0) {
 		cout << "No hay contratos en esta sucursal." << endl;
 		return;
 	}
-
 	cout << " Contratos del mas reciente al mas antiguo " << endl;
 	cout << "Total de contratos: " << totalContratos << endl << endl;
-
 	actual = listaInvertida;
 	while (actual) {
-		actual->getDato()->mostrarInfo();
-		cout << "---------------------------------------" << endl << endl;
+		if (actual->getDato()) {
+			cout<<actual->getDato()->mostrarInfo()<<endl;
+			cout << "---------------------------------------" << endl << endl;
+		}
 		actual = actual->getNodoSig();
 	}
 	while (listaInvertida) {
 		NodoSoliyContra* temp = listaInvertida;
 		listaInvertida = listaInvertida->getNodoSig();
-		delete temp;
+		temp->soltarDato();
+		delete temp;    
 	}
 }

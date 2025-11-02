@@ -49,10 +49,7 @@ using namespace std;
 		}
 	}
 	void ListaVehiculos::mostrarVehiculosSimple(){
-		if (!inicio) {
-			cout << "No hay vehículos en la lista." << endl;
-			return;
-		}
+		if (!inicio) return;
 		NodoVehiculo* actual = inicio;
 		int contador = 1;
 
@@ -61,7 +58,7 @@ using namespace std;
 			cout << " " << contador << ". " << v->getPlaca()
 				<< " - " << v->getModelo()
 				<< " (" << v->getMarca()
-				<< ") - " << v->getPrecio() <<" colones" << "/dia" << endl;
+				<< ") - " << v->getPrecio() <<" colones" << "/dia - " <<v->getEstadoNombre()<<endl;
 
 			actual = actual->getNodoSig();
 			contador++;

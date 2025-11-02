@@ -641,7 +641,6 @@ void Control::subMenuClientes(Sucursal* s) {
 						}
 						else {
 							cout << "Opcion invalida. Intente de nuevo." << endl;
-							cin.ignore(10000, '\n');
 						}
 					}
 				}
@@ -1730,7 +1729,7 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 	while (true) {
 		system("cls");
 		s->getPlanteles()->mostrarPlanteles();
-		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel): ";
+		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel o para cancelar): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');

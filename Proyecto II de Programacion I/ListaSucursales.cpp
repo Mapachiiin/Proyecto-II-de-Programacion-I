@@ -72,3 +72,14 @@ Sucursal* ListaSucursales::obtenerSucursal(int numSucursal){
 	return nullptr;
 }
 int ListaSucursales::getTam() { return tam; }
+bool ListaSucursales::existeSucursal(int numSucursal){
+	if (!inicio) return false;
+	NodoSucursal* actual = inicio;
+	while (actual) {
+		if (actual->getSucursal()->getNumSucursal() == numSucursal) {
+			return true;
+		}
+		actual = actual->getSiguiente();
+	}
+	return false;
+}

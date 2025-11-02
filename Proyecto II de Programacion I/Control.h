@@ -47,6 +47,7 @@ public:
 	void funcionReportesDeSolicitudesYContratos(Sucursal* s);
 	void funcionReporteContratosPorVehiculo(Sucursal* s);
 	void funcionVisualizacionPlantel(Sucursal* s);
+	void funcionReportesDeLaSucursalOrdenadosPorFechas(Sucursal* s);
 
 };
 

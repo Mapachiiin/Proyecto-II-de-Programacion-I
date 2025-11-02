@@ -16,7 +16,6 @@ void Control::agregarSucursal() {
 	numeroSucursales++;
 	listaSucursales->agregarSucursal(nuevaSucursal);
 }
-
 bool Control::eliminarSucursal(int numSucursal) {
 	if (listaSucursales->eliminarSucursal(numSucursal)) {
 		numeroSucursales--;
@@ -24,11 +23,9 @@ bool Control::eliminarSucursal(int numSucursal) {
 	}
 	return false;
 }
-
 void Control::mostrarSucursales() {
 	listaSucursales->mostrarSucursales();
 }
-
 //menus y sub menus
 void Control::menuPrincipal() {
 	int respuesta = 0;
@@ -183,7 +180,7 @@ void Control::menuPrincipal() {
 
 				if (conf == 's' || conf == 'S') {
 					cout << endl << "Cerrando el sistema D.R.T..." << endl;
-					cout << "Gracias por usar nuestro sistema. Hasta pronto!" << endl;
+					cout << "Gracias por usar el sistema D.R.T. Hasta luego!" << endl;
 					return;
 				}
 				else if (conf == 'n' || conf == 'N') {
@@ -205,7 +202,6 @@ void Control::menuPrincipal() {
 		}
 	} while (respuesta != 5);
 }
-
 void Control::subMenuSucursales(int numSucursal) {
 	int respuesta = 0;
 	Sucursal* sGestionar = listaSucursales->obtenerSucursal(numSucursal);
@@ -965,7 +961,8 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 		cout << "5. Recepcion de vehiculos" << endl;
 		cout << "6. Reportes de Solicitudes y Contratos" << endl;
 		cout << "7. Reporte contratos por vehiculo" << endl;
-		cout << "8. Volver al Submenu de Sucursales" << endl << endl;
+		cout << "8. Reportes de la sucursal ordenados por fechas" << endl;
+		cout << "9. Volver al Submenu de Sucursales" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		cin >> resp;
 		cin.ignore(10000, '\n');
@@ -1049,6 +1046,17 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 			break;
 		}
 		case 8: {
+			if(s->getSolicitudes()->getTam() == 0) {
+				system("cls");
+				cout << "No hay solicitudes o contratos en esta sucursal para generar reportes ordenados por fechas." << endl;
+				cout << "Aprete enter para volver al submenu de solicitudes y contratos" << endl;
+				cin.get();
+				break;
+			}
+			funcionReportesDeLaSucursalOrdenadosPorFechas(s);
+			break;
+		}
+		case 9: {
 			return;
 		}
 		default: {
@@ -1060,7 +1068,7 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 
 	} while (resp != 7);
 }
-
+//funciones de los submenus
 void Control::funcionAgregarPlantel(Sucursal* s) {
 	string tipo;
 	bool seguir = true;
@@ -1823,7 +1831,7 @@ void Control::funcionEstadosVehiculo(Sucursal* s) {
 void Control::funcionPorcentajeOcupacionPlanteles(Sucursal* s) {
 	if (!s) return;
 	system("cls");
-	cout << "El porcentaje de ocupacion de los planteles es: " << s->getPlanteles()->reporteDePorcentajeDeOcupacionDeLosPlanteles() << "%" << endl;
+	s->getPlanteles()->reportajeDePorcentajeDeOcupacionDeCadaPlantel();
 	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
 	cin.get();
 }
@@ -2455,7 +2463,167 @@ while (true) {
 		}
 	}
 }
+void Control::funcionReportesDeLaSucursalOrdenadosPorFechas(Sucursal* s) {
+	if (!s) return;
+	while (true) {
+		system("cls");
+		s->getSolicitudes()->mostrarContratosOrdenados();
 
+		cout << endl << "Aprete enter para volver al submenu..." << endl;
+		cin.get();
+		break;
+	}
+}
 void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
+	// 1. Seleccionar sucursal origen
+	if (!s) return;
+	Sucursal* sucuOrigen = nullptr;
+	Sucursal* sucuDestino = nullptr;
+	Plantel* planOrigen = nullptr;
+	Plantel* planDestino = nullptr;
+	Vehiculo* vehiculoATrasladar = nullptr;
 
-} //opcional dejar de ultimop
+	while (true) {
+		system("cls");
+		cout << "Seleccione la sucursal origen del vehiculo a trasladar:" << endl;
+		this->listaSucursales->mostrarSucursales();
+		cout << endl << "Ingrese el numero de sucursal origen: ";
+		int nSucuOrigen;
+		cin >> nSucuOrigen;
+		cin.ignore(10000, '\n');
+		if (!this->listaSucursales->existeSucursal(nSucuOrigen)) {
+			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if(this->listaSucursales->obtenerSucursal(nSucuOrigen)->getPlanteles()->getTam() == 0){
+			cout << "La sucursal seleccionada no tiene planteles. Agregue un plantel primero." << endl;
+			cout << "Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!listaSucursales->obtenerSucursal(nSucuOrigen)){
+			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		else sucuOrigen = this->listaSucursales->obtenerSucursal(nSucuOrigen);
+		while (true) {
+			system("cls");
+			cout << "Seleccione el plantel de origen del vehiculo a trasladar:" << endl;
+			sucuOrigen->getPlanteles()->mostrarPlanteles();
+			cout << endl << "Ingrese la letra del plantel de origen: ";
+			char nPlantelOrigen;
+			cin >> nPlantelOrigen;
+			cin.ignore(10000, '\n');
+			if (!sucuOrigen->getPlanteles()->existeLetraPlantel(nPlantelOrigen)) {
+				cout << "Plantel no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			if(!sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(nPlantelOrigen)) {
+				cout << "Plantel no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			else planOrigen = sucuOrigen->getPlanteles()->obtenerPlantelPorLetra(nPlantelOrigen);
+			if(planOrigen->getListaVehiculos()->getTam() == 0){
+				cout << "El plantel seleccionado no tiene vehiculos. Agregue un vehiculo primero." << endl;
+				cout << "Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			system("cls");
+			cout << "Seleccione el vehiculo a trasladar:" << endl;
+			planOrigen->getListaVehiculos()->mostrarVehiculosSimple();
+			cout << endl << "Ingrese la placa del vehiculo a trasladar: ";
+			string placa;
+			cin >> placa;
+			cin.ignore(10000, '\n');
+			if (!planOrigen->getListaVehiculos()->buscarVehiculoPorPlaca(placa)) {
+				cout << "Vehiculo no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			else {
+				vehiculoATrasladar = planOrigen->getListaVehiculos()->obtenerVehiculoPorPlaca(placa);
+				if (vehiculoATrasladar->getEstadoNombre() == "Alquilado") {
+					cout << "El vehiculo seleccionado esta alquilado y no puede ser trasladado. Intente de nuevo." << endl;
+					cin.get();
+					continue;
+				}
+			}
+			if (!vehiculoATrasladar) {
+				cout << "Vehiculo no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			else {
+				cout << "Vehiculo seleccionado exitosamente." << endl;
+				cin.clear();
+				cin.get();
+				break;
+			}
+		}
+		break;
+	}
+	while (true) {
+		system("cls");
+		cout << "Seleccione la sucursal destino del vehiculo a trasladar:" << endl;
+		this->listaSucursales->mostrarSucursales();
+		cout << endl << "Ingrese el numero de sucursal destino: ";
+		int nSucuDestino;
+		cin >> nSucuDestino;
+		cin.ignore(10000, '\n');
+		if (!this->listaSucursales->existeSucursal(nSucuDestino)) {
+			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (this->listaSucursales->obtenerSucursal(nSucuDestino)->getPlanteles()->getTam() == 0) {
+			cout << "La sucursal seleccionada no tiene planteles. Agregue un plantel primero." << endl;
+			cout << "Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		if (!listaSucursales->obtenerSucursal(nSucuDestino)) {
+			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
+			cin.get();
+			continue;
+		}
+		else sucuDestino = this->listaSucursales->obtenerSucursal(nSucuDestino);
+		while (true) {
+			system("cls");
+			cout << "Seleccione el plantel de destino del vehiculo a trasladar:" << endl;
+			sucuDestino->getPlanteles()->mostrarPlanteles();
+			cout << endl << "Ingrese la letra del plantel de destino: ";
+			char nPlantelDestino;
+			cin >> nPlantelDestino;
+			cin.ignore(10000, '\n');
+			if (!sucuDestino->getPlanteles()->existeLetraPlantel(nPlantelDestino)) {
+				cout << "Plantel no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			if (!sucuDestino->getPlanteles()->obtenerPlantelPorLetra(nPlantelDestino)) {
+				cout << "Plantel no encontrado. Intente de nuevo." << endl;
+				cin.get();
+				continue;
+			}
+			else planDestino = sucuDestino->getPlanteles()->obtenerPlantelPorLetra(nPlantelDestino);
+			break;
+		}
+		break;
+	}
+
+// 2. Seleccionar plantel origen
+// 3. Seleccionar vehículo (verificar que NO esté alquilado)
+// 4. Seleccionar sucursal destino
+// 5. Seleccionar plantel destino
+// 6. Remover de origen
+// 7. Agregar a destino
+// 8. Estacionar en destino
+}

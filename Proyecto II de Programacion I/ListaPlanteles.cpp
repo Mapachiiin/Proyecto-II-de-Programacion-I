@@ -138,4 +138,24 @@ double ListaPlanteles::reporteDePorcentajeDeOcupacionDeLosPlanteles() {
 	if (totalEspacios == 0) return 0.0;
 	return (double)espaciosOcupados / (double)totalEspacios * 100.0;
 }
+void ListaPlanteles::reportajeDePorcentajeDeOcupacionDeCadaPlantel() {
+	if (!inicio) {
+		cout << "No hay planteles en la lista." << endl;
+		return;
+	}
+	NodoPlantel* actual = inicio;
+	while (actual) {
+		Plantel* p = actual->getDato();
+		if (p) {
+			EspacioEstacionamiento* espacio = p->getEstacionamiento();
+			if (espacio) {
+				int totalEspacios = espacio->getCapMax();
+				int espaciosOcupados = totalEspacios - espacio->contarEspaciosVacios();
+				double porcentajeOcupacion = (totalEspacios == 0) ? 0.0 : ((double)espaciosOcupados / (double)totalEspacios * 100.0);
+				cout << "Plantel: " << p->getLetra() << " | Porcentaje de Ocupacion: " << porcentajeOcupacion << "%" << endl;
+			}
+		}
+		actual = actual->getNodoSig();
+	}
+}
 int ListaPlanteles::getTam() { return tam; }

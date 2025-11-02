@@ -17,5 +17,6 @@ public:
 	void visualizacionGraficaDePlanteles(char letra);
 	bool eliminarPlantel(char letra);
 	double reporteDePorcentajeDeOcupacionDeLosPlanteles();
+	void reportajeDePorcentajeDeOcupacionDeCadaPlantel();
 };
 

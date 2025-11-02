@@ -21,6 +21,7 @@ void ListaSucursales::agregarSucursal(Sucursal* s){
 		while (actual->getSiguiente()) { actual = actual->getSiguiente(); }
 		actual->setSiguiente(nuevo);
 	}
+	tam++;
 }
 bool ListaSucursales::eliminarSucursal(int numSucur){
 	if (!inicio) return false;

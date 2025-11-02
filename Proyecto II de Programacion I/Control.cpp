@@ -12,8 +12,9 @@ Control::~Control() {
 	delete listaSucursales;
 }
 void Control::agregarSucursal() {
-		numeroSucursales++;
+		
 		Sucursal* nuevaSucursal = new Sucursal(numeroSucursales);
+		numeroSucursales++;
 		listaSucursales->agregarSucursal(nuevaSucursal);
 }
 bool Control::eliminarSucursal(int numSucursal) {
@@ -135,7 +136,6 @@ void Control::subMenuSucursales(int numSucursal) {
 	} while (respuesta != 5);
 	return;
 }
-
 void Control::subMenuColaboradores(Sucursal* s) {
 	if (!s) return;
 	int respuesta = 0;

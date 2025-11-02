@@ -603,11 +603,6 @@ void Control::subMenuClientes(Sucursal* s) {
 							if (cin.fail()) {
 								cin.clear();
 								cin.ignore(10000, '\n');
-								descuento = 0.0;
-							}
-							if (cin.fail()) {
-								cin.clear();
-								cin.ignore(10000, '\n');
 								cout << "Entrada invalida. Ingrese un numero (puede tener decimales)." << endl;
 								continue;
 							}
@@ -704,7 +699,6 @@ void Control::subMenuClientes(Sucursal* s) {
 					}
 					else {
 						cout << "Opcion invalida. Intente de nuevo." << endl;
-						cin.ignore(10000, '\n');
 					}
 				}
 			}
@@ -830,11 +824,6 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 		cout << "Ingrese una opcion: ";
 		cin >> resp;
 		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(10000, '\n');
-			resp = 0;
-		}
-		if(cin.fail()) {
 			cin.clear();
 			cin.ignore(10000, '\n');
 			resp = 0;
@@ -1729,7 +1718,7 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 	while (true) {
 		system("cls");
 		s->getPlanteles()->mostrarPlanteles();
-		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel o para cancelar): ";
+		cout << "Que plantel contiene el vehiculo cuyo estado desea cambiar? (Ingrese la letra del plantel): ";
 		char letraPlantel;
 		cin >> letraPlantel;
 		cin.ignore(10000, '\n');
@@ -2591,7 +2580,8 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 			cin.clear();
 			cin.ignore(10000, '\n');
 			nSucuOrigen = 0;
-		}
+		} 
+		cin.ignore(10000, '\n');
 		if (!this->listaSucursales->existeSucursal(nSucuOrigen)) {
 			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
 			cin.get();
@@ -2683,6 +2673,7 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			nSucuDestino = 0;
 		}
+		cin.ignore(10000, '\n');
 		if (!this->listaSucursales->existeSucursal(nSucuDestino)) {
 			cout << "Sucursal no encontrada. Intente de nuevo." << endl;
 			cin.get();
@@ -2774,6 +2765,7 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 			cin.ignore(10000, '\n');
 			numeroEspacio = 0;
 		}
+		cin.ignore(10000, '\n');
 		if (numeroEspacio < 1 || numeroEspacio > planDestino->getCapMax()) {
 			cout << "Numero fuera de rango. Intente de nuevo." << endl;
 			continue;

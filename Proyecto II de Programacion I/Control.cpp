@@ -1,7 +1,7 @@
 #include "Control.h"
 #include <ctime>
 
-static int numeroSucursales = 1;
+static int numeroSucursales = 0;
 static Fecha* fechaActual = Fecha::obtenerFechaActualPtr();
 
 
@@ -31,6 +31,8 @@ void Control::menuPrincipal() {
 	int respuesta = 0;
 	do {
 		system("cls");
+		cout<<"Bienvenido al Sistema D.R.T"<<endl;
+		cout <<"        " << fechaActual->toString() << endl << endl;
 		cout << "-----Menu Principal-----" << endl << endl;
 		cout << "1. Agregar Sucursal" << endl;
 		cout << "2. Eliminar Sucursal" << endl;
@@ -120,11 +122,10 @@ void Control::subMenuSucursales(int numSucursal) {
 			subMenuVehiculosyPlanteles(sGestionar);
 			break;
 		case 4:
-			submenuSolicitudesYContratos(sGestionar);
+			subMenuSolicitudesYContratos(sGestionar);
 			break;
 		case 5:
-			cout << "Volviendo al Menu Principal..." << endl;
-			this->menuPrincipal();
+			return;
 		default:
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
 			cin.ignore(10000, '\n');
@@ -191,7 +192,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 					}
 					break;
 				}
-				s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual));
+				s->agregarColaborador(new Colaborador(cedula, nombre, fechaActual->clonar()));
 				cout <<endl<< "Colaborador agregado exitosamente." << endl;
 				char op;
 				while (true) {
@@ -378,8 +379,7 @@ void Control::subMenuColaboradores(Sucursal* s) {
 			break;
 		}
 		case 5: {
-			subMenuSucursales(s->getNumSucursal());
-			break;
+			return;
 		}
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
@@ -667,9 +667,7 @@ void Control::subMenuClientes(Sucursal* s) {
 			break;
 		}
 		case 6: {
-			cout << "Volviendo al Submenu de Sucursales..." << endl;
-			subMenuSucursales(s->getNumSucursal());
-			break;
+			return;
 		}
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
@@ -877,9 +875,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 			break;
 		}
 		case 11: {
-			cout << "Volviendo al Submenu de Sucursales..." << endl;
-			subMenuSucursales(s->getNumSucursal());
-			break;
+			return;
 		}
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
@@ -893,6 +889,7 @@ void Control::subMenuVehiculosyPlanteles(Sucursal* s) {
 void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 	int resp = 0;
 	do {
+		system("cls");
 		cout << "-----Submenu de Solicitudes y Contratos-----" << endl << endl;
 		cout << "1. Crear Solicitud de Alquiler" << endl;
 		cout << "2. Aprobar/Rechazar Solicitud de Alquiler" << endl;
@@ -966,9 +963,7 @@ void Control::subMenuSolicitudesYContratos(Sucursal* s) {
 			break;
 		}
 		case 7: {
-			cout << "Volviendo al Submenu de Sucursales..." << endl;
-			subMenuSucursales(s->getNumSucursal());
-			break;
+			return;
 		}
 		default: {
 			cout << "Opcion invalida. Por favor, intente de nuevo." << endl << endl;
@@ -1474,23 +1469,23 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 
 			switch (opcion) {
 			case 1: {
-				v->cambiarEstado(0, c, fechaActual);
+				v->cambiarEstado(0, c, fechaActual->clonar());
 				break;
 			}
 			case 2: {
-				v->cambiarEstado(1, c, fechaActual);
+				v->cambiarEstado(1, c, fechaActual->clonar());
 				break;
 			}
 			case 3: {
-				v->cambiarEstado(2, c, fechaActual);
+				v->cambiarEstado(2, c, fechaActual->clonar());
 				break;
 			}
 			case 4: {
-				v->cambiarEstado(3, c, fechaActual);
+				v->cambiarEstado(3, c, fechaActual->clonar());
 				break;
 			}
 			case 5: {
-				v->cambiarEstado(4, c, fechaActual);
+				v->cambiarEstado(4, c, fechaActual->clonar());
 				break;
 			}
 			default:
@@ -1592,18 +1587,294 @@ void Control::funcionPorcentajeOcupacionPlanteles(Sucursal* s) {
 
 void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 
-}
+} //opcional dejar de ultimop
 
 void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
+	if (!s) return;
+	bool seguir = true;
 
+	while (seguir) {
+		system("cls");
+		string codSolicitud;
+		int codSucu = s->getNumSucursal();
+		Cliente* cli = nullptr;
+		Colaborador* colab = nullptr;
+		Plantel* plantel = nullptr;
+		Fecha* fechaFinal = nullptr;
+		Vehiculo* vehi = nullptr;
+		string pVehi;
+		int diasAlquiler;
+
+		cout << "Crear Solicitud de Alquiler" << endl << endl;
+		while (true) {
+
+			cout << "Ingrese el codigo de la solicitud de alquiler: ";
+			cin >> codSolicitud;
+			cin.ignore(10000, '\n');
+			if (codSolicitud.empty()) {
+				cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+				continue;
+			}
+			if (s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+				cout << "El codigo de la solicitud ya existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			cout << endl;
+			if(s->getClientes()->getTam() == 0){
+				cout << "No hay clientes en la sucursal. Agregue un cliente primero." << endl;
+				cin.get();
+				return;
+			}
+			s->getClientes()->mostrarClientes();
+			cout << "Ingrese la cedula del cliente que realiza la solicitud: ";
+			string cedulaCliente;
+			cin >> cedulaCliente;
+			cin.ignore(10000, '\n');
+			if(!s->getClientes()->buscarClientePorCedula(cedulaCliente)){
+				cout << "El cliente no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			cli = s->getClientes()->buscarClientePorCedula(cedulaCliente);
+		}
+
+		while (true) {
+			cout << endl;
+			if(s->getColaboradores()->getTam() == 0){
+				cout << "No hay colaboradores en la sucursal. Agregue un colaborador primero." << endl;
+				cin.get();
+				return;
+			}
+			s->getColaboradores()->mostrarColaboradores();
+			cout << "Ingrese la cedula del colaborador que realiza la solicitud: ";
+			string cedulaColaborador;
+			cin >> cedulaColaborador;
+			cin.ignore(10000, '\n');
+		
+			if (!s->getColaboradores()->buscarColaboradorPorCed(cedulaColaborador)) {
+				cout << "El colaborador no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			colab = s->getColaboradores()->buscarColaboradorPorCed(cedulaColaborador);
+		}
+		while (true) {
+			cout << endl;
+			if (s->getPlanteles()->getTam() == 0) {
+				cout << "No hay planteles en la sucursal. Agregue un plantel primero." << endl;
+				cin.get();
+				return;
+			}
+			s->getPlanteles()->mostrarPlanteles();
+			cout << "Ingrese la letra del plantel donde se encuentra el vehiculo a alquilar: ";
+			char letraPlantel;
+			cin >> letraPlantel;
+			cin.ignore(10000, '\n');
+			if(s->getPlanteles()->existeLetraPlantel(letraPlantel) == false){
+				cout << "El plantel no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			if(s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel)->getListaVehiculos()->getTam() == 0){
+				cout << "No hay vehiculos en el plantel seleccionado. Agregue un vehiculo primero o intente con otro plantel." << endl;
+				char op;
+				while (true) {
+					cout << "Desea intentar con otro plantel? (s/n): ";
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') {
+						break;
+					}
+					else if (op == 'n' || op == 'N') {
+						return;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+				cin.get();
+				continue;
+			}
+			plantel = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
+			plantel->getListaVehiculos()->mostrarVehiculosSimple();
+			while (true) {
+				cout << endl;
+				cout << "Ingrese la placa del vehiculo que se desea alquilar: ";
+				cin >> pVehi;
+				cin.ignore(10000, '\n');
+				if (pVehi.empty()) {
+					cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
+					continue;
+				}
+				if (!plantel->getListaVehiculos()->buscarVehiculoPorPlaca(pVehi)) {
+					cout << "El vehiculo no existe. Intente de nuevo." << endl;
+					continue;
+				}
+				vehi = plantel->getListaVehiculos()->obtenerVehiculoPorPlaca(pVehi);
+				break;
+			}
+			break;
+		}
+		while (true) {
+			cout << "Ingrese la cantidad de dias de alquiler: ";
+			cin >> diasAlquiler;
+			cin.ignore(10000, '\n');
+			if(diasAlquiler <= 0){
+				cout << "La cantidad de dias debe ser mayor a 0. Intente de nuevo." << endl;
+				continue;
+			}
+			fechaFinal = fechaActual->agregarDias(diasAlquiler);
+			break;
+		}
+		SoliAlquiyContra* nuevaSolicitud = new SoliAlquiyContra(codSolicitud, cli, colab, codSucu, pVehi, diasAlquiler, fechaActual->clonar(), fechaFinal, vehi->getPrecio());
+		s->getSolicitudes()->agregarSolicitud(nuevaSolicitud);
+		cout << "Solicitud de alquiler creada exitosamente." << endl;
+		char op;
+		while (true) {
+			cout << "Desea crear otra solicitud de alquiler? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+		cin.get();
+	}
 }
 
-void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s){
+void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s) {
+	if (!s) return;
+	bool seguir = true;
+	while (seguir) {
+		SoliAlquiyContra* solicitud = nullptr;
+		system("cls");
+		s->getSolicitudes()->mostrarSolicitudOContraSucursal(false); //Este false es para que muestre solo las solicitudes, no los contratos
+		while (true) {
+			cout << "Ingrese el codigo de la solicitud a aprobar/rechazar: ";
+			string codSolicitud;
+			cin >> codSolicitud;
+			cin.ignore(10000, '\n');
+			if (codSolicitud.empty()) {
+				cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+				continue;
+			}
+			if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+				cout << "La solicitud no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			solicitud = s->getSolicitudes()->obtenerSolicitudPorCodigo(codSolicitud);
+			if (solicitud->getEstadoSoli() != "Pendiente") {
+				cout << "La solicitud ya ha sido aprobada o rechazada. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
+		solicitud->mostrarInfo();
+		int opcion;
+		while (true) {
+			cout << "Menu de Aprobacion/Rechazo de Solicitud de Alquiler" << endl;
+			cout << "1. Aprobar Solicitud" << endl;
+			cout << "2. Rechazar Solicitud" << endl;
+			cout << "3. Anular solicitud" << endl;
+			cout << "4. Cancelar y volver al submenu de contratos y alquileres" << endl << endl;
+			cin >> opcion;
+			cin.ignore(10000, '\n');
+			switch (opcion) {
+			case 1: {
+				solicitud->cambiarEstadoSoli("Aprobada");
+				cout << "Solicitud aprobada exitosamente y convertida a contrato." << endl;
+				break;
+			}
+			case 2: {
+				solicitud->cambiarEstadoSoli("Rechazada");
+				cout << "Solicitud rechazada exitosamente." << endl;
+				break;
+			}
+			case 3: {
+				solicitud->cambiarEstadoSoli("Anulada");
+				cout << "Solicitud anulada exitosamente." << endl;
+				break;
+			}
+			case 4: {
+				break;
+			}
+			default: {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			}
 
+		}
+		char op;
+		while (true) {
+			cout << "Desea aprobar/rechazar otra solicitud de alquiler? (s/n): ";
+			cin >> op;
+			cin.ignore(10000, '\n');
+			if (op == 's' || op == 'S') {
+				break;
+			}
+			else if (op == 'n' || op == 'N') {
+				seguir = false;
+				break;
+			}
+			else {
+				cout << "Opcion invalida. Intente de nuevo." << endl;
+			}
+		}
+	}
 }
 
-void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal* s){
-
+void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal* s) {
+	if (!s) return;
+	bool opCA = true;
+	int op;
+	do {
+		system("cls");
+		cout << "Visualizacion de alquileres, solicitudes y contratos" << endl << endl;
+		cout << "1. Solicitudes de alquiler" << endl;
+		cout << "2. Contratos de alquiler" << endl;
+		cout << "3. Volver al submenu de contratos y alquileres" << endl << endl;
+		cout << "Ingrese una opcion: ";
+		cin >> op;
+		cin.ignore(10000, '\n');
+		switch (op) {
+		case 1: {
+			opCA = false;
+			s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA); //Este true es para que muestre los contratos
+			cout << endl << "Aprete enter para volver al menu anterior" << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 2: {
+			opCA = true;
+			s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA); //Este true es para que muestre los contratos
+			cout << endl << "Aprete enter para volver al menu anterior" << endl;
+			cin.clear();
+			cin.get();
+			break;
+		}
+		case 3: {
+			break;
+		}
+		default: {
+			cout << "Opcion invalida. Intente de nuevo." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+		} while (op != 3);
 }
 
 void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s){

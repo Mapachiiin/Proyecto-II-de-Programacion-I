@@ -51,7 +51,7 @@ private:
 	string cate;
 	char categoria;
 	char licencia;
-	double precio;
+	int precio;
 	static const int estadoDisponible = 0;
 	static const int estadoAlquilado = 1;
 	static const int estadoDevuelto = 2;
@@ -70,7 +70,7 @@ public:
 	string getModelo();
 	string getMarca();
 	string getCategoria();
-	double getPrecio();
+	int getPrecio();
 	string getEstadoNombre();
 	char getCategoriaChar();
 	char getLicencia();

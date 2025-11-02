@@ -16,6 +16,26 @@ ListaSolisyContras::~ListaSolisyContras() {
 	inicio = nullptr;
 	tam = 0;
 }
+bool ListaSolisyContras::buscarSolicitudPorCodigo(string codigo){
+	NodoSoliyContra* actual = inicio;
+	while (actual) {
+		if (actual->getDato()->getCodigo() == codigo) {
+			return true;
+		}
+		actual = actual->getNodoSig();
+	}
+	return false;
+}
+SoliAlquiyContra* ListaSolisyContras::obtenerSolicitudPorCodigo(string codigo){
+	NodoSoliyContra* actual = inicio;
+	while (actual) {
+		if (actual->getDato()->getCodigo() == codigo) {
+			return actual->getDato();
+		}
+		actual = actual->getNodoSig();
+	}
+	return nullptr;
+}
 void ListaSolisyContras::agregarSolicitud(SoliAlquiyContra* s){
 	if (!s) return;
 

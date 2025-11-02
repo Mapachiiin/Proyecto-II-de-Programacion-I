@@ -60,7 +60,7 @@ string Vehiculo::getMarca() { return marca; }
 string Vehiculo::getCategoria() { return cate; }
 char Vehiculo::getCategoriaChar() { return categoria; }
 string Vehiculo::getEstadoNombre() { return estado[estadoActual]; }
-double Vehiculo::getPrecio() { return precio; }
+int Vehiculo::getPrecio() { return precio; }
 char Vehiculo::getLicencia() { return licencia; }
 int Vehiculo::getEstado() { return estadoActual; }
 bool Vehiculo::puedeCambiarEstado(int estActual, int estNuevo) {

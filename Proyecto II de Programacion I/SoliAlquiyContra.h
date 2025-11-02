@@ -34,7 +34,8 @@ atraso.
 private:
 	Cliente* cliente;
 	Colaborador* colaborador;
-	string codig, codSucu, plaVehi, estadoSoli;
+	string codig, plaVehi, estadoSoli;
+	int codSucu;
 	int diasAlqui, preXDia, preTotal;
 	Fecha* fechaIni;
 	Fecha* fechaEntrega;
@@ -46,7 +47,7 @@ private:
 	double multa;
 
 public:
-	SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, string codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
+	SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, int codSucu, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD);
 	~SoliAlquiyContra();
 	string getEstadoContrato();
 	string getPlaVehi();

@@ -11,6 +11,8 @@ private:
 public:
 	ListaSolisyContras();
 	~ListaSolisyContras();
+	bool buscarSolicitudPorCodigo(string codigo);
+	SoliAlquiyContra* obtenerSolicitudPorCodigo(string codigo);
 	void agregarSolicitud(SoliAlquiyContra* s);
 	void mostrarSolicitudOContraSucursal(bool sOC);
 	void mostrarSolicitudEspecifica(string codigo);

@@ -39,6 +39,44 @@ Fecha* Fecha::clonar() {
 int Fecha::getDia() { return dia; }
 int Fecha::getMes() { return mes; }
 int Fecha::getAnio() { return anio; }
+bool Fecha::esAnioBisiesto(int anio) {
+    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
+}
+int Fecha::diasEnMes(int mes, int anio) {
+    switch (mes) {
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+        return 31;
+    case 4: case 6: case 9: case 11:
+        return 30;
+    case 2:
+        return esAnioBisiesto(anio) ? 29 : 28;
+    default:
+        return 30;
+    }
+}
+
+Fecha* Fecha::agregarDias(int dias) {
+    int nDia = this->dia;
+    int nMes = this->mes;
+    int nAnio = this->anio;
+
+    // Sumar los días
+    nDia += dias;
+
+    // Ajustar si se pasa del mes
+    while (nDia > diasEnMes(nMes, nAnio)) {
+        nDia -= diasEnMes(nMes, nAnio);
+        nMes++;
+
+        // Si se pasa del año
+        if (nMes > 12) {
+            nMes = 1;
+            nAnio++;
+        }
+    }
+
+    return new Fecha(nDia, nMes, nAnio);
+}
 
 string Fecha::toString() {
     stringstream ss;

@@ -2,14 +2,16 @@
 #include <sstream>
 using namespace std;
 
-SoliAlquiyContra::SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, string codSucur, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD): codig(cod), cliente(Cli), colaborador(Cola), codSucu(codSucur), plaVehi(pVehi), diasAlqui(dA), fechaIni(fIni), fechaEntrega(fEnt), preXDia(pXD), preTotal(pXD*dA), estadoSoli("Pendiente"), esContrato(false), estadoContrato(""), diasNoUsados(0), reIntegro(0), diasAtraso(0), multa(0) {}
+SoliAlquiyContra::SoliAlquiyContra(string cod, Cliente* Cli, Colaborador* Cola, int codSucur, string pVehi, int dA, Fecha* fIni, Fecha* fEnt, int pXD): codig(cod), cliente(Cli), colaborador(Cola), codSucu(codSucur), plaVehi(pVehi), diasAlqui(dA), fechaIni(fIni), fechaEntrega(fEnt), preXDia(pXD), preTotal(pXD*dA), estadoSoli("Pendiente"), esContrato(false), estadoContrato(""), diasNoUsados(0), reIntegro(0), diasAtraso(0), multa(0) {}
 SoliAlquiyContra::~SoliAlquiyContra(){
 	delete fechaIni;
 	delete fechaEntrega;
 }
 void SoliAlquiyContra::cambiarEstadoSoli(string est){ 
-	if(est!="Aprobada" && est!="Pendiente" && est!="Rechazada" && est!="Anulada") return;
+	if(est == "Pendiente") return;
+	if(est!="Aprobada" && est!="Rechazada" && est!="Anulada") return;
 	estadoSoli = est; 
+	convertirAContrato();
 }
 
 string SoliAlquiyContra::getEstadoContrato() { return estadoContrato; }

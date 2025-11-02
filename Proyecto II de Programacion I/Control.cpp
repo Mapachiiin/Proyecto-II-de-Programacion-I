@@ -2475,7 +2475,6 @@ void Control::funcionReportesDeLaSucursalOrdenadosPorFechas(Sucursal* s) {
 	}
 }
 void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
-	// 1. Seleccionar sucursal origen
 	if (!s) return;
 	Sucursal* sucuOrigen = nullptr;
 	Sucursal* sucuDestino = nullptr;
@@ -2618,12 +2617,80 @@ void Control::funcionTrasladoVehiculosEntreSucursales(Sucursal* s) {
 		}
 		break;
 	}
+	system("cls");
+	cout << " Resumen del traslado " << endl << endl;
+	cout << "ORIGEN:" << endl;
+	cout << "  Sucursal: #" << sucuOrigen->getNumSucursal() << endl;
+	cout << "  Plantel: " << planOrigen->getLetra() << endl << endl;
+	cout << " - Vehiculo -" << endl;
+	cout << vehiculoATrasladar->toString() << endl << endl;
+	cout << "DESTINO:" << endl;
+	cout << "  Sucursal: #" << sucuDestino->getNumSucursal() << endl;
+	cout << "  Plantel: " << planDestino->getLetra() << endl << endl;
+	char conf;
+	while (true) {
+		cout << "Esta seguro que desea realizar este traslado? (s/n): ";
+		cin >> conf;
+		cin.ignore(10000, '\n');
 
-// 2. Seleccionar plantel origen
-// 3. Seleccionar vehículo (verificar que NO esté alquilado)
-// 4. Seleccionar sucursal destino
-// 5. Seleccionar plantel destino
-// 6. Remover de origen
-// 7. Agregar a destino
-// 8. Estacionar en destino
+		if (conf == 'n' || conf == 'N') {
+			cout << " Traslado cancelado. " << endl;
+			cout << endl << " Aprete enter para volver " << endl;
+			cin.get();
+			return;
+		}
+		else if (conf == 's' || conf == 'S') {
+			break;
+		}
+		else {
+			cout << "Opcion invalida. Intente de nuevo." << endl;
+		}
+	}
+	string placaVehiculo = vehiculoATrasladar->getPlaca();
+	planOrigen->getEstacionamiento()->eliminarVehi(placaVehiculo);
+	if (!planOrigen->getListaVehiculos()->eliminarNodoVehiSinDelete(placaVehiculo)) {
+		cout << " No se pudo remover el vehiculo de la lista origen. " << endl;
+		cout << endl << " Aprete enter para volver " << endl;
+		cin.get();
+		return;
+	}
+	planDestino->getListaVehiculos()->agregarVehiculo(vehiculoATrasladar);
+	system("cls");
+	cout << " Estacionar vehiculo " << endl << endl;
+	sucuDestino->getPlanteles()->visualizacionGraficaDePlanteles(planDestino->getLetra());
+	cout << endl << planDestino->getEstacionamiento()->espacioRecomendado() << endl << endl;
+	while (true) {
+		int numeroEspacio;
+		cout << "Ingrese el numero del espacio (1-" << planDestino->getCapMax() << "): ";
+		cin >> numeroEspacio;
+		cin.ignore(10000, '\n');
+		if (numeroEspacio < 1 || numeroEspacio > planDestino->getCapMax()) {
+			cout << "Numero fuera de rango. Intente de nuevo." << endl;
+			continue;
+		}
+		int numColumnas = planDestino->getEstacionamiento()->getnC();
+		int posicion = numeroEspacio - 1;
+		int fila = posicion / numColumnas;
+		int columna = posicion % numColumnas;
+		if (planDestino->getEstacionamiento()->estaOcupado(fila, columna)) {
+			cout << "El espacio esta ocupado. Intente de nuevo." << endl;
+			continue;
+		}
+		if (planDestino->getEstacionamiento()->agregarVehiculoEnEspacio(vehiculoATrasladar, fila, columna)) {
+			string codigoEspacio = string(1, toupper(planDestino->getLetra())) + (numeroEspacio < 10 ? "0" : "") + to_string(numeroEspacio);
+			cout << endl << "Vehiculo estacionado exitosamente en espacio " << codigoEspacio << endl;
+			break;
+		}
+		else {
+			cout << "Error al estacionar. Intente de nuevo." << endl;
+		}
+	}
+
+	cout << endl << " Traslado completado " << endl;
+	cout << "Vehiculo trasladado de la Sucursal #" << sucuOrigen->getNumSucursal() << " (Plantel " << planOrigen->getLetra() << ")";
+	cout << " a la Sucursal #" << sucuDestino->getNumSucursal() << " (Plantel " << planDestino->getLetra() << ")" << endl;
+
+	cout << endl << "Aprete enter para volver al submenu de vehiculos y planteles" << endl;
+	cin.get();
 }
+

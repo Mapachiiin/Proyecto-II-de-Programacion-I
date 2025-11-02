@@ -12,5 +12,6 @@ public:
 	Vehiculo* getDato();
 	void setNodoSig(NodoVehiculo* n);
 	NodoVehiculo* getNodoSig();
+	void soltarDato();
 };
 

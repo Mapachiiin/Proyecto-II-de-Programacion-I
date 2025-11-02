@@ -148,24 +148,25 @@ using namespace std;
 		}
 		return false;
 	}
-	void ListaVehiculos::trasladoVehiculoEntreSucursales(string placa, ListaVehiculos* destino) {}
-	/*if (!destino) return;
-	NodoVehiculo* actual = inicio;
-	NodoVehiculo* anterior = nullptr;
-	while (actual) {
-		if (actual->getDato()->getPlaca() == placa) {
-			if (anterior) {
-				anterior->setNodoSig(actual->getNodoSig());
+	bool ListaVehiculos::eliminarNodoVehiSinDelete(string placa) {// Retorna true si elimina el nodo luego de soltar el dato, false si no lo encuentra, si quisiera intercambiar vehiculos, simplemente haria que devuelva el nodo en vez de un booleano y vincularia ese mismo nodo a otro vehiculo
+		if (!inicio) return false;
+		NodoVehiculo* actual = inicio;
+		NodoVehiculo* anterior = nullptr;
+		while (actual) {
+			if (actual->getDato()->getPlaca() == placa) {
+				if (anterior == nullptr) {
+					inicio = actual->getNodoSig();
+				}
+				else {
+					anterior->setNodoSig(actual->getNodoSig());
+				}
+				tam--;
+				actual->soltarDato();
+				delete actual;
+				return true;
 			}
-			else {
-				inicio = actual->getNodoSig();
-			}
-			tam--;
-			destino->agregarVehiculo(actual->getDato());
-			delete actual;
-			return;
+			anterior = actual;
+			actual = actual->getNodoSig();
 		}
-		anterior = actual;
-		actual = actual->getNodoSig();
+		return false;
 	}
-	return; */

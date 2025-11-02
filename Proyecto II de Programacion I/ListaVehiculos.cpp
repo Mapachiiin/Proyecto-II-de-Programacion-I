@@ -130,20 +130,17 @@ using namespace std;
 		}
 	}
 	int ListaVehiculos::getTam(){ return tam; }
-	bool ListaVehiculos::eliminarVehiculo(string placa){
+	bool ListaVehiculos::eliminarVehiculo(string placa) {
 		if (!inicio) return false;
 		NodoVehiculo* actual = inicio;
 		NodoVehiculo* anterior = nullptr;
 		while (actual) {
 			if (actual->getDato()->getPlaca() == placa) {
-				if (anterior) {
-					anterior->setNodoSig(actual->getNodoSig());
-				}
-				else {
-					inicio = actual->getNodoSig();
-				}
-				tam--;
+				if (anterior == nullptr) inicio = actual->getNodoSig();
+				else anterior->setNodoSig(actual->getNodoSig());
+				delete actual->getDato(); 
 				delete actual;
+				tam--;
 				return true;
 			}
 			anterior = actual;

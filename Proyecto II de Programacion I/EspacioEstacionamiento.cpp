@@ -136,10 +136,14 @@ int EspacioEstacionamiento::contarEspaciosVacios() {
     return eT;
 }
 bool EspacioEstacionamiento::eliminarVehi(string placa) {
-    if (espacios) {
-        for (int i = 0;i < nF;i++) {
-            for (int j = 0;j < nC;j++) {
-                if (espacios[i][j]->getPlaca() == placa) { espacios[i][j] = nullptr; return true; }
+    if (!espacios) return false;
+    for (int i = 0; i < nF; i++) {
+        for (int j = 0; j < nC; j++) {
+            if (espacios[i][j] != nullptr) {
+                if (espacios[i][j]->getPlaca() == placa) {
+                    espacios[i][j] = nullptr; 
+                    return true;
+                }
             }
         }
     }

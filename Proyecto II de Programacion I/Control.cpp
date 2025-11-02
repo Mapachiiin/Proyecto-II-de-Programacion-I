@@ -1,7 +1,7 @@
 #include "Control.h"
 #include <ctime>
 
-static int numeroSucursales = 0;
+static int numeroSucursales = 1;
 static Fecha* fechaActual = Fecha::obtenerFechaActualPtr();
 
 
@@ -45,6 +45,7 @@ void Control::menuPrincipal() {
 		case 1: {
 			agregarSucursal();
 			cout << "Sucursal " << numeroSucursales << " agregada exitosamente." << endl;
+			cin.get();
 			break;
 		}
 		case 2: {
@@ -394,6 +395,7 @@ void Control::subMenuClientes(Sucursal* s) {
 	string cedula, nombre, paisResi, activiEco;
 	int respuesta;
 	do {
+		system("cls");
 		cout << "-----Submenu de Clientes-----" << endl << endl;
 		cout << "1. Agregar Cliente a la sucursal" << endl;
 		cout << "2. Eliminar Cliente de la sucursal" << endl;
@@ -1110,7 +1112,7 @@ void Control::funcionAgregarVehiculo(Sucursal* s) {
 		cout << "Ingrese la marca del vehiculo: ";
 		getline(cin, marca);
 		while (true) {
-			cout << "Ingrese la categoria del vehiculo (A, B, C, D, E): ";
+			cout << "Ingrese la categoria del vehiculo (A: Economico, B: Estandar, C: Lujo, D: 4x4): ";
 			cin >> cate;
 			cin.ignore(10000, '\n');
 			cate = toupper(cate); //..................... No sabia que existia esta funcion............... Mucho tiempo desperdiciado
@@ -1376,7 +1378,8 @@ void Control::funcionReubicarVehiculo(Sucursal* s) {
 					continue;
 				}
 			}
-		}
+			break;
+ 		}
 		char op;
 		while (true) {
 			cout << "Desea reubicar otro vehiculo? (s/n): ";
@@ -1638,6 +1641,7 @@ void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 				continue;
 			}
 			cli = s->getClientes()->buscarClientePorCedula(cedulaCliente);
+			break;
 		}
 
 		while (true) {
@@ -1658,6 +1662,7 @@ void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 				continue;
 			}
 			colab = s->getColaboradores()->buscarColaboradorPorCed(cedulaColaborador);
+			break;
 		}
 		while (true) {
 			cout << endl;
@@ -1692,7 +1697,6 @@ void Control::funcionCrearSolicitudDeAlquiler(Sucursal* s){
 						cout << "Opcion invalida. Intente de nuevo." << endl;
 					}
 				}
-				cin.get();
 				continue;
 			}
 			plantel = s->getPlanteles()->obtenerPlantelPorLetra(letraPlantel);
@@ -1813,7 +1817,7 @@ void Control::funcionAprobarRechazarSolicitudDeAlquiler(Sucursal* s) {
 				continue;
 			}
 			}
-
+			break;
 		}
 		char op;
 		while (true) {
@@ -1877,8 +1881,119 @@ void Control::funcionMostrarSolicitudesYContratosDeAlquilerDeLaSucursal(Sucursal
 		} while (op != 3);
 }
 
-void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s){
-
+void Control::funcionMostrarSolicitudContratoEspecifico(Sucursal* s) {
+	if (!s) return;
+	while (true) {
+		system("cls");
+		bool opCA;
+		int opc;
+		cout << "Visualizacion de solicitud o contrato especifico" << endl << endl;
+		cout << "1. Solicitud de alquiler" << endl;
+		cout << "2. Contrato de alquiler" << endl;
+		cout << "3. Volver al submenu de contratos y alquileres" << endl << endl;
+		cout << "Ingrese una opcion: ";
+		cin >> opc;
+		cin.ignore(10000, '\n');
+		switch (opc) {
+		case 1: {
+			opCA = false;
+			bool seguir = true;
+			while (seguir) {
+				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+				cout << endl;
+				while (true) {
+					cout << "Ingrese el codigo de la solicitud a visualizar: ";
+					string codSolicitud;
+					cin >> codSolicitud;
+					cin.ignore(10000, '\n');
+					if (codSolicitud.empty()) {
+						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+						continue;
+					}
+					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codSolicitud)) {
+						cout << "La solicitud no existe. Intente de nuevo." << endl;
+						continue;
+					}
+					s->getSolicitudes()->mostrarSolicitudEspecifica(codSolicitud);
+					cin.clear();
+					cout << endl << "Aprete enter para volver al submenu de contratos y alquileres";
+					cin.get();
+					break;
+				}
+				char op;
+				while (true) {
+					cout << "Desea visualizar otra solicitud? (s/n): ";
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') {
+						break;
+					}
+					else if (op == 'n' || op == 'N') {
+						seguir = false;
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+			}
+			break;
+		}
+		case 2: {
+			opCA = false;
+			bool seguir = true;
+			while (seguir) {
+				s->getSolicitudes()->mostrarSolicitudOContraSucursal(opCA);
+				cout << endl;
+				while (true) {
+					cout << "Ingrese el codigo del contrato a visualizar: ";
+					string codContrato;
+					cin >> codContrato;
+					cin.ignore(10000, '\n');
+					if (codContrato.empty()) {
+						cout << "El codigo no puede estar vacio. Intente de nuevo." << endl;
+						continue;
+					}
+					if (!s->getSolicitudes()->buscarSolicitudPorCodigo(codContrato)) {
+						cout << "El contrato no existe. Intente de nuevo." << endl;
+						continue;
+					}
+					s->getSolicitudes()->mostrarSolicitudEspecifica(codContrato);
+					cin.clear();
+					cout << endl << "Aprete enter para volver al submenu de contratos y alquileres";
+					cin.get();
+					break;
+				}
+				char op;
+				while (true) {
+					cout << "Desea visualizar otro contrato? (s/n): ";
+					cin >> op;
+					cin.ignore(10000, '\n');
+					if (op == 's' || op == 'S') {
+						break;
+					}
+					else if (op == 'n' || op == 'N') {
+						seguir = false;
+						break;
+					}
+					else {
+						cout << "Opcion invalida. Intente de nuevo." << endl;
+					}
+				}
+			}
+			break;
+		}
+		case 3: {
+			return;
+		}
+		default: {
+			cout << "Opcion invalida. Intente de nuevo." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		}
+	}
 }
 
 void Control::funcionRecepcionDeVehiculos(Sucursal* s){

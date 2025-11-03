@@ -153,8 +153,11 @@ void ListaSolisyContras::recepcionVehiculoDevuelto(string placa, int diasUsados)
 	while (actual) {
 		if (actual->getDato()->getEsContrato()) {
 			if (actual->getDato()->getPlaVehi() == placa) {
-				actual->getDato()->finalizarContrato(diasUsados);
-				cout << "Contrato para el vehiculo con placa " << placa << " " << actual->getDato()->getEstadoContrato() << endl;
+				SoliAlquiyContra* contrato = actual->getDato();
+				system("cls");
+				cout << endl;
+				contrato->finalizarContrato(diasUsados);
+				cout<<contrato->mostrarInfo();
 				return;
 			}
 		}

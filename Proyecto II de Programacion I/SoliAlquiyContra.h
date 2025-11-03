@@ -62,5 +62,6 @@ public:
 	void calcularPrecioTotal();
 	string mostrarInfo();
 	void setEstadoAlquilado(string est);
+
 };
 

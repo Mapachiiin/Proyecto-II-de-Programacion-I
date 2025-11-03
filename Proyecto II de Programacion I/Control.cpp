@@ -2101,10 +2101,30 @@ void Control::funcionRecepcionDeVehiculos(Sucursal* s) {
 			}
 			break;
 		}
+		Colaborador* colabRecepcion = nullptr;
+		while (true) {
+			system("cls");
+			s->getColaboradores()->mostrarColaboradores();
+			cout << "Ingrese la cedula del colaborador que realiza la recepcion: ";
+			string cedColaborador;
+			cin >> cedColaborador;
+			cin.ignore(10000, '\n');
+
+			if (cedColaborador.empty()) {
+				cout << "La cedula no puede estar vacia. Intente de nuevo." << endl;
+				continue;
+			}
+
+			colabRecepcion = s->getColaboradores()->buscarColaboradorPorCed(cedColaborador);
+			if (!colabRecepcion) {
+				cout << "El colaborador no existe. Intente de nuevo." << endl;
+				continue;
+			}
+			break;
+		}
 		s->getSolicitudes()->recepcionVehiculoDevuelto(placa, diasUsados);
-		v->cambiarEstado(2, nullptr, fechaActual->clonar());
+		v->cambiarEstado(2, colabRecepcion, fechaActual->clonar());
 		cout << endl << "Vehiculo recibido exitosamente." << endl;
-		cout << "Estado del vehiculo cambiado a: " << v->getEstadoNombre() << endl;
 		char op;
 		while (true) {
 			cout << endl << "Desea recibir otro vehiculo? (s/n): ";

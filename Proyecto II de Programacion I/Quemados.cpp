@@ -97,11 +97,21 @@ void Quemados::quemarDatos() {
     sol3->cambiarEstadoSoli("Aprobada");
     sol4->cambiarEstadoSoli("Aprobada");
 
- 
-    v1->cambiarEstado(1, colab1, fechaActual->clonar());
-    v2->cambiarEstado(1, colab1, fechaActual->clonar());
+    v1->cambiarEstado(4, colab1, fechaActual->clonar());
+    v1->cambiarEstado(0, colab1, fechaActual->clonar()); 
+    v1->cambiarEstado(1, colab1, fechaActual->clonar()); 
+
+    v2->cambiarEstado(4, colab1, fechaActual->clonar()); 
+    v2->cambiarEstado(0, colab1, fechaActual->clonar()); 
+    v2->cambiarEstado(1, colab1, fechaActual->clonar()); 
+
+    v3->cambiarEstado(4, colab2, fechaActual->clonar());
+    v3->cambiarEstado(0, colab2, fechaActual->clonar());
     v3->cambiarEstado(1, colab2, fechaActual->clonar());
-    v4->cambiarEstado(1, colab2, fechaActual->clonar());
+
+    v4->cambiarEstado(4, colab2, fechaActual->clonar()); 
+    v4->cambiarEstado(0, colab2, fechaActual->clonar());
+    v4->cambiarEstado(1, colab2, fechaActual->clonar()); 
 
     sol1->setEstadoAlquilado("Aprobado en alquiler");
     sol2->setEstadoAlquilado("Aprobado en alquiler");
@@ -141,12 +151,12 @@ void Quemados::quemarDatos() {
     plantelB1->getEstacionamiento()->agregarVehiculoEnEspacio(v13, 2, 0); 
     plantelB1->getEstacionamiento()->agregarVehiculoEnEspacio(v14, 2, 4); 
 
-    Colaborador* colab1 = sucursal1->getColaboradores()->buscarColaboradorPorCed("101110111");
-    Colaborador* colab2 = sucursal1->getColaboradores()->buscarColaboradorPorCed("202220222");
+    colab1 = sucursal1->getColaboradores()->buscarColaboradorPorCed("101110111");
+    colab2 = sucursal1->getColaboradores()->buscarColaboradorPorCed("202220222");
 
-    Cliente* cliente1 = sucursal1->getClientes()->buscarClientePorCedula("111222333");
-    Cliente* cliente2 = sucursal1->getClientes()->buscarClientePorCedula("444555666");
-    Cliente* cliente3 = sucursal1->getClientes()->buscarClientePorCedula("777888999");
+    cliente1 = sucursal1->getClientes()->buscarClientePorCedula("111222333");
+    cliente2 = sucursal1->getClientes()->buscarClientePorCedula("444555666");
+    cliente3 = sucursal1->getClientes()->buscarClientePorCedula("777888999");
     Cliente* cliente4 = sucursal1->getClientes()->buscarClientePorCedula("123456789");
 
     Fecha* fechaInicio = Fecha::obtenerFechaActualPtr()->clonar();
@@ -261,6 +271,8 @@ void Quemados::quemarDatos() {
     SoliAlquiyContra* contrato5 = new SoliAlquiyContra("CON005", cliente5, colab3, 2, "QRS345", 8, fechaInicio->clonar(), fechaFin8, v15->getPrecio());
     contrato5->cambiarEstadoSoli("Aprobada");
     sucursal2->getSolicitudes()->agregarSolicitud(contrato5);
+    v15->cambiarEstado(4, colab3, fechaInicio->clonar());
+    v15->cambiarEstado(0, colab3, fechaInicio->clonar());
     v15->cambiarEstado(1, colab3, fechaInicio->clonar());
 
     Fecha* fechaFin9 = fechaInicio->agregarDias(4);
@@ -271,7 +283,9 @@ void Quemados::quemarDatos() {
     SoliAlquiyContra* contrato6 = new SoliAlquiyContra("CON006", cliente7, colab3, 2, "UVW345", 15, fechaInicio->clonar(), fechaFin10, v25->getPrecio());
     contrato6->cambiarEstadoSoli("Aprobada");
     sucursal2->getSolicitudes()->agregarSolicitud(contrato6);
-    v25->cambiarEstado(1, colab3, fechaInicio->clonar()); 
+    v25->cambiarEstado(4, colab3, fechaInicio->clonar());
+    v25->cambiarEstado(0, colab3, fechaInicio->clonar());
+    v25->cambiarEstado(1, colab3, fechaInicio->clonar());
 
     Fecha* fechaFin11 = fechaInicio->agregarDias(9);
     SoliAlquiyContra* solicitud5 = new SoliAlquiyContra("SOL005", cliente5, colab4, 2, "XYZ678", 9, fechaInicio->clonar(), fechaFin11, v26->getPrecio());

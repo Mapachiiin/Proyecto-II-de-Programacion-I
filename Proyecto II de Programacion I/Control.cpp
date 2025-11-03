@@ -1354,7 +1354,7 @@ void Control::funcionCambioEstadoVehiculo(Sucursal* s) {
 			cout << endl << "Ingrese la placa del vehiculo cuyo estado desea cambiar (o 'Z' para salir): ";
 			cin >> placa;
 			cin.ignore(10000, '\n');
-			if (placa == "Z" || placa == "Z") break;
+			if (placa == "z" || placa == "Z") break;
 			if (placa.empty()) {
 				cout << "La placa no puede estar vacia. Intente de nuevo." << endl;
 				continue;

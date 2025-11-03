@@ -1,4 +1,7 @@
 #include "Quemados.h"
+
+static Fecha* fechaActual = Fecha::obtenerFechaActualPtr();
+
 Quemados::Quemados(Control* c): control(c){}
 Quemados::~Quemados(){}
 void Quemados::quemarDatos() {
@@ -10,14 +13,17 @@ void Quemados::quemarDatos() {
 
     Sucursal* sucursal1 = control->getListaSucursales()->obtenerSucursal(1);
 
-    sucursal1->agregarColaborador(new Colaborador("101110111", "Juan Perez", Fecha::obtenerFechaActualPtr()->clonar()));
-    sucursal1->agregarColaborador(new Colaborador("202220222", "Maria Rodriguez", Fecha::obtenerFechaActualPtr()->clonar()));
-    sucursal1->agregarColaborador(new Colaborador("303330333", "Carlos Sanchez", Fecha::obtenerFechaActualPtr()->clonar()));
+    Colaborador* colab1 = new Colaborador("101110111", "Juan Perez", fechaActual->clonar());
+    Colaborador* colab2 = new Colaborador("202220222", "Maria Rodriguez", fechaActual->clonar());
+    sucursal1->agregarColaborador(colab1);
+    sucursal1->agregarColaborador(colab2);
 
-    sucursal1->agregarCliente(new Cliente("111222333", "Pedro Gomez", "Costa Rica"));
-    sucursal1->agregarCliente(new Cliente("444555666", "Ana Martinez", "Panama"));
-    sucursal1->agregarCliente(new Cliente("777888999", "Luis Fernandez", "Nicaragua"));
-    sucursal1->agregarCliente(new Cliente("123456789", "Empresa ABC S.A.", "Costa Rica", "Transporte", 0.15)); // Cliente jurídico 15%
+    Cliente* cliente1 = new Cliente("111222333", "Pedro Gomez", "Costa Rica");
+    Cliente* cliente2 = new Cliente("444555666", "Ana Martinez", "Costa Rica");
+    Cliente* cliente3 = new Cliente("777888999", "Carlos Sanchez", "Costa Rica");
+    sucursal1->agregarCliente(cliente1);
+    sucursal1->agregarCliente(cliente2);
+    sucursal1->agregarCliente(cliente3);
 
     Plantel* plantelA1 = new Plantel('A', "Techado y asfaltado", 20);
     sucursal1->getPlanteles()->agregarPlantel(plantelA1);
@@ -40,14 +46,76 @@ void Quemados::quemarDatos() {
     plantelA1->getListaVehiculos()->agregarVehiculo(v7);
     plantelA1->getListaVehiculos()->agregarVehiculo(v8);
 
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v1, 0, 1); // A02
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v2, 0, 3); // A04
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v3, 1, 0); // A06
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v4, 1, 2); // A08
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v5, 2, 1); // A12
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v6, 2, 4); // A15
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v7, 3, 0); // A16
-    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v8, 3, 3); // A19
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v1, 0, 1);
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v2, 0, 3); 
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v3, 1, 0); 
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v4, 1, 2); 
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v5, 2, 1); 
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v6, 2, 4); 
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v7, 3, 0);
+    plantelA1->getEstacionamiento()->agregarVehiculoEnEspacio(v8, 3, 3);
+
+    Fecha* fechaInicio1 = new Fecha(25, 10, 2025);
+    Fecha* fechaEntrega1 = new Fecha(4, 11, 2025);  // 10 días
+
+    Fecha* fechaInicio2 = new Fecha(28, 10, 2025);
+    Fecha* fechaEntrega2 = new Fecha(4, 11, 2025);  // 7 días
+
+    Fecha* fechaInicio3 = new Fecha(30, 10, 2025);
+    Fecha* fechaEntrega3 = new Fecha(6, 11, 2025);  // 7 días
+
+    Fecha* fechaInicio4 = new Fecha(1, 11, 2025);
+    Fecha* fechaEntrega4 = new Fecha(8, 11, 2025);  // 7 días
+
+    SoliAlquiyContra* sol1 = new SoliAlquiyContra(
+        "CON001", cliente1, colab1, 1, "ABC123", 10,
+        fechaInicio1, fechaEntrega1, v1->getPrecio()
+    );
+
+    SoliAlquiyContra* sol2 = new SoliAlquiyContra(
+        "CON002", cliente2, colab1, 1, "DEF456", 7,
+        fechaInicio2, fechaEntrega2, v2->getPrecio()
+    );
+
+    SoliAlquiyContra* sol3 = new SoliAlquiyContra(
+        "CON003", cliente3, colab2, 1, "GHI789", 7,
+        fechaInicio3, fechaEntrega3, v3->getPrecio()
+    );
+
+    SoliAlquiyContra* sol4 = new SoliAlquiyContra(
+        "CON004", cliente1, colab2, 1, "JKL012", 7,
+        fechaInicio4, fechaEntrega4, v4->getPrecio()
+    );
+
+    sucursal1->getSolicitudes()->agregarSolicitud(sol1);
+    sucursal1->getSolicitudes()->agregarSolicitud(sol2);
+    sucursal1->getSolicitudes()->agregarSolicitud(sol3);
+    sucursal1->getSolicitudes()->agregarSolicitud(sol4);
+
+    sol1->cambiarEstadoSoli("Aprobada");  
+    sol2->cambiarEstadoSoli("Aprobada");
+    sol3->cambiarEstadoSoli("Aprobada");
+    sol4->cambiarEstadoSoli("Aprobada");
+
+ 
+    v1->cambiarEstado(1, colab1, fechaActual->clonar());
+    v2->cambiarEstado(1, colab1, fechaActual->clonar());
+    v3->cambiarEstado(1, colab2, fechaActual->clonar());
+    v4->cambiarEstado(1, colab2, fechaActual->clonar());
+
+    sol1->setEstadoAlquilado("Aprobado en alquiler");
+    sol2->setEstadoAlquilado("Aprobado en alquiler");
+    sol3->setEstadoAlquilado("Aprobado en alquiler");
+    sol4->setEstadoAlquilado("Aprobado en alquiler");
+
+    Fecha* fechaInicio5 = new Fecha(2, 11, 2025);
+    Fecha* fechaEntrega5 = new Fecha(9, 11, 2025);
+
+    SoliAlquiyContra* sol5 = new SoliAlquiyContra(
+        "SOL001", cliente2, colab1, 1, "MNO345", 7,
+        fechaInicio5, fechaEntrega5, v5->getPrecio()
+    );
+    sucursal1->getSolicitudes()->agregarSolicitud(sol5);
 
     Plantel* plantelB1 = new Plantel('B', "Techado y lastreado", 15);
     sucursal1->getPlanteles()->agregarPlantel(plantelB1);
